@@ -1,0 +1,12 @@
+$myRoboto: "myRoboto";
+
+@font-face {
+  font-family: $myRoboto;
+  src: url("../fonts/roboto/Roboto-Regular.ttf") format("TrueType");
+  src: url("../fonts/roboto/Roboto-Bold.ttf") format("TrueType");
+  src: url("../fonts/roboto/Roboto-Thin.ttf") format("TrueType");
+  src: url("../fonts/roboto/Roboto-Medium.ttf") format("TrueType");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

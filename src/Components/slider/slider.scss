@@ -1,0 +1,19 @@
+.sliderWrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  user-select: none;
+
+  & .sliderLine {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: flex-start;
+
+    & .slider-item {
+      display: inline-block;
+      //   flex-basis: 200rem;
+    }
+  }
+}
