@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import useDebonced from "../../hooks/debonce";
+import { usePivoSelector } from "../../hooks/storeHooks";
 
 export interface ISerchByName {
   doSerch: (paramS: string) => void;
 }
 
 function SerchString(paramDo: ISerchByName) {
-  const [serchVal, setSerchVal] = useState<string>("");
+  const serchText: string = usePivoSelector(
+    (state) => state.serchData.SerchText
+  );
+  const [serchVal, setSerchVal] = useState<string>(serchText);
   const deboncedStr = useDebonced(serchVal);
   const inputRef = useRef<HTMLInputElement | null>(null);
 

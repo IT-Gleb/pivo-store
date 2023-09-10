@@ -26,6 +26,13 @@ import { addPortionItems } from "../../store/slices/pivo1Slice";
 import FilteredRecords from "../UI/Filter/filteredRecords";
 import SerchString from "../UI/serchString";
 import useScreenWidth from "../../hooks/screenWidth";
+import PivoSpinner from "../UI/Spinner/pivoSpinner";
+import {
+  updateSerchDataText,
+  updateSerchedData,
+  zeroData,
+} from "../../store/slices/serchSlice";
+import ShowSerchedData from "../Serch/showSerchedData";
 
 function MainPage() {
   const [load, setLoad] = useState<boolean>(false);
@@ -47,6 +54,7 @@ function MainPage() {
   const [FilteredData, setFilteredData] =
     useState<IPivoItem[]>(filteredStoreData);
   const { screenWidth } = useScreenWidth();
+  const [isSerch, setIsSerch] = useState<boolean>(false);
 
   function toggleFilter() {
     setShowFilter(!showFiler);
@@ -67,6 +75,11 @@ function MainPage() {
     event.preventDefault();
 
     setFilterUp(!filterUp);
+
+    //отменить поиск если он был
+    setIsSerch(false);
+    dispatch(zeroData());
+    //---------------------------
 
     let tmpData: IFilterData;
     tmpData = Object.assign({}, FilterData);
@@ -207,7 +220,6 @@ function MainPage() {
     }
   }, [Items]);
 
-  const [isSerch, setIsSerch] = useState<boolean>(false);
   const [
     fetchByName,
     { data: serchData, isLoading: isSerchLoading, isSuccess: isSerchSuccess },
@@ -215,16 +227,24 @@ function MainPage() {
   //Поиск наименования по базе сервера
   const getSerchByName = async (paramSerch: string) => {
     paramSerch.length > 0 ? setIsSerch(true) : setIsSerch(false);
-    if (paramSerch.length > 1) await fetchByName(paramSerch);
+    if (paramSerch.length > 2) {
+      //Отменить фмльтрацию
+      if (filterUp) setFilterUp(false);
+      //-------------------
+      dispatch(updateSerchDataText(paramSerch));
+      await fetchByName(paramSerch);
+    } else dispatch(zeroData());
   };
 
   useEffect(() => {
     if (isSerchSuccess && serchData) {
       if (serchData.length > 0) {
         setIsSerch(true);
-        console.log(serchData);
+        dispatch(updateSerchedData(serchData));
+        //console.log(serchData);
       }
     }
+    if (serchData && serchData.length < 1) dispatch(zeroData());
   }, [isSerchSuccess, serchData]);
 
   return (
@@ -273,44 +293,43 @@ function MainPage() {
       </RightMenu>
       {/* end of Меню с иконками с права */}
       {/* Фильтр окно */}
-      {areSuccess && (
-        <section className="section">
-          <div
-            className={screenWidth > 577 ? "block is-pulled-right" : "block"}
-          >
-            <SerchString doSerch={getSerchByName} />
-          </div>
-          <div className="block buttons are-small mt-4 mb-3">
-            <button className="button is-rounded" onClick={toggleFilter}>
-              <div className="icon mr-1">
-                <i className="fas fa-sort-amount-down"></i>
-              </div>
-              / Фильтрация / Сортировка /
+      <section className="section">
+        <div className={screenWidth > 577 ? "block is-pulled-right" : "block"}>
+          <SerchString doSerch={getSerchByName} />
+        </div>
+        <div className="block buttons are-small mt-4 mb-3">
+          <button className="button is-rounded" onClick={toggleFilter}>
+            <div className="icon mr-1">
+              <i className="fas fa-sort-amount-down"></i>
+            </div>
+            / Фильтрация / Сортировка /
+          </button>
+          {showFiler && (
+            <button
+              className={
+                filterUp
+                  ? "button is-rounded is-warning ml-3"
+                  : "button is-rounded ml-3"
+              }
+              onClick={handleFilter}
+            >
+              <span className="icon mr-1">
+                <i className="fas fa-filter"></i>
+              </span>
+              {filterUp ? "Отменить фильтр" : "Применить фильтр"}
             </button>
-            {showFiler && (
-              <button
-                className={
-                  filterUp
-                    ? "button is-rounded is-warning ml-3"
-                    : "button is-rounded ml-3"
-                }
-                onClick={handleFilter}
-              >
-                <span className="icon mr-1">
-                  <i className="fas fa-filter"></i>
-                </span>
-                {filterUp ? "Отменить фильтр" : "Применить фильтр"}
-              </button>
-            )}
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
+
       {showFiler && (
         <FilterWindow
           toggleFilter={() => setFilterUp(false)}
           close={() => setShowFilter(false)}
         />
       )}
+      {/* При поиске */}
+      {isSerchLoading && <PivoSpinner text={"Ищу пиво..."} />}
 
       {/* End of Фильтр окно */}
       <InView
@@ -319,16 +338,7 @@ function MainPage() {
       >
         {load && <div className="loadLine"></div>}
       </InView>
-      {areLoading && (
-        <div className="is-centered">
-          <progress
-            className="progress is-medium is-primary mt-4 mb-4"
-            max={100}
-          >
-            25%
-          </progress>
-        </div>
-      )}
+      {areLoading && <PivoSpinner text="Загрузка данных..." />}
       {areError && (
         <p className="has-text-danger has-text-centered mt-5 mb-5">
           Ошибка получения данных...
@@ -364,10 +374,11 @@ function MainPage() {
           </InView>
         </section>
       )}
-      {filterUp && <FilteredRecords perPage={MaxPerPage} />}
+      {filterUp && !isSerch && <FilteredRecords perPage={MaxPerPage} />}
       {!filterUp && isSerch && (
         <section className="section">
           <h4 className="title is-size-4">Найдено {serchData?.length}</h4>
+          <ShowSerchedData />
         </section>
       )}
     </>

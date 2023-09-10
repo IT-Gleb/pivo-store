@@ -6,12 +6,14 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { pivoApi } from "./punkApi/pivo.punk.api";
 import { itemsSlice } from "./slices/pivo1Slice";
 import { FilterSlice } from "./slices/filterSlice";
+import { SerchSlice } from "./slices/serchSlice";
 
 export const pivoStore = configureStore({
   reducer: {
     [pivoApi.reducerPath]: pivoApi.reducer,
     pivoItems: itemsSlice.reducer,
     filterD: FilterSlice.reducer,
+    serchData: SerchSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(pivoApi.middleware),

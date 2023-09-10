@@ -17,6 +17,11 @@ export interface IProgressParam {
 
 //-------------------------------------
 
+export interface ISerchData {
+  SerchText: string;
+  serchedData: IPivoItem[];
+}
+
 export interface IChartComponentProp {
   startYear?: number;
   fromYear?: string;

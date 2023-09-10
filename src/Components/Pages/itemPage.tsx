@@ -6,6 +6,7 @@ import useVideoHeight from "../../hooks/videoHeightHook";
 // import RandomChart from "../UI/Chart/randomChart";
 import { checkMounth, checkYear } from "../../libs";
 import Pivovar from "../../assets/imgs/pivovar.png";
+import PivoSpinner from "../UI/Spinner/pivoSpinner";
 
 function ItemPage() {
   const { itemId, priceId, starsId } = useParams();
@@ -60,23 +61,7 @@ function ItemPage() {
 
   return (
     <>
-      {isLoading && (
-        <section
-          className="section is-centered"
-          style={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <progress
-            className="progress is-small is-primary mt-4 mb-4"
-            max={100}
-          >
-            10%
-          </progress>
-        </section>
-      )}
+      {isLoading && <PivoSpinner text="Загрузка данных..." />}
       {isSuccess && Item && (
         <div className="container">
           <section className="section m-5 section-with-image">
