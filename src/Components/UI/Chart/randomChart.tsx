@@ -34,7 +34,7 @@ const minScreenWidth: number = 540;
 
 function RandomChart({ fromYear, nameItem }: IChartComponentProp) {
   const { screenWidth } = useScreenWidth();
-  const ChartRef = useRef<any>();
+  const ChartRef = useRef<ChartJS>();
 
   const options = {
     responsive: true,
@@ -211,6 +211,7 @@ function RandomChart({ fromYear, nameItem }: IChartComponentProp) {
           ChartData.datasets[0].data.push(tmpVal);
         }
         ChartData.datasets[0].data[0] = randomFrom(100, 700);
+
         //------------------------------------------------------------
 
         let Sum = ChartData.datasets[0].data.reduce((acc, currI) => {

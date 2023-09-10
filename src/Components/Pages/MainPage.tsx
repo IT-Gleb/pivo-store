@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLazyGetItemsQuery } from "../../store/punkApi/pivo.punk.api";
+import {
+  useLazyGetItemsByNameQuery,
+  useLazyGetItemsQuery,
+} from "../../store/punkApi/pivo.punk.api";
 import {
   MaxPerPage,
   type IParamQuery,
@@ -21,6 +24,8 @@ import {
 } from "../../store/slices/filterSlice";
 import { addPortionItems } from "../../store/slices/pivo1Slice";
 import FilteredRecords from "../UI/Filter/filteredRecords";
+import SerchString from "../UI/serchString";
+import useScreenWidth from "../../hooks/screenWidth";
 
 function MainPage() {
   const [load, setLoad] = useState<boolean>(false);
@@ -41,6 +46,7 @@ function MainPage() {
   const filteredStoreData = usePivoSelector((state) => state.pivoItems.Items);
   const [FilteredData, setFilteredData] =
     useState<IPivoItem[]>(filteredStoreData);
+  const { screenWidth } = useScreenWidth();
 
   function toggleFilter() {
     setShowFilter(!showFiler);
@@ -112,6 +118,23 @@ function MainPage() {
       }
       //Отсортировать по цене
       localFilteredData = orderBy(localFilteredData, [tmpId], [tmpDA]);
+      //Отфильтровать по строке поиска
+      if (FilterData.serchText) {
+        if (FilterData.serchText.trim().length > 2) {
+          localFilteredData = localFilteredData.filter((item: IPivoItem) => {
+            if (
+              item.name
+                .toLowerCase()
+                .includes(FilterData.serchText.toLowerCase()) ||
+              item.description
+                .toLowerCase()
+                .includes(FilterData.serchText.toLowerCase())
+            ) {
+              return item;
+            }
+          });
+        }
+      }
       //Добавить в хранилище
       dispatch(addPortionItems(localFilteredData));
       //Установить отфильтрованные данные
@@ -184,6 +207,26 @@ function MainPage() {
     }
   }, [Items]);
 
+  const [isSerch, setIsSerch] = useState<boolean>(false);
+  const [
+    fetchByName,
+    { data: serchData, isLoading: isSerchLoading, isSuccess: isSerchSuccess },
+  ] = useLazyGetItemsByNameQuery();
+  //Поиск наименования по базе сервера
+  const getSerchByName = async (paramSerch: string) => {
+    paramSerch.length > 0 ? setIsSerch(true) : setIsSerch(false);
+    if (paramSerch.length > 1) await fetchByName(paramSerch);
+  };
+
+  useEffect(() => {
+    if (isSerchSuccess && serchData) {
+      if (serchData.length > 0) {
+        setIsSerch(true);
+        console.log(serchData);
+      }
+    }
+  }, [isSerchSuccess, serchData]);
+
   return (
     <>
       {/* Меню с иконками с права */}
@@ -231,29 +274,36 @@ function MainPage() {
       {/* end of Меню с иконками с права */}
       {/* Фильтр окно */}
       {areSuccess && (
-        <div className="block buttons are-small mt-4 mb-3">
-          <button className="button is-rounded" onClick={toggleFilter}>
-            <div className="icon mr-1">
-              <i className="fas fa-sort-amount-down"></i>
-            </div>
-            Поиск / Сортировка / Фильтрация
-          </button>
-          {showFiler && (
-            <button
-              className={
-                filterUp
-                  ? "button is-rounded is-warning ml-3"
-                  : "button is-rounded ml-3"
-              }
-              onClick={handleFilter}
-            >
-              <span className="icon mr-1">
-                <i className="fas fa-filter"></i>
-              </span>
-              {filterUp ? "Отменить фильтр" : "Применить фильтр"}
+        <section className="section">
+          <div
+            className={screenWidth > 577 ? "block is-pulled-right" : "block"}
+          >
+            <SerchString doSerch={getSerchByName} />
+          </div>
+          <div className="block buttons are-small mt-4 mb-3">
+            <button className="button is-rounded" onClick={toggleFilter}>
+              <div className="icon mr-1">
+                <i className="fas fa-sort-amount-down"></i>
+              </div>
+              / Фильтрация / Сортировка /
             </button>
-          )}
-        </div>
+            {showFiler && (
+              <button
+                className={
+                  filterUp
+                    ? "button is-rounded is-warning ml-3"
+                    : "button is-rounded ml-3"
+                }
+                onClick={handleFilter}
+              >
+                <span className="icon mr-1">
+                  <i className="fas fa-filter"></i>
+                </span>
+                {filterUp ? "Отменить фильтр" : "Применить фильтр"}
+              </button>
+            )}
+          </div>
+        </section>
       )}
       {showFiler && (
         <FilterWindow
@@ -261,6 +311,7 @@ function MainPage() {
           close={() => setShowFilter(false)}
         />
       )}
+
       {/* End of Фильтр окно */}
       <InView
         triggerOnce={true}
@@ -284,7 +335,7 @@ function MainPage() {
         </p>
       )}
       {/* //Вывод данных без фильтрации */}
-      {areSuccess && !filterUp && (
+      {areSuccess && !filterUp && !isSerch && (
         <section className="section mb-4">
           <h1 className="title is-size-4 mt-2 mb-2 title-article">
             Товар в наличии -{" "}
@@ -313,7 +364,12 @@ function MainPage() {
           </InView>
         </section>
       )}
-      {filterUp && <FilteredRecords perPage={9} />}
+      {filterUp && <FilteredRecords perPage={MaxPerPage} />}
+      {!filterUp && isSerch && (
+        <section className="section">
+          <h4 className="title is-size-4">Найдено {serchData?.length}</h4>
+        </section>
+      )}
     </>
   );
 }

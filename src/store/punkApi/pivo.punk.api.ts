@@ -64,8 +64,35 @@ export const pivoApi = createApi({
         return Itm;
       },
     }),
+    getItemsByName: builder.query<IPivoItem[], string>({
+      query: (param: string) => ({
+        url: `beers?beer_name=${param.replaceAll(" ", "_")}`,
+      }),
+      providesTags: ["Items"],
+
+      transformResponse: (response: IPivoItem[]) => {
+        //Установить звезды и цену
+        let tmpStar: number = 2;
+
+        function getStar(): number {
+          const res: number = randomFrom(1, 6);
+          tmpStar = res;
+          return res;
+        }
+        const Items: IPivoItem[] = response.map((item: IPivoItem) => ({
+          ...item,
+          _star: getStar(),
+          _price: getPrice(tmpStar),
+        }));
+        return Items;
+      },
+    }),
   }),
 });
 
-export const { useGetAllItemsQuery, useLazyGetItemsQuery, useGetItemQuery } =
-  pivoApi;
+export const {
+  useGetAllItemsQuery,
+  useLazyGetItemsQuery,
+  useGetItemQuery,
+  useLazyGetItemsByNameQuery,
+} = pivoApi;
