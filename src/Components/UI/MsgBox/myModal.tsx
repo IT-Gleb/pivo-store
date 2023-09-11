@@ -29,9 +29,9 @@ const MyModal = (props: TModalProps) => {
   }, []);
 
   const handleClose: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    onClose?.();
     CreateContainer({ id: PortalM, isClose: true });
     setIsMounted(false);
+    onClose?.();
   }, [onClose]);
 
   //Обработчик событий от клавиатуры и клика вне окна
@@ -39,11 +39,13 @@ const MyModal = (props: TModalProps) => {
     const handleMouseClick = (event: MouseEvent) => {
       const { target } = event;
       if (target instanceof Node && rootRef.current === target) {
+        CreateContainer({ id: PortalM, isClose: true });
         onClose?.();
       }
     };
     const handleEscPress = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        CreateContainer({ id: PortalM, isClose: true });
         onClose?.();
       }
     };

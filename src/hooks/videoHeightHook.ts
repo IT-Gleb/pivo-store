@@ -3,7 +3,7 @@ import { TOPMENUVIDEO } from "../libs";
 
 function useVideoHeight() {
   const [videoHeight, setVideoHeight] = useState<number>(0);
-  const videoRef = useRef<any>(null);
+  const videoRef = useRef<HTMLElement | null>();
 
   useLayoutEffect(() => {
     const checkHeight = () => {

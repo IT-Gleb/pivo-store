@@ -50,7 +50,7 @@ const CreateContainer = (options: TContainerOptions) => {
     portalContainer.setAttribute("id", id);
     portalContainer.setAttribute(
       "style",
-      "display:block; position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0,0, 0.6); z-index:5;"
+      "display:block; position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0,0, 0.3); z-index:5;"
     );
     mountNode.appendChild(portalContainer);
   }

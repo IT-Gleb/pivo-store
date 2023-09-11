@@ -30,6 +30,11 @@ function SerchString(paramDo: ISerchByName) {
     paramDo.doSerch(tmpStr);
   }, [deboncedStr]);
 
+  useEffect(() => {
+    if (serchVal.toLowerCase() !== serchText.toLowerCase())
+      setSerchVal(serchText);
+  }, [serchText]);
+
   return (
     <label className="is-size-7 has-text-weight-semibold">
       Найти
@@ -43,9 +48,10 @@ function SerchString(paramDo: ISerchByName) {
           onChange={(e) => {
             setSerchVal(e.target.value);
           }}
-          maxLength={25}
-          size={25}
+          maxLength={30}
+          size={30}
           autoComplete="on"
+          autoFocus
         ></input>
         <span className="icon is-small is-left mr-1">
           <i className="fas fa-glasses"></i>

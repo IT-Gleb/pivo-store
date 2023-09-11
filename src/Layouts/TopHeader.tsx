@@ -7,7 +7,7 @@ import WordsTegs from "../Components/TopWordsTegs";
 import { TOPMENUVIDEO } from "../libs";
 import useScrollWidth from "../hooks/scrollHook";
 
-const VIDEO_STOP_PADDING = 150;
+const VIDEO_STOP_PADDING = 200;
 
 function TopVideo() {
   const { scrollY } = useScrollWidth();
@@ -36,8 +36,9 @@ function TopVideo() {
       muted
       loop
       onContextMenu={handleContextMenu}
-      id={TOPMENUVIDEO}
+      // id={TOPMENUVIDEO}
       placeholder=""
+      style={{ width: "100%" }}
     >
       <source src={myVideo1} type="video/mp4" />
     </video>
@@ -47,7 +48,7 @@ function TopVideo() {
 function TopHeader() {
   return (
     <div className="hero p-0 has-background-dark">
-      <div className="hero-body is-relative p-0">
+      <div className="hero-body is-relative p-0 m-0" id={TOPMENUVIDEO}>
         <MainTopMenu />
         <TopVideo />
         <WordsTegs />

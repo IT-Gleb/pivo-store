@@ -15,7 +15,8 @@ export const SerchSlice = createSlice({
       state.serchedData = Array.from(action.payload);
     },
     zeroData(state) {
-      (state.SerchText = ""), (state.serchedData = []);
+      state.SerchText = "";
+      state.serchedData = [];
     },
     updateSerchDataText(state, action: PayloadAction<string>) {
       state.SerchText = action.payload;

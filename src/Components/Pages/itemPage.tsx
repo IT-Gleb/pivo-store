@@ -1,9 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetItemQuery } from "../../store/punkApi/pivo.punk.api";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { IPivoItem } from "../../types";
-import useVideoHeight from "../../hooks/videoHeightHook";
-// import RandomChart from "../UI/Chart/randomChart";
 import { checkMounth, checkYear } from "../../libs";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
@@ -17,7 +15,7 @@ function ItemPage() {
   );
   const [Item, setItem] = useState<IPivoItem>();
   const [Stars, setStars] = useState<number[]>([]);
-  const { videoHeight } = useVideoHeight();
+  const ScrollRef = useRef<HTMLDivElement>(null);
 
   const GoodGrapth = lazy(() => import("../UI/Chart/randomChart"));
 
@@ -38,9 +36,18 @@ function ItemPage() {
       if (tempStars.length > 0) setStars(tempStars);
     }
     // console.log(tmp);
-    // console.log(priceId);
-    window.scrollTo(0, videoHeight + 12);
   }, [isSuccess, data]);
+
+  useEffect(() => {
+    const timerId = window.setTimeout(() => {
+      if (ScrollRef.current) {
+        ScrollRef.current.scrollIntoView();
+      }
+    }, 700);
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, []);
 
   if (isError)
     return (
@@ -86,7 +93,9 @@ function ItemPage() {
               </div>
             </div>
             <div className="item-grid">
-              <div className="title is-size-6 has-text-dark">Наименование:</div>
+              <div ref={ScrollRef} className="title is-size-6 has-text-dark">
+                Наименование:
+              </div>
               <div className="title is-size-4">{Item.name}</div>
 
               <div className="title is-size-6 has-text-dark">Оценка:</div>

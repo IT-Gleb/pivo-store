@@ -33,6 +33,7 @@ import {
   zeroData,
 } from "../../store/slices/serchSlice";
 import ShowSerchedData from "../Serch/showSerchedData";
+import MyModal from "../UI/MsgBox/myModal";
 
 function MainPage() {
   const [load, setLoad] = useState<boolean>(false);
@@ -54,7 +55,6 @@ function MainPage() {
   const [FilteredData, setFilteredData] =
     useState<IPivoItem[]>(filteredStoreData);
   const { screenWidth } = useScreenWidth();
-  const [isSerch, setIsSerch] = useState<boolean>(false);
 
   function toggleFilter() {
     setShowFilter(!showFiler);
@@ -220,6 +220,8 @@ function MainPage() {
     }
   }, [Items]);
 
+  const [serchModal, setSerchModal] = useState<boolean>(false);
+  const [isSerch, setIsSerch] = useState<boolean>(false);
   const [
     fetchByName,
     { data: serchData, isLoading: isSerchLoading, isSuccess: isSerchSuccess },
@@ -247,6 +249,10 @@ function MainPage() {
     if (serchData && serchData.length < 1) dispatch(zeroData());
   }, [isSerchSuccess, serchData]);
 
+  const handleSerch = () => {
+    setSerchModal(!serchModal);
+  };
+
   return (
     <>
       {/* Меню с иконками с права */}
@@ -273,6 +279,14 @@ function MainPage() {
           iClass="fas fa-shopping-cart"
           hasName={false}
           // onClick={handleButtonClick}
+        />
+        <RightButton
+          title="Поиск"
+          buttonClass="button p-4 is-link"
+          iconClass="icon is-size-4"
+          iClass="fas fa-glasses"
+          hasName={false}
+          onClick={handleSerch}
         />
         <RightButton
           title="Фильтр"
@@ -319,8 +333,33 @@ function MainPage() {
               {filterUp ? "Отменить фильтр" : "Применить фильтр"}
             </button>
           )}
+          {isSerch && (
+            <button
+              className="button is-warning is-rounded"
+              onClick={(e) => {
+                setIsSerch(false);
+                dispatch(zeroData());
+              }}
+            >
+              <span className="icon mr-1">
+                <i className="fas fa-glasses"></i>
+              </span>
+              Отменить поиск
+            </button>
+          )}
         </div>
       </section>
+
+      {serchModal && (
+        <MyModal
+          title="Поиск по наименованию"
+          onClose={() => {
+            setSerchModal(false);
+          }}
+        >
+          <SerchString doSerch={getSerchByName} />
+        </MyModal>
+      )}
 
       {showFiler && (
         <FilterWindow

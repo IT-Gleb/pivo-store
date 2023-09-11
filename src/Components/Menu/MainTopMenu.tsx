@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 import MyModal from "../UI/MsgBox/myModal";
-import { CreateContainer } from "../UI/MsgBox/myPortal";
-import { PortalM } from "../../types";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -21,7 +19,6 @@ function MainTopMenu() {
   // };
   const CloseDialog = () => {
     setDiagShow(false);
-    CreateContainer({ id: PortalM, isClose: true });
   };
 
   return (
