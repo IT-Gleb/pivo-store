@@ -103,37 +103,80 @@ function ItemPage() {
 
               <div className="title is-size-6 has-text-dark">ABV:</div>
               <div>
-                <span className="is-my-info has-background-warning has-text-centered has-text-dark">
-                  {Item.abv}&deg;
-                </span>
+                <p style={{ maxWidth: "30em" }}>
+                  <span className="is-my-info has-background-warning has-text-centered has-text-dark">
+                    {Item.abv}&deg;
+                  </span>
+                  &nbsp;
+                  <span className="title is-size-6">Alcohol by Volume</span> –
+                  степень крепости пива. Она указывается в процентах (в среднем,
+                  показатель составляет 4-5%) и свидетельствует об уровне
+                  концентрации спирта в напитке.
+                </p>
               </div>
 
               <div className="title is-size-6 has-text-dark">IBU:</div>
               <div>
-                <span className="is-my-info has-background-warning has-text-centered has-text-dark">
-                  {Item.ibu}
-                </span>
+                <p style={{ maxWidth: "30em" }}>
+                  <span className="is-my-info has-background-warning has-text-centered has-text-dark">
+                    {Item.ibu}
+                  </span>
+                  &nbsp;
+                  <span className="title is-size-6">
+                    International Bitterness Units
+                  </span>{" "}
+                  – международная шкала горечи пива от 0 до 100. Показывает
+                  степень содержания смол хмеля, которые придают напитку горечь.
+                  Если вы не любите очень горькие сорта, то выбирайте пиво с
+                  показателем 15-25. Чем выше IBU – тем более горьким окажется
+                  вкус хмельного напитка.
+                </p>
               </div>
 
               <div className="title is-size-6 has-text-dark">SRM:</div>
               <div>
-                <span className="is-my-info has-background-warning has-text-centered has-text-dark">
-                  {Item.srm}
-                </span>
+                <p>
+                  <span className="is-my-info has-background-warning has-text-centered has-text-dark">
+                    {Item.srm}
+                  </span>{" "}
+                  <span className="title is-size-6">
+                    Standard Reference Method
+                  </span>{" "}
+                  — стандарт измерения интенсивности цвета. Очень светлое пиво,
+                  такое как американское пшеничное, обычно имеет SRM 5, в то
+                  время как темный стаут обычно находится в диапазоне 25-40 SRM.
+                  Цвет пива по шкале SRM.
+                </p>
               </div>
 
               <div className="title is-size-6 has-text-dark">EBC:</div>
               <div>
-                <span className="is-my-info has-background-warning has-text-centered has-text-dark">
-                  {Item.ebc}
-                </span>
+                <p>
+                  <span className="is-my-info has-background-warning has-text-centered has-text-dark">
+                    {Item.ebc}
+                  </span>{" "}
+                  <span className="title is-size-6">Цветовая шкала EBC </span>,
+                  разработанная Британским институтом пивоварения и Европейской
+                  пивоваренной конвенцией, является признанным методом цветовой
+                  классификации пива, солода и карамельных растворов, а также
+                  жидкостей похожего цвета.
+                </p>
               </div>
 
               <div className="title is-size-6 has-text-dark">PH:</div>
               <div>
-                <span className="is-my-info has-background-warning has-text-centered has-text-dark">
-                  {Item.ph}
-                </span>
+                <p>
+                  <span className="is-my-info has-background-warning has-text-centered has-text-dark">
+                    {Item.ph}
+                  </span>{" "}
+                  <span className="title is-size-6">
+                    Мера концентрации ионов водорода в растворе
+                  </span>
+                  , по сути, является мерой того, является ли вещество, которое
+                  вы тестируете, кислотой или основанием. Измерение рН важно на
+                  каждом этапе процесса пивоварения, от воды до сусла, сусла,
+                  дрожжей, брожения пива и готового пива.
+                </p>
               </div>
 
               <div className="title is-size-6 has-text-dark">

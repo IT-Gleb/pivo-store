@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import MessageBox from "../../MessageComponent";
+import MessageBox from "./MessageComponent";
 import { createPortal } from "react-dom";
+import { PortalM } from "../../../types";
 
 function MessageBoxComponent({
   isShowProp,
@@ -24,7 +25,7 @@ function MessageBoxComponent({
   // };
 
   useEffect(() => {
-    Frag.current = document.getElementById("portal-M");
+    Frag.current = document.getElementById(PortalM);
     // console.log(isShowProp);
     // console.log(Frag.current);
   }, []);

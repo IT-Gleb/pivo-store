@@ -377,7 +377,6 @@ function MainPage() {
       {filterUp && !isSerch && <FilteredRecords perPage={MaxPerPage} />}
       {!filterUp && isSerch && (
         <section className="section">
-          <h4 className="title is-size-4">Найдено {serchData?.length}</h4>
           <ShowSerchedData />
         </section>
       )}

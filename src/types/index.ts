@@ -17,6 +17,8 @@ export interface IProgressParam {
 
 //-------------------------------------
 
+export const PortalM: string = "portal-m";
+
 export interface ISerchData {
   SerchText: string;
   serchedData: IPivoItem[];

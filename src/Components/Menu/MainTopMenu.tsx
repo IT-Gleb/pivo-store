@@ -1,28 +1,45 @@
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-import MessageBoxComponent from "../UI/MsgBox/MessageBoxComponent";
+import MyModal from "../UI/MsgBox/myModal";
+import { CreateContainer } from "../UI/MsgBox/myPortal";
+import { PortalM } from "../../types";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
   const [diagShow, setDiagShow] = useState<boolean>(false);
-  const MessageText =
-    "Ну какого хрена все так сложно у меня? mf df gkngkl hjfkgj ldkjgfkldj gkldjfg kldfjk gljdlkfjg kldfj gkl jsdklfj lksdjf lksdjf ksdj fksdjf ksdl";
 
   const showMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setDiagShow((curr) => (curr = !curr));
+    setDiagShow(true);
     // console.log("Diag Show:", diagShow);
+  };
+  // const hideMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  //   setDiagShow(false);
+  //   // console.log("Diag Show:", diagShow);
+  // };
+  const CloseDialog = () => {
+    setDiagShow(false);
+    CreateContainer({ id: PortalM, isClose: true });
   };
 
   return (
     <>
-      <MessageBoxComponent
+      {diagShow && (
+        <MyModal title="Привет" onClose={CloseDialog}>
+          <label className="p-5">
+            Введите что-нибудь:
+            <input type="text" className="input" maxLength={25} />
+          </label>
+        </MyModal>
+      )}
+      {/* <MessageBoxComponent
         isShowProp={diagShow}
         closeProp={setDiagShow}
         titleProp={"Вызов диалога из меню..."}
         bodyProp={MessageText}
-      />
+      /> */}
       <nav
         className="navbar has-background-dark is-primary my-sticky"
         role="navigation"
@@ -52,7 +69,7 @@ function MainTopMenu() {
 
         <div id={navBarBasic} className="navbar-menu">
           <div className="navbar-start">
-            <Link className="navbar-item" to="/">
+            {/* <Link className="navbar-item" to="/">
               Первое меню
             </Link>
             <Link className="navbar-item" to="/">
@@ -60,7 +77,7 @@ function MainTopMenu() {
             </Link>
             <Link className="navbar-item" to="/">
               Третье меню
-            </Link>
+            </Link> */}
           </div>
           {/* //------------------------------------------------------ */}
           <div className="navbar-end">
@@ -70,11 +87,14 @@ function MainTopMenu() {
                   className="button is-primary is-small is-size-7"
                   onClick={showMessage}
                 >
-                  Корзина
+                  Войти
                 </button>
-                <Link className="button is-primary is-small is-size-7" to="/">
+                <button
+                  className="button is-small is-danger"
+                  onClick={CloseDialog}
+                >
                   Выйти
-                </Link>
+                </button>
               </div>
             </div>
           </div>

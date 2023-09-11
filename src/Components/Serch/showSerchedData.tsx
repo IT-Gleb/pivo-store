@@ -50,6 +50,9 @@ function ShowSerchedData() {
 
   return (
     <>
+      <h4 className="title-article title is-size-4 mt-5">
+        Найдено - {dataSerch.length}
+      </h4>
       <div className="small-item-grid">
         {dataSerch &&
           items.length > 0 &&
@@ -59,11 +62,14 @@ function ShowSerchedData() {
                 key={item.id}
                 to={`items/${item.id}/price/${item._price}/stars/${item._star}`}
               >
-                <SmallItemCard props={item} paramSel={1} />
+                <SmallItemCard props={item} paramSel={2} />
               </Link>
             );
           })}
       </div>
+      <h4 className="title-article title is-size-4 mt-5">
+        Найдено - {dataSerch.length}
+      </h4>
       {/* Пагинация */}
       <nav
         className="pagination mt-5"
@@ -72,13 +78,14 @@ function ShowSerchedData() {
       >
         <ul className="pagination-list">
           {Pages &&
+            items.length > 0 &&
             Pages.map((item) => {
               return (
                 <li key={item}>
                   <button
                     className={
                       item + 1 === ActivePage
-                        ? "button pagination-link is-meduim is-current has-background-primary has-text-dark"
+                        ? "button pagination-link is-meduim is-current has-background-primary has-text-light has-text-weight-semibold"
                         : "button pagination-link is-small"
                     }
                     onClick={(e) => {

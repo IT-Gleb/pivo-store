@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
-import { type IParamQuery, type IPivoItem } from "../../types";
+import { MaxStars, type IParamQuery, type IPivoItem } from "../../types";
 import { randomFrom, getPrice } from "../../libs";
 
 const B_URL: string = "https://api.punkapi.com/v2/";
@@ -75,7 +75,7 @@ export const pivoApi = createApi({
         let tmpStar: number = 2;
 
         function getStar(): number {
-          const res: number = randomFrom(1, 6);
+          const res: number = randomFrom(1, MaxStars);
           tmpStar = res;
           return res;
         }

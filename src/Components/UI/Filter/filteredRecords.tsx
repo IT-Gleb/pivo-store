@@ -61,10 +61,10 @@ function FilteredRecords(Props: IFilteredRecordsProps) {
   return (
     <>
       <section className="section pb-0">
-        <h1 className="title is-size-4 mt-2 mb-2 title-article">
-          Найдено -
+        <h4 className="title is-size-4 mt-2 mb-2 title-article">
+          Отфильтровано -
           <span className="subtitle is-size-6 ">{fItems.length} позиций</span>
-        </h1>
+        </h4>
       </section>
       <section className="section">
         <div className="small-item-grid">
@@ -83,10 +83,10 @@ function FilteredRecords(Props: IFilteredRecordsProps) {
         </div>
       </section>
       <section className="section mt-0 mb-0 py-0">
-        <h1 className="title is-size-4 mt-2 mb-2 title-article">
-          Найдено -
+        <h4 className="title is-size-4 mt-2 mb-2 title-article">
+          Отфильтровано -
           <span className="subtitle is-size-6 ">{fItems.length} позиций</span>
-        </h1>
+        </h4>
       </section>
       <section className="section">
         {/* Пагинация */}

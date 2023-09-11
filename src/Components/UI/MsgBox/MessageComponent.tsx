@@ -1,4 +1,4 @@
-import type { IMessageBoxProps } from "../types";
+import type { IMessageBoxProps } from "../../../types";
 import { motion } from "framer-motion";
 
 const MessageBox: React.FC<IMessageBoxProps> = ({ title, body, close }) => {

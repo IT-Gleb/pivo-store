@@ -57,7 +57,9 @@ function SmallItemCard({
         borderTop:
           paramSel === 0
             ? "0.7rem solid rgb(55, 175, 29)"
-            : "0.7rem solid rgb(85, 65, 189)",
+            : paramSel === 1
+            ? "0.7rem solid rgb(85, 65, 189)"
+            : "0.7rem solid rgb(125, 200, 89)",
       }}
     >
       <div className="card-image">
