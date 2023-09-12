@@ -5,7 +5,7 @@ import { Props } from "../../types";
 import useVideoHeight from "../../hooks/videoHeightHook";
 
 function RightMenu({ children }: Props) {
-  const { scrollY } = useScrollWidth();
+  const { scrollY, size } = useScrollWidth();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const { videoHeight } = useVideoHeight();
   let tmpH = videoHeight + 75; //75% от величины экрана
@@ -19,14 +19,22 @@ function RightMenu({ children }: Props) {
     if (scrollY > tmpH) {
       if (!menuVisible) setMenuVisible(true);
     }
+
+    // console.log(size.width);
   }, [scrollY]);
 
   return (
     <>
       {menuVisible && (
         <motion.div
-          initial={{ y: -200 }}
-          animate={{ y: 0 }}
+          initial={{
+            y: -200,
+            // transform: size.width < 760 ? "scale(0.65)" : "scale(0.95)",
+          }}
+          animate={{
+            y: 0,
+            transform: size.width < 760 ? "scale(0.65)" : "scale(0.95)",
+          }}
           exit={{ opacity: 0 }}
           className="rightMenu has-background-dark"
         >

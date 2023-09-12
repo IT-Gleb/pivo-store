@@ -1,9 +1,9 @@
-import { usePivoSelector } from "../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { IPivoItem, MaxPerPage } from "../../types";
 import { Link } from "react-router-dom";
 import SmallItemCard from "../PivoItem/SmallItemCard";
-import { useEffect, useState } from "react";
-import orderBy from "lodash/orderBy";
+import { useCallback, useEffect, useState } from "react";
+import { updateSerchCurrentPage } from "../../store/slices/serchSlice";
 
 function ShowSerchedData() {
   const dataSerch: IPivoItem[] = usePivoSelector(
@@ -14,11 +14,18 @@ function ShowSerchedData() {
     Math.ceil(dataSerch.length / MaxPerPage)
   );
   const [Pages, setPages] = useState<number[]>([]);
-  const [ActivePage, setActivePage] = useState<number>(1);
 
-  const handlePagBtn = (paramPage: number) => {
-    setActivePage(paramPage);
-  };
+  const currPage = usePivoSelector((state) => state.serchData.CurrentPage);
+  const [ActivePage, setActivePage] = useState<number>(currPage);
+  const dispatch = usePivoDispatch();
+
+  const handlePagBtn = useCallback(
+    (paramPage: number) => {
+      setActivePage(paramPage);
+      dispatch(updateSerchCurrentPage(paramPage));
+    },
+    [ActivePage]
+  );
 
   useEffect(() => {
     //Количество страниц
@@ -43,7 +50,7 @@ function ShowSerchedData() {
       let dataEnd = dataStart + MaxPerPage;
       if (dataEnd > dataSerch.length) dataEnd = dataSerch.length;
       let tmpItems = dataSerch.slice(dataStart, dataEnd);
-      tmpItems = orderBy(tmpItems, ["_price"], ["desc"]);
+
       setItems(tmpItems);
     }
   }, [ActivePage, dataSerch]);

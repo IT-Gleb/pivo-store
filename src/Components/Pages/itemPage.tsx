@@ -43,7 +43,7 @@ function ItemPage() {
       if (ScrollRef.current) {
         ScrollRef.current.scrollIntoView();
       }
-    }, 700);
+    }, 800);
     return () => {
       window.clearTimeout(timerId);
     };

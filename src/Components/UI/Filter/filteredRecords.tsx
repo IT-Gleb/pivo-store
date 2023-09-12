@@ -1,6 +1,6 @@
 //Вывести карточки отфильтрованных значений с пагинацией
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IPivoItem } from "../../../types";
 import SmallItemCard from "../../PivoItem/SmallItemCard";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
@@ -21,11 +21,14 @@ function FilteredRecords(Props: IFilteredRecordsProps) {
   const CurrPage = usePivoSelector((state) => state.filterD.currentPage);
   const [ActivePage, setActivePage] = useState<number>(CurrPage);
 
-  const handlePage = (paramPage: number) => {
-    // console.log(paramPage);
-    setActivePage(paramPage);
-    dispatch(updateCurrentPage(paramPage));
-  };
+  const handlePage = useCallback(
+    (paramPage: number) => {
+      // console.log(paramPage);
+      setActivePage(paramPage);
+      dispatch(updateCurrentPage(paramPage));
+    },
+    [ActivePage]
+  );
 
   useEffect(() => {
     if (Props.perPage) {

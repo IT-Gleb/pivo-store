@@ -21,6 +21,7 @@ export const PortalM: string = "portal-m";
 
 export interface ISerchData {
   SerchText: string;
+  CurrentPage: number;
   serchedData: IPivoItem[];
 }
 

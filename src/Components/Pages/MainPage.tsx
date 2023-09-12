@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   useLazyGetItemsByNameQuery,
   useLazyGetItemsQuery,
@@ -62,13 +62,17 @@ function MainPage() {
 
   function handleBtnClick2(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    window.scrollTo(0, videoHeight + 10);
+    window.scrollTo(0, videoHeight);
     navigate("/second");
   }
 
   function handleMoveUp(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    window.scrollTo(0, videoHeight + 10);
+    window.scrollTo(0, videoHeight);
+    // if (TopRef.current) {
+    //   TopRef.current.scrollIntoView();
+    // }
+    // console.log(videoHeight);
   }
 
   function handleFilter(event: React.MouseEvent<HTMLButtonElement>) {
