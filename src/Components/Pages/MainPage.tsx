@@ -261,13 +261,13 @@ function MainPage() {
     <>
       {/* Меню с иконками с права */}
       <RightMenu>
-        <RightButton
+        {/* <RightButton
           title="Категории"
           buttonClass="button p-4 is-info"
           iconClass="icon is-size-4"
           iClass="fas fa-wine-bottle"
           hasName={false}
-        />
+        /> */}
         <RightButton
           title={"Избранное"}
           buttonClass={"button p-4 is-link"}
@@ -286,7 +286,7 @@ function MainPage() {
         />
         <RightButton
           title="Поиск"
-          buttonClass="button p-4 is-link"
+          buttonClass="button p-4 is-info"
           iconClass="icon is-size-4"
           iClass="fas fa-glasses"
           hasName={false}

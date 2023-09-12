@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { updateHowSort } from "../../../store/slices/filterSlice";
 
@@ -7,13 +7,16 @@ function SortComponent() {
   const dispatch = usePivoDispatch();
   const [rValue, setRvalue] = useState<number>(FilterData.howSort);
 
-  const handledValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log(event.target.value);
-    setRvalue(Number(event.target.value));
-    // handlerSortP(Number(event.target.value));
-    dispatch(updateHowSort(Number(event.target.value)));
-    // handlerSortP(rValue);
-  };
+  const handledValue = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      //console.log(event.target.value);
+      setRvalue(Number(event.target.value));
+      // handlerSortP(Number(event.target.value));
+      dispatch(updateHowSort(Number(event.target.value)));
+      // handlerSortP(rValue);
+    },
+    [rValue]
+  );
 
   return (
     <label className="is-size-7">
@@ -82,19 +85,6 @@ function SortComponent() {
               onChange={handledValue}
             />
             По крепости /abv/
-          </label>
-        </li>
-        <li>
-          <label className="radio mr-2 is-size-7" aria-label="first_brewed">
-            <input
-              className="mx-1"
-              type="radio"
-              value={5}
-              name="FilterRadio"
-              checked={rValue === 5}
-              onChange={handledValue}
-            />
-            По дате начала производства
           </label>
         </li>
       </ul>

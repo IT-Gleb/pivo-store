@@ -33,7 +33,7 @@ function RightMenu({ children }: Props) {
           }}
           animate={{
             y: 0,
-            transform: size.width < 760 ? "scale(0.65)" : "scale(0.95)",
+            transform: size.width < 760 ? "scale(0.65)" : "scale(0.8)",
           }}
           exit={{ opacity: 0 }}
           className="rightMenu has-background-dark"
