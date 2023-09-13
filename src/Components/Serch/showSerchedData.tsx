@@ -67,7 +67,8 @@ function ShowSerchedData() {
             return (
               <Link
                 key={item.id}
-                to={`items/${item.id}/price/${item._price}/stars/${item._star}`}
+                to={`items/${item.id}`}
+                state={{ price: item._price, stars: item._star }}
               >
                 <SmallItemCard props={item} paramSel={2} />
               </Link>

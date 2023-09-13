@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   useLazyGetItemsByNameQuery,
   useLazyGetItemsQuery,
@@ -13,7 +13,7 @@ import SmallItemCard from "../PivoItem/SmallItemCard";
 import { InView } from "react-intersection-observer";
 import RightMenu from "../Menu/RightMenu";
 import RightButton from "../UI/Buttons/RightButtons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import useVideoHeight from "../../hooks/videoHeightHook";
 import FilterWindow from "../UI/Filter/FilterWindow";
 import orderBy from "lodash/orderBy";
@@ -34,6 +34,8 @@ import {
 } from "../../store/slices/serchSlice";
 import ShowSerchedData from "../Serch/showSerchedData";
 import MyModal from "../UI/MsgBox/myModal";
+import { motion } from "framer-motion";
+import UserIsLogin from "../userIsLogin";
 
 function MainPage() {
   const [load, setLoad] = useState<boolean>(false);
@@ -228,8 +230,16 @@ function MainPage() {
   const [isSerch, setIsSerch] = useState<boolean>(false);
   const [
     fetchByName,
-    { data: serchData, isLoading: isSerchLoading, isSuccess: isSerchSuccess },
+    {
+      data: serchData,
+      isLoading: isSerchLoading,
+      isSuccess: isSerchSuccess,
+      isError: isSerchError,
+    },
   ] = useLazyGetItemsByNameQuery();
+
+  const [showErrWindow, setErrWindow] = useState<boolean>(true);
+
   //Поиск наименования по базе сервера
   const getSerchByName = async (paramSerch: string) => {
     paramSerch.length > 0 ? setIsSerch(true) : setIsSerch(false);
@@ -253,9 +263,64 @@ function MainPage() {
     if (serchData && serchData.length < 1) dispatch(zeroData());
   }, [isSerchSuccess, serchData]);
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSerch = () => {
     setSerchModal(!serchModal);
   };
+
+  //Загрузка и ошибки
+  if (areError || isSerchError)
+    return (
+      <>
+        <motion.div
+          initial={{ scale: 0.75, opacity: 0 }}
+          animate={{
+            scale: [0.75, 1.2, 0.9, 1],
+            opacity: 1,
+            transition: { duration: 0.3 },
+          }}
+          className="message is-danger mt-6"
+          style={{
+            maxWidth: "80%",
+            margin: "0 auto",
+            boxShadow: "0 0 1rem 0.24rem rgba(100, 125, 127, 0.75)",
+          }}
+        >
+          <div className="message-header">
+            Ошибка
+            <Link to="/" reloadDocument={true}>
+              <button className="delete"></button>
+            </Link>
+          </div>
+          <div className="message-body p-4">
+            <p>
+              Что-то пошло не так... Проверте Ваше поделючение к сети Интернет.
+            </p>
+            <p>Или повторите попытку позже</p>
+          </div>
+          <div
+            className="buttons are-small is-centered p-4"
+            style={{ borderTop: "1px solid rgba(0, 0, 0, 0.5)" }}
+          >
+            <Link to="/" reloadDocument={true}>
+              <button
+                className="button is-danger"
+                // onClick={(e) => {
+                //   setIsSerch(false);
+                //   dispatch(zeroData());
+                //   window.location.reload();
+                // }}
+              >
+                Вернуться
+              </button>
+            </Link>
+          </div>
+        </motion.div>
+      </>
+    );
 
   return (
     <>
@@ -311,6 +376,7 @@ function MainPage() {
       </RightMenu>
       {/* end of Меню с иконками с права */}
       {/* Фильтр окно */}
+      <UserIsLogin />
       <section className="section">
         <div className={screenWidth > 577 ? "block is-pulled-right" : "block"}>
           <SerchString doSerch={getSerchByName} />
@@ -353,7 +419,6 @@ function MainPage() {
           )}
         </div>
       </section>
-
       {serchModal && (
         <MyModal
           title="Поиск по наименованию"
@@ -364,7 +429,6 @@ function MainPage() {
           <SerchString doSerch={getSerchByName} />
         </MyModal>
       )}
-
       {showFiler && (
         <FilterWindow
           toggleFilter={() => setFilterUp(false)}
@@ -373,7 +437,6 @@ function MainPage() {
       )}
       {/* При поиске */}
       {isSerchLoading && <PivoSpinner text={"Ищу пиво..."} />}
-
       {/* End of Фильтр окно */}
       <InView
         triggerOnce={true}
@@ -382,11 +445,6 @@ function MainPage() {
         {load && <div className="loadLine"></div>}
       </InView>
       {areLoading && <PivoSpinner text="Загрузка данных..." />}
-      {areError && (
-        <p className="has-text-danger has-text-centered mt-5 mb-5">
-          Ошибка получения данных...
-        </p>
-      )}
       {/* //Вывод данных без фильтрации */}
       {areSuccess && !filterUp && !isSerch && (
         <section className="section mb-4">
@@ -401,7 +459,8 @@ function MainPage() {
               return (
                 <Link
                   key={item.id}
-                  to={`items/${item.id}/price/${item._price}/stars/${item._star}`}
+                  to={`items/${item.id}`}
+                  state={{ price: item._price, stars: item._star }}
                 >
                   <SmallItemCard props={item} paramSel={0} />
                 </Link>

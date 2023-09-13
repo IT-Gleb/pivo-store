@@ -28,12 +28,13 @@ const Mrouter = createBrowserRouter([
         element: <SecondPage />,
       },
       {
-        path: "items/:itemId/price/:priceId/stars/:starsId",
+        path: "items/:itemId",
 
         element: <ItemPage />,
       },
     ],
   },
+  { path: "/error", element: <ErrorPage /> },
 ]);
 
 const root = ReactDOM.createRoot(

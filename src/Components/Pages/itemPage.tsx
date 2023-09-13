@@ -1,13 +1,15 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useGetItemQuery } from "../../store/punkApi/pivo.punk.api";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { IPivoItem } from "../../types";
 import { checkMounth, checkYear } from "../../libs";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
+import UserIsLogin from "../userIsLogin";
 
 function ItemPage() {
-  const { itemId, priceId, starsId } = useParams();
+  const { itemId } = useParams();
+  const stateId = useLocation();
   const navigate = useNavigate();
   const { isError, isSuccess, isLoading, data } = useGetItemQuery(
     String(itemId),
@@ -24,12 +26,14 @@ function ItemPage() {
     // console.log(tmpData);
     if (data) {
       let tmp: IPivoItem = { ...data }; //Чтобы изменить данные по цене и звездам
-      tmp._price = Number(priceId);
-      tmp._star = Number(starsId);
+      if (stateId) {
+        tmp._price = stateId.state.price;
+        tmp._star = stateId.state.stars;
+      }
       setItem(tmp);
       let i: number = 0;
       let tempStars: number[] = [];
-      while (i < tmp._star) {
+      while (i < tmp._star!) {
         i++;
         tempStars.push(i);
       }
@@ -39,13 +43,14 @@ function ItemPage() {
   }, [isSuccess, data]);
 
   useEffect(() => {
-    const timerId = window.setTimeout(() => {
+    const timerId = setTimeout(() => {
       if (ScrollRef.current) {
         ScrollRef.current.scrollIntoView();
       }
     }, 800);
+
     return () => {
-      window.clearTimeout(timerId);
+      clearTimeout(timerId);
     };
   }, []);
 
@@ -71,6 +76,7 @@ function ItemPage() {
       {isLoading && <PivoSpinner text="Загрузка данных..." />}
       {isSuccess && Item && (
         <div className="container">
+          <UserIsLogin />
           <section className="section m-5 section-with-image">
             <div className="image-container">
               <picture>
@@ -289,6 +295,7 @@ function ItemPage() {
               </button>
             </div>
           </section>
+          <UserIsLogin />
         </div>
       )}
     </>

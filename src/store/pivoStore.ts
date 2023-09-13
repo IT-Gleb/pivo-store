@@ -7,6 +7,7 @@ import { pivoApi } from "./punkApi/pivo.punk.api";
 import { itemsSlice } from "./slices/pivo1Slice";
 import { FilterSlice } from "./slices/filterSlice";
 import { SerchSlice } from "./slices/serchSlice";
+import { userSlice } from "./slices/userSlice";
 
 export const pivoStore = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const pivoStore = configureStore({
     pivoItems: itemsSlice.reducer,
     filterD: FilterSlice.reducer,
     serchData: SerchSlice.reducer,
+    currentUser: userSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(pivoApi.middleware),

@@ -91,7 +91,6 @@ export const pivoApi = createApi({
 });
 
 export const {
-  useGetAllItemsQuery,
   useLazyGetItemsQuery,
   useGetItemQuery,
   useLazyGetItemsByNameQuery,
