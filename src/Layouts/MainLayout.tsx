@@ -1,12 +1,17 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { Suspense, useLayoutEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
-import TopHeader from "./TopHeader";
-import MainBody from "./MainBody";
-import FooterMain from "./FooterMain";
+//import TopHeader from "./TopHeader";
+// import MainBody from "./MainBody";
+//import FooterMain from "./FooterMain";
 import Pic1 from "../assets/imgs/0001.jpg";
 import Pic2 from "../assets/imgs/0002.jpg";
 import Pic3 from "../assets/imgs/0004.jpg";
 import { randomFrom } from "../libs";
+import PivoSpinner from "../Components/UI/Spinner/pivoSpinner";
+
+const TopHeaderComponent = React.lazy(() => import("./TopHeader"));
+const MainBodyComponent = React.lazy(() => import("./MainBody"));
+const FooterComponent = React.lazy(() => import("./FooterMain"));
 
 function MainLayout() {
   const BodyRef = useRef<any>(null);
@@ -31,11 +36,18 @@ function MainLayout() {
 
   return (
     <>
-      <TopHeader />
-      <MainBody>
-        <Outlet />
-      </MainBody>
-      <FooterMain />
+      <Suspense fallback={<PivoSpinner text="Гружу Top..." />}>
+        <TopHeaderComponent />
+      </Suspense>
+
+      <Suspense fallback={<PivoSpinner text="Гружу основняк..." />}>
+        <MainBodyComponent>
+          <Outlet />
+        </MainBodyComponent>
+      </Suspense>
+      <Suspense fallback={<PivoSpinner text="Гружу..." />}>
+        <FooterComponent />
+      </Suspense>
     </>
   );
 }

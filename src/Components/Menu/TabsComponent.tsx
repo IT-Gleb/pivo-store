@@ -34,6 +34,13 @@ const tabMenu: Tabs = [
     isActive: false,
     Ref: "/",
   },
+  {
+    id: 3,
+    Name: "Авторизация",
+    icon: "fa-user",
+    isActive: false,
+    Ref: "/login",
+  },
   // { id: 3, Name: "Документы", isActive: false, Ref: "/" },
 ];
 
@@ -59,6 +66,9 @@ function TabsComponent() {
     }
     if (isWhere.pathname === "/second") {
       setActiveIndex(1);
+    }
+    if (isWhere.pathname === "/login") {
+      setActiveIndex(3);
     }
   }, [isWhere]);
   //End of --------- Задать активную вкладку в зависимости от текущкго пути

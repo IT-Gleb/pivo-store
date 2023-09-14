@@ -11,7 +11,10 @@ import ErrorPage from "./Components/Pages/ErrorPage";
 
 import pivoStore from "./store/pivoStore";
 import { Provider } from "react-redux";
-import ItemPage from "./Components/Pages/itemPage";
+// import ItemPage from "./Components/Pages/itemPage";
+import LoginPage from "./Components/Pages/loginPage";
+
+const ItemPage = React.lazy(() => import("./Components/Pages/itemPage"));
 
 const Mrouter = createBrowserRouter([
   {
@@ -29,12 +32,14 @@ const Mrouter = createBrowserRouter([
       },
       {
         path: "items/:itemId",
-
         element: <ItemPage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
       },
     ],
   },
-  { path: "/error", element: <ErrorPage /> },
 ]);
 
 const root = ReactDOM.createRoot(

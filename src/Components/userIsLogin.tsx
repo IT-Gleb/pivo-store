@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { usePivoSelector } from "../hooks/storeHooks";
 
 function UserIsLogin() {
@@ -26,12 +27,14 @@ function UserIsLogin() {
             ) : (
               <span className="has-text-danger is-size-6">
                 Пользователь не авторизован
-                <button
-                  className="button is-small is-primary is-rounded ml-1"
-                  style={{ transform: "scale(0.8)" }}
-                >
-                  Войти
-                </button>
+                <Link to={"/login"}>
+                  <button
+                    className="button is-small is-primary is-rounded ml-1"
+                    style={{ transform: "scale(0.8)" }}
+                  >
+                    Войти
+                  </button>
+                </Link>
               </span>
             )}
           </div>

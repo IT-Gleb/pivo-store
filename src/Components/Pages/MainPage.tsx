@@ -13,7 +13,7 @@ import SmallItemCard from "../PivoItem/SmallItemCard";
 import { InView } from "react-intersection-observer";
 import RightMenu from "../Menu/RightMenu";
 import RightButton from "../UI/Buttons/RightButtons";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useVideoHeight from "../../hooks/videoHeightHook";
 import FilterWindow from "../UI/Filter/FilterWindow";
 import orderBy from "lodash/orderBy";
