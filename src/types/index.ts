@@ -17,6 +17,11 @@ export interface IProgressParam {
 
 //-------------------------------------
 
+export const stringRegXpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+export const stringRegXpPassword =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$/i;
+//Минимум 8 знаков, минимум 1 заглавная буква, минимум 1 прописная, минимум 1 цифра
+
 export const PortalM: string = "portal-m";
 
 export interface ISerchData {
@@ -158,6 +163,14 @@ export interface IFilterData {
   priceData: number;
   isFiltered: boolean;
   currentPage: number;
+}
+
+export interface IUser {
+  isAuth: boolean;
+  Name: string;
+  email: string;
+  passWord: string;
+  id: string;
 }
 
 export type { ISliderItemProp, IMessageBoxProps, TWords, IParamQuery };

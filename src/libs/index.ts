@@ -1,6 +1,14 @@
-import { MinPriceValue, MaxPriceValue } from "../types";
+import { MinPriceValue, MaxPriceValue, type IUser } from "../types";
 
 const TOPMENUVIDEO: string = "TopMenuVideo";
+
+function checkerAuth(pUser: IUser): boolean {
+  let res: boolean = false;
+  res =
+    pUser.isAuth && pUser.Name.trim().length > 0 && pUser.id.trim().length > 0;
+
+  return res;
+}
 
 function randomFrom(pMin: number = 0, pMax: number = 100) {
   // find diff
@@ -91,4 +99,11 @@ function getPrice(paramStar: number = 2): number {
   return res;
 }
 
-export { randomFrom, TOPMENUVIDEO, checkMounth, checkYear, getPrice };
+export {
+  randomFrom,
+  TOPMENUVIDEO,
+  checkMounth,
+  checkYear,
+  getPrice,
+  checkerAuth,
+};

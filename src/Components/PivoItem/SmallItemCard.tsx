@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { checkMounth, checkYear } from "../../libs";
 import useScreenWidth from "../../hooks/screenWidth";
 import Pivovar from "../../assets/imgs/pivovar.png";
-import InECartBtn from "../UI/Chart/inECartBtn";
+import InECartBtn from "../UI/Buttons/inECartBtn";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 
 function SmallItemCard({

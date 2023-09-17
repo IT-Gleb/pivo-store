@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { usePivoSelector } from "../hooks/storeHooks";
+import { checkerAuth } from "../libs";
 
 function UserIsLogin() {
-  const isLogin = usePivoSelector((state) => state.currentUser.isAuth);
+  const isLogin = usePivoSelector((state) => state.currentUser);
+  const isValidate = checkerAuth(isLogin);
   const userName = usePivoSelector((state) => state.currentUser.Name);
 
   return (
@@ -15,12 +17,14 @@ function UserIsLogin() {
           <div className="level-item pr-2">
             <span
               className={
-                isLogin ? "icon mr-1 has-text-info" : "icon mr-1 has-text-dark"
+                isValidate
+                  ? "icon mr-1 has-text-info"
+                  : "icon mr-1 has-text-dark"
               }
             >
               <i className="fas fa-user"></i>
             </span>
-            {isLogin ? (
+            {isValidate ? (
               <span className="has-text-info is-size-6">
                 Привет!- {userName}
               </span>

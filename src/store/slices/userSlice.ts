@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface IUser {
-  isAuth: boolean;
-  Name: string;
-  email: string;
-  passWord: string;
-  id: string;
-}
+import { type IUser } from "../../types";
 
 const initialState: IUser = {
   isAuth: false,

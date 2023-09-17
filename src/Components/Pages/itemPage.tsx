@@ -7,7 +7,7 @@ import Pivovar from "../../assets/imgs/pivovar.png";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
 import UserIsLogin from "../userIsLogin";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
-import InECartBtn from "../UI/Chart/inECartBtn";
+import InECartBtn from "../UI/Buttons/inECartBtn";
 
 function ItemPage() {
   const { itemId } = useParams();
@@ -262,7 +262,7 @@ function ItemPage() {
               </button>
             </div>
 
-            <div className="block buttons are-small is-centered">
+            <div className="block buttons are-small is-rounded is-centered">
               <FavoriteBtn />
               <InECartBtn />
             </div>

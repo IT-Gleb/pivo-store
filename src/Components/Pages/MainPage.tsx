@@ -65,8 +65,14 @@ function MainPage() {
   function handleBtnClick2(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
-    navigate("/second");
+    navigate("/favorites");
   }
+
+  const handleECartClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    window.scrollTo(0, videoHeight);
+    navigate("/eCart");
+  };
 
   function handleMoveUp(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -238,7 +244,7 @@ function MainPage() {
     },
   ] = useLazyGetItemsByNameQuery();
 
-  const [showErrWindow, setErrWindow] = useState<boolean>(true);
+  // const [showErrWindow, setErrWindow] = useState<boolean>(true);
 
   //Поиск наименования по базе сервера
   const getSerchByName = async (paramSerch: string) => {
@@ -347,7 +353,7 @@ function MainPage() {
           iconClass="icon is-size-4"
           iClass="fas fa-shopping-cart"
           hasName={false}
-          // onClick={handleButtonClick}
+          onClick={handleECartClick}
         />
         <RightButton
           title="Поиск"
@@ -377,7 +383,7 @@ function MainPage() {
       {/* end of Меню с иконками с права */}
       {/* Фильтр окно */}
       <UserIsLogin />
-      <section className="section">
+      <section className="section mb-0 px-6 py-0">
         <div className={screenWidth > 577 ? "block is-pulled-right" : "block"}>
           <SerchString doSerch={getSerchByName} />
         </div>
