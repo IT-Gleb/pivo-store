@@ -61,18 +61,14 @@ function TabsComponent() {
   useEffect(() => {
     // console.log(isWhere);
 
-    if (isWhere.pathname === "/") {
-      setActiveIndex(0);
+    let tmpIndex: number = 0;
+    for (let item in tabMenu) {
+      if (tabMenu[item].Ref === isWhere.pathname) {
+        tmpIndex = Number(item);
+        break;
+      }
     }
-    if (isWhere.pathname === "/favorites") {
-      setActiveIndex(1);
-    }
-    if (isWhere.pathname === "/eCart") {
-      setActiveIndex(2);
-    }
-    if (isWhere.pathname === "/login") {
-      setActiveIndex(3);
-    }
+    setActiveIndex(tmpIndex);
   }, [isWhere]);
   //End of --------- Задать активную вкладку в зависимости от текущкго пути
 

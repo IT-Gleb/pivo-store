@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { checkMounth, checkYear } from "../../libs";
 import useScreenWidth from "../../hooks/screenWidth";
 import Pivovar from "../../assets/imgs/pivovar.png";
+import InECartBtn from "../UI/Chart/inECartBtn";
+import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 
 function SmallItemCard({
   props,
@@ -14,18 +16,6 @@ function SmallItemCard({
 }) {
   const [stars, setStars] = useState<Array<number>>([]);
   const { screenWidth } = useScreenWidth();
-
-  const handleFavorite = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // event.stopPropagation();
-    event.preventDefault();
-    console.log("favorite");
-  };
-
-  const handleInCart = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // event.stopPropagation();
-    event.preventDefault();
-    console.log("in Cart");
-  };
 
   useEffect(() => {
     let tmp: Array<number> = [];
@@ -119,22 +109,12 @@ function SmallItemCard({
           </span>
         </p>
       </div>
-      <div className="card-footer">
+      <div className="card-footer buttons are-small">
         <div className="card-footer-item">
-          <button className="button is-small" onClick={handleFavorite}>
-            <span className="icon mr-1 has-text-danger">
-              <i className="fas fa-heart"></i>
-            </span>
-            В Избранное
-          </button>
+          <FavoriteBtn />
         </div>
         <div className="card-footer-item">
-          <button className="button is-small" onClick={handleInCart}>
-            <span className="icon mr-1 has-text-primary">
-              <i className="fas fa-shopping-cart"></i>
-            </span>
-            В Корзину
-          </button>
+          <InECartBtn />
         </div>
       </div>
     </motion.article>

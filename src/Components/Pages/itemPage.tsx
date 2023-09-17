@@ -6,6 +6,8 @@ import { checkMounth, checkYear } from "../../libs";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
 import UserIsLogin from "../userIsLogin";
+import FavoriteBtn from "../UI/Buttons/favoriteBtn";
+import InECartBtn from "../UI/Chart/inECartBtn";
 
 function ItemPage() {
   const { itemId } = useParams();
@@ -261,18 +263,8 @@ function ItemPage() {
             </div>
 
             <div className="block buttons are-small is-centered">
-              <button className="button is-warning is-rounded">
-                <span className="icon mr-1">
-                  <i className="fas fa-shopping-cart"></i>
-                </span>
-                В корзину
-              </button>
-              <button className="button is-primary is-rounded">
-                <span className="icon mr-1">
-                  <i className="fas fa-heart"></i>
-                </span>
-                В избранное
-              </button>
+              <FavoriteBtn />
+              <InECartBtn />
             </div>
           </section>
 
