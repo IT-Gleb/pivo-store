@@ -25,14 +25,14 @@ const tabMenu: Tabs = [
     Name: "Избранное",
     icon: "fa-heart",
     isActive: false,
-    Ref: "second",
+    Ref: "/favorites",
   },
   {
     id: 2,
     Name: "Корзина",
     icon: "fa-shopping-cart",
     isActive: false,
-    Ref: "/",
+    Ref: "/eCart",
   },
   {
     id: 3,
@@ -64,8 +64,11 @@ function TabsComponent() {
     if (isWhere.pathname === "/") {
       setActiveIndex(0);
     }
-    if (isWhere.pathname === "/second") {
+    if (isWhere.pathname === "/favorites") {
       setActiveIndex(1);
+    }
+    if (isWhere.pathname === "/eCart") {
+      setActiveIndex(2);
     }
     if (isWhere.pathname === "/login") {
       setActiveIndex(3);

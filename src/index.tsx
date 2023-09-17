@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./assets/sass/my.scss";
 import "./assets/font-awesome/all.min.css";
 
 import MainLayout from "./Layouts/MainLayout";
-import MainPage from "./Components/Pages/MainPage";
+// import MainPage from "./Components/Pages/MainPage";
 import SecondPage from "./Components/Pages/SecondPage";
 import ErrorPage from "./Components/Pages/ErrorPage";
 
@@ -13,8 +13,13 @@ import pivoStore from "./store/pivoStore";
 import { Provider } from "react-redux";
 // import ItemPage from "./Components/Pages/itemPage";
 import LoginPage from "./Components/Pages/loginPage";
+import PivoSpinner from "./Components/UI/Spinner/pivoSpinner";
+import CheckAuth from "./HOC/checkAuth";
 
 const ItemPage = React.lazy(() => import("./Components/Pages/itemPage"));
+const MainPageComponent = React.lazy(
+  () => import("./Components/Pages/MainPage")
+);
 
 const Mrouter = createBrowserRouter([
   {
@@ -24,15 +29,35 @@ const Mrouter = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<PivoSpinner text="загрузка..." />}>
+            <MainPageComponent />
+          </Suspense>
+        ),
       },
       {
-        path: "second",
-        element: <SecondPage />,
+        path: "favorites",
+        element: (
+          <CheckAuth>
+            <SecondPage />
+          </CheckAuth>
+        ),
+      },
+      {
+        path: "eCart",
+        element: (
+          <CheckAuth>
+            <SecondPage />
+          </CheckAuth>
+        ),
       },
       {
         path: "items/:itemId",
-        element: <ItemPage />,
+        element: (
+          <Suspense fallback={<PivoSpinner text="загрузка..." />}>
+            <ItemPage />
+          </Suspense>
+        ),
       },
       {
         path: "login",
