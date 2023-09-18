@@ -1,94 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { stringRegXpEmail, stringRegXpPassword } from "../../types";
-
-function usePasswordValidate(paramValidate: {
-  Value: string;
-  MaxLength: number;
-}) {
-  const [isPassBlur, setIsPassBlur] = useState<boolean>(false);
-  const [isPassError, setIsPassError] = useState<boolean>(true);
-  const MaxPass = /^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-
-  useEffect(() => {
-    if (isPassBlur) {
-      setIsPassError(true);
-      // if (
-      //   paramValidate["Value"].trim().length > 0 &&
-      //   paramValidate["Value"].trim().length < paramValidate["MaxLength"]
-      // ) {
-      // } else {
-      //   setIsPassError(false);
-      // }
-
-      if (MaxPass.test(paramValidate["Value"].replaceAll(" ", ""))) {
-        setIsPassError(false);
-      }
-
-      // if (paramValidate["Value"].trim() === "") {
-      //   setIsPassError(true);
-      // } else {
-      //   setIsPassError(false);
-      // }
-      // if (!stringRegXpPassword.test(paramValidate["Value"])) {
-      //   setIsPassError(true);
-      // } else {
-      //   setIsPassError(false);
-      // }
-      // console.log(paramValidate["Value"]);
-    }
-  }, [isPassBlur, paramValidate, setIsPassError]);
-
-  return {
-    isPassBlur,
-    setIsPassBlur,
-    isPassError,
-  };
-}
-
-function useNameValidate(paramValidate: { Name: string; MaxLength: number }) {
-  const [isNameBlur, setIsNameBlur] = useState<boolean>(false);
-  const [isNameError, setNameError] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (isNameBlur) {
-      if (paramValidate["Name"].trim().length < paramValidate["MaxLength"])
-        setNameError(true);
-      else setNameError(false);
-    }
-  }, [isNameBlur, paramValidate]);
-
-  return {
-    isNameBlur,
-    setIsNameBlur,
-    isNameError,
-  };
-}
-
-function useEMailValidate(paramValue: string) {
-  const [eMailErrorValue, setEmailErrorValue] = useState<string>(paramValue);
-  const [isEmailError, setIsEmailError] = useState<boolean>(true);
-  const [isEmailBlur, setIsEmailBlur] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (isEmailBlur) {
-      if (!stringRegXpEmail.test(paramValue)) {
-        setEmailErrorValue("Не верный почтовый адрес...");
-        setIsEmailError(true);
-      } else {
-        setEmailErrorValue("OK");
-        setIsEmailError(false);
-      }
-    }
-  }, [paramValue, setIsEmailError, isEmailBlur]);
-
-  return {
-    eMailErrorValue,
-    isEmailError,
-    isEmailBlur,
-    setIsEmailBlur,
-  };
-}
+import useEMailValidate from "../../hooks/mailValidate";
+import usePasswordValidate from "../../hooks/passWordValidate";
+import useNameValidate from "../../hooks/nameValidate";
+import { usePivoDispatch } from "../../hooks/storeHooks";
+import { updateUserData } from "../../store/slices/userSlice";
+import { type IUser } from "../../types";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -106,10 +23,19 @@ function LoginPage() {
   const [passValue, setPassValue] = useState<string>("");
   const { isPassBlur, setIsPassBlur, isPassError } = usePasswordValidate({
     Value: passValue,
-    MaxLength: 8,
+    MaxLength: 20,
   });
 
   const PassRef = useRef<HTMLInputElement>(null);
+  const AuthUser: IUser = {
+    Name: "",
+    id: "",
+    email: "",
+    passWord: "",
+    isAuth: false,
+  };
+
+  const dispatch = usePivoDispatch();
 
   const handleOnMainPage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -117,6 +43,24 @@ function LoginPage() {
     setEMail("");
     setPassValue("");
     navigate("/");
+  };
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    AuthUser.email = eMail;
+    AuthUser.Name = nameValue;
+    AuthUser.passWord = passValue;
+    AuthUser.id = "{0000-0000-0000-0000}";
+    AuthUser.isAuth = true;
+    dispatch(updateUserData(AuthUser));
+
+    setNameValue("");
+    setEMail("");
+    setPassValue("");
+
+    //Перейти на основную страницу
+    navigate("/", { replace: true });
   };
 
   const handlePassVisible = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -143,6 +87,7 @@ function LoginPage() {
                 autoFocus
                 placeholder="Ваше имя..."
                 tabIndex={1}
+                maxLength={75}
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
                 onBlur={(e) => {
@@ -156,7 +101,7 @@ function LoginPage() {
                 <div
                   className={
                     isNameError
-                      ? "subtitle is-size-6 has-background-warning has-text-danger py-2 px-3"
+                      ? "message-body is-size-6 has-background-light has-text-danger has-text-weight-light py-2 px-3"
                       : "subtitle is-size-6 has-text-info has-text-weight-semibold py-2 px-3"
                   }
                 >
@@ -177,6 +122,7 @@ function LoginPage() {
                 required
                 placeholder="Email..."
                 tabIndex={2}
+                maxLength={50}
                 value={eMail}
                 onChange={(e) => {
                   setEMail(e.target.value);
@@ -190,7 +136,7 @@ function LoginPage() {
                 <div
                   className={
                     isEmailError
-                      ? "subtitle is-size-6 has-background-warning has-text-danger px-3 py-2"
+                      ? "meddage-bofy is-size-6 has-background-light has-text-danger has-text-weight-light px-3 py-2"
                       : "subtitle is-size-6 has-text-info has-text-weight-semibold px-3 py-2"
                   }
                 >
@@ -207,6 +153,7 @@ function LoginPage() {
                 className="input"
                 type={isPassVisible ? "text" : "password"}
                 name="userPassWord"
+                maxLength={20}
                 required
                 tabIndex={3}
                 value={passValue}
@@ -228,12 +175,12 @@ function LoginPage() {
               <div
                 className={
                   isPassError
-                    ? "subtitle px-3 py-2 is-size-6 has-background-warning has-text-danger"
+                    ? "message-body px-3 py-2 is-size-6 has-background-light has-text-danger has-text-weight-light"
                     : "subtitle py-2 py-3 is-size-6 has-text-weight-semibold has-text-info"
                 }
               >
                 {isPassError
-                  ? "Пароль не должен быть меньше 8-ми символов. Не должно быть пробелов. Включать 1-у заглавную букву, 1-у прописную и минимум 1-у цифру"
+                  ? "Пароль не должен быть меньше 8-ми символов. Не должно быть пробелов. Включать 1-у заглавную букву, 1-у прописную и минимум 1-у цифру."
                   : "OK"}
               </div>
             )}
@@ -244,9 +191,7 @@ function LoginPage() {
                 className="button is-primary"
                 type="submit"
                 tabIndex={4}
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                onClick={handleSubmit}
               >
                 Войти
               </button>

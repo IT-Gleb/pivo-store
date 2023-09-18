@@ -25,9 +25,7 @@ function UserIsLogin() {
               <i className="fas fa-user"></i>
             </span>
             {isValidate ? (
-              <span className="has-text-info is-size-6">
-                Привет!- {userName}
-              </span>
+              <span className="has-text-info is-size-6">{userName}</span>
             ) : (
               <span className="has-text-danger is-size-6">
                 Пользователь не авторизован

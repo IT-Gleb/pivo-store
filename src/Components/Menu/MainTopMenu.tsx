@@ -1,25 +1,35 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-// import MyModal from "../UI/MsgBox/myModal";
+import { Link, useNavigate } from "react-router-dom";
+import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
+import { checkerAuth } from "../../libs";
+import useVideoHeight from "../../hooks/videoHeightHook";
+import { clearUserData } from "../../store/slices/userSlice";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
-  // const [diagShow, setDiagShow] = useState<boolean>(false);
+  const isAuthUser = usePivoSelector((state) => state.currentUser);
+  const isAuth = checkerAuth(isAuthUser);
+  const navigate = useNavigate();
+  const { videoHeight } = useVideoHeight();
+  const dispatch = usePivoDispatch();
 
-  // const showMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   setDiagShow(true);
-  //   // console.log("Diag Show:", diagShow);
-  // };
-  // const hideMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   setDiagShow(false);
-  //   // console.log("Diag Show:", diagShow);
-  // };
-  // const CloseDialog = () => {
-  //   setDiagShow(false);
-  // };
+  const logIn = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!isAuth) {
+      navigate("/login", { replace: true });
+    } else {
+      window.scrollTo(0, videoHeight);
+    }
+  };
+
+  const logOut = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (isAuth) {
+      dispatch(clearUserData());
+    }
+    window.scrollTo(0, videoHeight);
+  };
 
   return (
     <>
@@ -64,15 +74,18 @@ function MainTopMenu() {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons are-small">
-                <Link to="/login">
-                  <button className="button is-primary mr-2 ">
-                    <span className="icon mr-1">
-                      <i className="fas fa-user"></i>
-                    </span>
-                    Войти
-                  </button>
-                </Link>
-                <button className="button is-danger">Выйти</button>
+                <button className="button is-primary mr-2" onClick={logIn}>
+                  <span className="icon mr-1">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  Войти
+                </button>
+                <button className="button is-danger" onClick={logOut}>
+                  <span className="icon mr-1">
+                    <i className="fas fa-door-open"></i>
+                  </span>
+                  Выйти
+                </button>
               </div>
             </div>
           </div>

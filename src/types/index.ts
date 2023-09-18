@@ -19,7 +19,7 @@ export interface IProgressParam {
 
 export const stringRegXpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 export const stringRegXpPassword =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$/i;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*d).[a-zA-Zd].{8,}$/gi;
 //Минимум 8 знаков, минимум 1 заглавная буква, минимум 1 прописная, минимум 1 цифра
 
 export const PortalM: string = "portal-m";
