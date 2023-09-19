@@ -1,11 +1,22 @@
 import { Link } from "react-router-dom";
-import { usePivoSelector } from "../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../hooks/storeHooks";
 import { checkerAuth } from "../libs";
+// import { getUserDataFromLocalForage } from "../store/slices/userSlice";
+import { useEffect } from "react";
+import { getStorageData } from "../store/slices/userSlice";
 
 function UserIsLogin() {
+  const dispatch = usePivoDispatch();
+
   const isLogin = usePivoSelector((state) => state.currentUser);
   const isValidate = checkerAuth(isLogin);
   const userName = usePivoSelector((state) => state.currentUser.Name);
+
+  useEffect(() => {
+    // dispatch(getUserDataFromLocalForage());
+    if (isLogin.Name === "" || isLogin.isAuth || isLogin.id.trim().length < 2)
+      dispatch(getStorageData());
+  }, [isLogin, dispatch]);
 
   return (
     <section className="section m-0 p-0">

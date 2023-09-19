@@ -6,6 +6,8 @@ import useNameValidate from "../../hooks/nameValidate";
 import { usePivoDispatch } from "../../hooks/storeHooks";
 import { updateUserData } from "../../store/slices/userSlice";
 import { type IUser } from "../../types";
+import { v5 as uuidV5 } from "uuid";
+import { checkerAuth } from "../../libs";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -51,8 +53,9 @@ function LoginPage() {
     AuthUser.email = eMail;
     AuthUser.Name = nameValue;
     AuthUser.passWord = passValue;
-    AuthUser.id = "{0000-0000-0000-0000}";
-    AuthUser.isAuth = true;
+    AuthUser.id = uuidV5(AuthUser.passWord, uuidV5.URL);
+    AuthUser.isAuth = checkerAuth(AuthUser);
+    //console.log(AuthUser.id);
     dispatch(updateUserData(AuthUser));
 
     setNameValue("");

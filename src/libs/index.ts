@@ -1,13 +1,26 @@
-import { MinPriceValue, MaxPriceValue, type IUser } from "../types";
+import {
+  MinPriceValue,
+  MaxPriceValue,
+  type IUser,
+  stringRegXpEmail,
+} from "../types";
+import { validate as UUID5validate } from "uuid";
 
 const TOPMENUVIDEO: string = "TopMenuVideo";
 
 function checkerAuth(pUser: IUser): boolean {
   let res: boolean = false;
-  res =
-    pUser.isAuth && pUser.Name.trim().length > 0 && pUser.id.trim().length > 0;
-
-  return res;
+  try {
+    res =
+      // pUser.isAuth && pUser.Name.trim().length > 0 && pUser.id.trim().length > 0;
+      pUser.Name.trim().length > 0 &&
+      UUID5validate(pUser.id) &&
+      stringRegXpEmail.test(pUser.email);
+  } catch {
+    res = false;
+  } finally {
+    return res;
+  }
 }
 
 function randomFrom(pMin: number = 0, pMax: number = 100) {
