@@ -3,7 +3,7 @@ import { usePivoSelector } from "../../../hooks/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { checkerAuth } from "../../../libs";
 
-function FavoriteBtn() {
+function FavoriteBtn({ addNew }: { addNew: () => void }) {
   const isAuth = usePivoSelector((state) => state.currentUser);
 
   const userAuth: boolean = checkerAuth(isAuth);
@@ -13,6 +13,8 @@ function FavoriteBtn() {
     event.preventDefault();
     if (!userAuth) {
       navigate("/login", { replace: true });
+    } else {
+      addNew();
     }
   };
 

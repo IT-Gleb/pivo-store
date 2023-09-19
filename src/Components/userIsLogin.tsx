@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../hooks/storeHooks";
 import { checkerAuth } from "../libs";
-// import { getUserDataFromLocalForage } from "../store/slices/userSlice";
 import { useEffect } from "react";
 import { getStorageData } from "../store/slices/userSlice";
 
@@ -14,8 +13,7 @@ function UserIsLogin() {
 
   useEffect(() => {
     // dispatch(getUserDataFromLocalForage());
-    if (isLogin.Name === "" || isLogin.isAuth || isLogin.id.trim().length < 2)
-      dispatch(getStorageData());
+    if (!checkerAuth(isLogin)) dispatch(getStorageData());
   }, [isLogin, dispatch]);
 
   return (

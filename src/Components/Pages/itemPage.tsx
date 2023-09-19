@@ -8,6 +8,8 @@ import PivoSpinner from "../UI/Spinner/pivoSpinner";
 import UserIsLogin from "../userIsLogin";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 import InECartBtn from "../UI/Buttons/inECartBtn";
+import { usePivoDispatch } from "../../hooks/storeHooks";
+import { addNewFavItem } from "../../store/slices/favorites";
 
 function ItemPage() {
   const { itemId } = useParams();
@@ -20,6 +22,7 @@ function ItemPage() {
   const [Item, setItem] = useState<IPivoItem>();
   const [Stars, setStars] = useState<number[]>([]);
   const ScrollRef = useRef<HTMLDivElement>(null);
+  const dispatch = usePivoDispatch();
 
   const GoodGrapth = lazy(() => import("../UI/Chart/randomChart"));
 
@@ -72,6 +75,12 @@ function ItemPage() {
         </div>
       </article>
     );
+
+  const addFavItem = () => {
+    if (Item) {
+      dispatch(addNewFavItem(Item));
+    }
+  };
 
   return (
     <>
@@ -263,7 +272,7 @@ function ItemPage() {
             </div>
 
             <div className="block buttons are-small is-rounded is-centered">
-              <FavoriteBtn />
+              <FavoriteBtn addNew={addFavItem} />
               <InECartBtn />
             </div>
           </section>

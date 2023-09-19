@@ -6,6 +6,8 @@ import useScreenWidth from "../../hooks/screenWidth";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import InECartBtn from "../UI/Buttons/inECartBtn";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
+import { usePivoDispatch } from "../../hooks/storeHooks";
+import { addNewFavItem } from "../../store/slices/favorites";
 
 function SmallItemCard({
   props,
@@ -16,6 +18,7 @@ function SmallItemCard({
 }) {
   const [stars, setStars] = useState<Array<number>>([]);
   const { screenWidth } = useScreenWidth();
+  const dispatch = usePivoDispatch();
 
   useEffect(() => {
     let tmp: Array<number> = [];
@@ -28,6 +31,13 @@ function SmallItemCard({
       setStars(tmp);
     }
   }, [props._star]);
+
+  //Добавить в избранное
+  const addToFavorites = () => {
+    if (props) {
+      dispatch(addNewFavItem(props));
+    }
+  };
 
   return (
     <motion.article
@@ -111,7 +121,7 @@ function SmallItemCard({
       </div>
       <div className="card-footer buttons are-small">
         <div className="card-footer-item">
-          <FavoriteBtn />
+          <FavoriteBtn addNew={addToFavorites} />
         </div>
         <div className="card-footer-item">
           <InECartBtn />

@@ -12,6 +12,7 @@ import pivoStore from "./store/pivoStore";
 import { Provider } from "react-redux";
 import PivoSpinner from "./Components/UI/Spinner/pivoSpinner";
 import CheckAuth from "./HOC/checkAuth";
+import CheckIsLogin from "./HOC/checkIsLogin";
 
 //----------------------------------------------------------------------------
 const ItemPage = React.lazy(() => import("./Components/Pages/itemPage"));
@@ -21,6 +22,10 @@ const MainPageComponent = React.lazy(
 
 const LoginPageComponent = React.lazy(
   () => import("./Components/Pages/loginPage")
+);
+
+const FavoritesPageComponent = React.lazy(
+  () => import("./Components/Pages/favoritesPage")
 );
 //----------------------------------------------------------------------------
 
@@ -42,7 +47,9 @@ const Mrouter = createBrowserRouter([
         path: "favorites",
         element: (
           <CheckAuth>
-            <SecondPage />
+            <Suspense fallback={<PivoSpinner text="загрузка..." />}>
+              <FavoritesPageComponent />
+            </Suspense>
           </CheckAuth>
         ),
       },
@@ -65,9 +72,11 @@ const Mrouter = createBrowserRouter([
       {
         path: "login",
         element: (
-          <Suspense fallback={<PivoSpinner text="загрузка компонента..." />}>
-            <LoginPageComponent />
-          </Suspense>
+          <CheckIsLogin>
+            <Suspense fallback={<PivoSpinner text="загрузка компонента..." />}>
+              <LoginPageComponent />
+            </Suspense>
+          </CheckIsLogin>
         ),
       },
     ],

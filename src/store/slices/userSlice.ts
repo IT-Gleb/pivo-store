@@ -3,7 +3,7 @@ import { type IUser } from "../../types";
 import localforage from "localforage";
 import { checkerAuth } from "../../libs";
 
-export const nameDb: string = "PivoStore";
+const nameDb: string = "PivoStore";
 
 localforage.config({
   driver: [localforage.INDEXEDDB, localforage.WEBSQL],
