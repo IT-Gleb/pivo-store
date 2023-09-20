@@ -8,6 +8,7 @@ import { updateUserData } from "../../store/slices/userSlice";
 import { type IUser } from "../../types";
 import { v5 as uuidV5 } from "uuid";
 import { checkerAuth } from "../../libs";
+import { setFavUserId } from "../../store/slices/favorites";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function LoginPage() {
     AuthUser.isAuth = checkerAuth(AuthUser);
     //console.log(AuthUser.id);
     dispatch(updateUserData(AuthUser));
+    dispatch(setFavUserId(AuthUser.id));
 
     setNameValue("");
     setEMail("");

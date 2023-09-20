@@ -5,6 +5,7 @@ import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { checkerAuth } from "../../libs";
 import useVideoHeight from "../../hooks/videoHeightHook";
 import { clearUserData } from "../../store/slices/userSlice";
+import { clearFavorites } from "../../store/slices/favorites";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -27,6 +28,7 @@ function MainTopMenu() {
     event.preventDefault();
     if (isAuth) {
       dispatch(clearUserData());
+      dispatch(clearFavorites());
     }
     window.scrollTo(0, videoHeight);
   };

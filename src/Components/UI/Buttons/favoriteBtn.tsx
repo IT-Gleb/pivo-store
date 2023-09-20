@@ -31,4 +31,4 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
   );
 }
 
-export default FavoriteBtn;
+export default React.memo(FavoriteBtn);

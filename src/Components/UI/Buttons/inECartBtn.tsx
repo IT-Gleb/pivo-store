@@ -25,4 +25,4 @@ function InECartBtn() {
   );
 }
 
-export default InECartBtn;
+export default React.memo(InECartBtn);

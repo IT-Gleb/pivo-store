@@ -53,28 +53,28 @@ function MainPage() {
 
   const [filterUp, setFilterUp] = useState<boolean>(FilterData.isFiltered);
 
-  const filteredStoreData = usePivoSelector((state) => state.pivoItems.Items);
-  const [FilteredData, setFilteredData] =
-    useState<IPivoItem[]>(filteredStoreData);
   const { screenWidth } = useScreenWidth();
+  const favoritesCount = usePivoSelector(
+    (state) => state.favorites.items.length
+  );
 
   function toggleFilter() {
     setShowFilter(!showFiler);
   }
 
-  function handleBtnClick2(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleBtnClick2(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
     navigate("/favorites");
   }
 
-  const handleECartClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleECartClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
     navigate("/eCart");
   };
 
-  function handleMoveUp(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleMoveUp(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
     // if (TopRef.current) {
@@ -83,7 +83,7 @@ function MainPage() {
     // console.log(videoHeight);
   }
 
-  function handleFilter(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleFilter(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
 
     setFilterUp(!filterUp);
@@ -145,7 +145,7 @@ function MainPage() {
       localFilteredData = orderBy(localFilteredData, [tmpId], [tmpDA]);
       //Отфильтровать по строке поиска
       if (FilterData.serchText) {
-        if (FilterData.serchText.trim().length > 2) {
+        if (FilterData.serchText.trim().length > 1) {
           localFilteredData = localFilteredData.filter((item: IPivoItem) => {
             if (
               item.name
@@ -162,9 +162,7 @@ function MainPage() {
       }
       //Добавить в хранилище
       dispatch(addPortionItems(localFilteredData));
-      //Установить отфильтрованные данные
-      setFilteredData(localFilteredData);
-      //Установить текущую страницу в 1;
+
       dispatch(updateCurrentPage(1));
     }
   }
@@ -267,7 +265,7 @@ function MainPage() {
       }
     }
     if (serchData && serchData.length < 1) dispatch(zeroData());
-  }, [isSerchSuccess, serchData]);
+  }, [isSerchSuccess, serchData, dispatch]);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
@@ -332,32 +330,27 @@ function MainPage() {
     <>
       {/* Меню с иконками с права */}
       <RightMenu>
-        {/* <RightButton
-          title="Категории"
-          buttonClass="button p-4 is-info"
-          iconClass="icon is-size-4"
-          iClass="fas fa-wine-bottle"
-          hasName={false}
-        /> */}
         <RightButton
           title={"Избранное"}
-          buttonClass={"button p-4 is-link"}
+          buttonClass={"button p-4 is-link is-relative"}
           iconClass="icon is-size-4"
           iClass="fas fa-heart"
           hasName={false}
+          isCount={favoritesCount}
           onClick={handleBtnClick2}
         />
         <RightButton
           title="Корзина"
-          buttonClass="button p-4 is-warning"
+          buttonClass="button p-4 is-warning is-relative"
           iconClass="icon is-size-4"
           iClass="fas fa-shopping-cart"
           hasName={false}
+          isCount={-1}
           onClick={handleECartClick}
         />
         <RightButton
           title="Поиск"
-          buttonClass="button p-4 is-info"
+          buttonClass="button px-4 is-info"
           iconClass="icon is-size-4"
           iClass="fas fa-glasses"
           hasName={false}
@@ -365,7 +358,7 @@ function MainPage() {
         />
         <RightButton
           title="Фильтр"
-          buttonClass="button p-4 is-primary"
+          buttonClass="button px-4 is-primary"
           iconClass="icon is-size-4"
           iClass="fas fa-filter"
           hasName={false}
@@ -373,7 +366,7 @@ function MainPage() {
         />
         <RightButton
           title="Переход на верх"
-          buttonClass="button p-4 is-link"
+          buttonClass="button px-4 is-link"
           iconClass="icon is-size-4"
           iClass="fas fa-arrow-up"
           hasName={false}

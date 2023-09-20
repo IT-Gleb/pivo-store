@@ -2,13 +2,13 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useGetItemQuery } from "../../store/punkApi/pivo.punk.api";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { IPivoItem } from "../../types";
-import { checkMounth, checkYear } from "../../libs";
+import { checkInFavorites, checkMounth, checkYear } from "../../libs";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
 import UserIsLogin from "../userIsLogin";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 import InECartBtn from "../UI/Buttons/inECartBtn";
-import { usePivoDispatch } from "../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { addNewFavItem } from "../../store/slices/favorites";
 
 function ItemPage() {
@@ -23,6 +23,8 @@ function ItemPage() {
   const [Stars, setStars] = useState<number[]>([]);
   const ScrollRef = useRef<HTMLDivElement>(null);
   const dispatch = usePivoDispatch();
+  const [isFavBtnVisible, setIsFavVisible] = useState<boolean>(false);
+  const favItems = usePivoSelector((state) => state.favorites.items);
 
   const GoodGrapth = lazy(() => import("../UI/Chart/randomChart"));
 
@@ -59,6 +61,18 @@ function ItemPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (Item && favItems) {
+      if (favItems.length > 0) {
+        if (checkInFavorites(Item!.id, favItems)) {
+          setIsFavVisible(true);
+        } else {
+          setIsFavVisible(false);
+        }
+      }
+    }
+  }, [favItems, Item]);
+
   if (isError)
     return (
       <article className="message is-danger m-5">
@@ -70,6 +84,9 @@ function ItemPage() {
         </div>
         <div className="block buttons are-small is-centered">
           <button className="button is-danger " onClick={() => navigate(-1)}>
+            <span className="icon mr-1">
+              <i className="fas fa-arrow-left"></i>
+            </span>
             Вернуться
           </button>
         </div>
@@ -272,7 +289,7 @@ function ItemPage() {
             </div>
 
             <div className="block buttons are-small is-rounded is-centered">
-              <FavoriteBtn addNew={addFavItem} />
+              {!isFavBtnVisible && <FavoriteBtn addNew={addFavItem} />}
               <InECartBtn />
             </div>
           </section>

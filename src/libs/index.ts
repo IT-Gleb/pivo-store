@@ -3,8 +3,10 @@ import {
   MaxPriceValue,
   type IUser,
   stringRegXpEmail,
+  IPivoItem,
 } from "../types";
 import { validate as UUID5validate } from "uuid";
+import { nameDb, PivoDb } from "./myLocalForage";
 
 const TOPMENUVIDEO: string = "TopMenuVideo";
 
@@ -112,6 +114,19 @@ function getPrice(paramStar: number = 2): number {
   return res;
 }
 
+const checkInFavorites = (pId: number, paramArray: IPivoItem[]) => {
+  let res = false;
+  if (!paramArray || paramArray.length < 1) return res;
+  if (
+    paramArray.find((item: IPivoItem) => {
+      return item.id === pId;
+    })
+  ) {
+    res = true;
+  }
+  return res;
+};
+
 export {
   randomFrom,
   TOPMENUVIDEO,
@@ -119,4 +134,7 @@ export {
   checkYear,
   getPrice,
   checkerAuth,
+  nameDb,
+  PivoDb,
+  checkInFavorites,
 };

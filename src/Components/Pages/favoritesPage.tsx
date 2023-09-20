@@ -28,7 +28,7 @@ function FavoritesPage() {
                 to={`/items/${item.id}`}
                 state={{ price: item._price, stars: item._star }}
               >
-                <SmallItemCard props={item} paramSel={1} />;{" "}
+                <SmallItemCard props={item} paramSel={2} />;{" "}
               </Link>
             );
           })}

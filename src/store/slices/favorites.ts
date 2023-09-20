@@ -31,9 +31,20 @@ export const FavoriteSlice = createSlice({
         state.userId = "";
       }
     },
+    deleteFromFav(state, action: PayloadAction<number>) {
+      state.items = state.items.filter((item: IPivoItem) => {
+        return item.id !== action.payload;
+      });
+      state.items = orderBy(state.items, ["_price"], ["desc"]);
+    },
+    clearFavorites(state) {
+      state.items = [];
+      state.userId = "";
+    },
   },
 });
 
-export const { addNewFavItem, setFavUserId } = FavoriteSlice.actions;
+export const { addNewFavItem, setFavUserId, deleteFromFav, clearFavorites } =
+  FavoriteSlice.actions;
 
 export default FavoriteSlice.reducer;

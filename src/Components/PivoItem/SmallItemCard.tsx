@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { IPivoItem } from "../../types";
 import { motion } from "framer-motion";
-import { checkMounth, checkYear } from "../../libs";
+import { checkMounth, checkYear, checkInFavorites } from "../../libs";
 import useScreenWidth from "../../hooks/screenWidth";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import InECartBtn from "../UI/Buttons/inECartBtn";
 import FavoriteBtn from "../UI/Buttons/favoriteBtn";
-import { usePivoDispatch } from "../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { addNewFavItem } from "../../store/slices/favorites";
+import DeleteFromFavoritesBtn from "../UI/Buttons/deleteFromFavorites";
 
 function SmallItemCard({
   props,
@@ -19,6 +20,8 @@ function SmallItemCard({
   const [stars, setStars] = useState<Array<number>>([]);
   const { screenWidth } = useScreenWidth();
   const dispatch = usePivoDispatch();
+  const [inFavorites, setInFavorites] = useState<boolean>(false);
+  const favItems = usePivoSelector((state) => state.favorites.items);
 
   useEffect(() => {
     let tmp: Array<number> = [];
@@ -38,6 +41,15 @@ function SmallItemCard({
       dispatch(addNewFavItem(props));
     }
   };
+
+  //Проверить на наличие в избранном
+  useEffect(() => {
+    if (checkInFavorites(props.id, favItems)) {
+      setInFavorites(true);
+    } else {
+      setInFavorites(false);
+    }
+  }, [props.id, favItems]);
 
   return (
     <motion.article
@@ -59,6 +71,10 @@ function SmallItemCard({
             ? "0.7rem solid rgb(55, 175, 29)"
             : paramSel === 1
             ? "0.7rem solid rgb(85, 65, 189)"
+            : paramSel === 2
+            ? "0.7rem solid rgb(241, 190, 105)"
+            : paramSel === 3
+            ? "0.7rem solid rgb(160, 130, 135)"
             : "0.7rem solid rgb(125, 200, 89)",
       }}
     >
@@ -120,12 +136,20 @@ function SmallItemCard({
         </p>
       </div>
       <div className="card-footer buttons are-small">
-        <div className="card-footer-item">
-          <FavoriteBtn addNew={addToFavorites} />
-        </div>
+        {!inFavorites && (
+          <div className="card-footer-item">
+            <FavoriteBtn addNew={addToFavorites} />
+          </div>
+        )}
         <div className="card-footer-item">
           <InECartBtn />
         </div>
+        {inFavorites && (
+          <div className="card-footer-item">
+            {" "}
+            <DeleteFromFavoritesBtn paramId={props.id} />
+          </div>
+        )}
       </div>
     </motion.article>
   );

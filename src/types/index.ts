@@ -150,7 +150,8 @@ export interface IRightButtonProps {
   iconClass: string;
   iClass: string;
   hasName: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  isCount?: number;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface IFilterWindowProps {
