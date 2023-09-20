@@ -3,6 +3,7 @@ import { usePivoDispatch, usePivoSelector } from "../hooks/storeHooks";
 import { checkerAuth } from "../libs";
 import { useEffect } from "react";
 import { getStorageData } from "../store/slices/userSlice";
+import { getFavoriteData, setFavUserId } from "../store/slices/favorites";
 
 function UserIsLogin() {
   const dispatch = usePivoDispatch();
@@ -12,9 +13,17 @@ function UserIsLogin() {
   const userName = usePivoSelector((state) => state.currentUser.Name);
 
   useEffect(() => {
-    // dispatch(getUserDataFromLocalForage());
-    if (!checkerAuth(isLogin)) dispatch(getStorageData());
-  }, [isLogin, dispatch]);
+    //Получить данные из базы данных
+    if (!isValidate) {
+      dispatch(getStorageData());
+      dispatch(setFavUserId(isLogin.id));
+      dispatch(getFavoriteData());
+    }
+    if (isValidate) {
+      dispatch(setFavUserId(isLogin.id));
+      dispatch(getFavoriteData());
+    }
+  }, [isValidate, dispatch, isLogin]);
 
   return (
     <section className="section m-0 p-0">

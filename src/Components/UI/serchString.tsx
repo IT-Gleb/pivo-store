@@ -64,6 +64,9 @@ function SerchString(paramDo: ISerchByName) {
           <i className="fas fa-minus-circle"></i>
         </span>
       </div>
+      <div className="message-body has-background-light has-text-dark py-1">
+        Ввод только латинскими буквами.
+      </div>
     </label>
   );
 }

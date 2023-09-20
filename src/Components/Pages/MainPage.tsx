@@ -341,7 +341,7 @@ function MainPage() {
         />
         <RightButton
           title="Корзина"
-          buttonClass="button p-4 is-warning is-relative"
+          buttonClass="button p-4 is-info is-relative"
           iconClass="icon is-size-4"
           iClass="fas fa-shopping-cart"
           hasName={false}
@@ -350,7 +350,7 @@ function MainPage() {
         />
         <RightButton
           title="Поиск"
-          buttonClass="button px-4 is-info"
+          buttonClass="button px-4 is-warning"
           iconClass="icon is-size-4"
           iClass="fas fa-glasses"
           hasName={false}

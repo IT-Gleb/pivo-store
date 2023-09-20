@@ -26,8 +26,8 @@ const RightButton: React.FC<IRightButtonProps> = ({
           width: "100%",
           height: "100%",
           position: "absolute",
-          left: "90%",
-          top: "50%",
+          left: "75%",
+          top: "60%",
           transform: "translate(-75%, -50%)",
           WebkitTextStroke: "1px #000",
           overflow: "hidden",
@@ -36,10 +36,7 @@ const RightButton: React.FC<IRightButtonProps> = ({
         onClick={onClick}
       >
         {isCount > 0 && (
-          <span
-            className="is-size-4 has-text-weight-semibold is-clickable has-text-primary"
-            onClick={onClick}
-          >
+          <span className="is-size-4 has-text-weight-bold is-clickable has-text-primary">
             {isCount}
           </span>
         )}
