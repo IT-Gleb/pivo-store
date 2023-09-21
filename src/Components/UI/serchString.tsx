@@ -65,7 +65,7 @@ function SerchString(paramDo: ISerchByName) {
         </span>
       </div>
       <div className="message-body has-background-light has-text-dark py-1">
-        Ввод только латинскими буквами.
+        Поиск. Только латинские символы.
       </div>
     </label>
   );

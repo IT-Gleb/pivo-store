@@ -16,8 +16,12 @@ export const getFavoriteData = createAsyncThunk<
 >(
   "favoriteSlice/getFavoriteData",
   //  async function (pUserId, { rejectWithValue, getState }) {
-  async function (_, { getState }) {
-    const result = await PivoDb.getItem(getState().favorites.userId);
+  async function (_, { rejectWithValue, getState }) {
+    const result = await PivoDb.getItem(getState().favorites.userId).catch(
+      (e) => {
+        return rejectWithValue("Избранное. Ошибка при получении данных...");
+      }
+    );
     return result as IPivoItem[];
   }
 );
@@ -44,7 +48,7 @@ export const FavoriteSlice = createSlice({
       if (action.payload) {
         if (!state.items.find((item) => item.id === action.payload.id)) {
           state.items.push(action.payload);
-          state.items = orderBy(state.items, ["_price"], ["desc"]);
+          state.items = orderBy(state.items, ["_price", "abv"], ["desc"]);
           //----------Добавить в базу--------------
           try {
             state.error = "";
@@ -73,7 +77,7 @@ export const FavoriteSlice = createSlice({
       state.items = state.items.filter((item: IPivoItem) => {
         return item.id !== action.payload;
       });
-      state.items = orderBy(state.items, ["_price"], ["desc"]);
+      state.items = orderBy(state.items, ["_price", "abv"], ["desc"]);
       //-------------Изменить базу-------
       try {
         state.error = "";
@@ -93,7 +97,7 @@ export const FavoriteSlice = createSlice({
     builder
       .addCase(getFavoriteData.fulfilled, (state, action) => {
         if (action.payload) {
-          state.items = action.payload;
+          state.items = orderBy(action.payload, ["_price", "abv"], ["desc"]);
         }
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {

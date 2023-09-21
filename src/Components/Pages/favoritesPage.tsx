@@ -35,8 +35,12 @@ function FavoritesPage() {
         tmpPages.push(i + 1);
       }
       setPages(tmpPages);
+      if (tmpPageCount === 1) {
+        setActivePage(tmpPageCount);
+        dispatch(setCurrentPage(tmpPageCount));
+      }
     }
-  }, [favItems]);
+  }, [favItems, dispatch]);
 
   useEffect(() => {
     if (favItems && favItems.length > 0) {
@@ -59,6 +63,7 @@ function FavoritesPage() {
       </div>
       <div className="small-item-grid">
         {favItems &&
+          pageCount > 0 &&
           pageItems.length > 0 &&
           pageItems.map((item: IPivoItem) => {
             return (

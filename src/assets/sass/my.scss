@@ -148,7 +148,7 @@ main {
 
 .small-image-container {
   $c-width: 78;
-  $c-height: $c-width * 1.7;
+  $c-height: $c-width * 2;
   width: $c-width * 1px;
   height: $c-height * 1px;
   overflow: hidden;
@@ -179,7 +179,7 @@ main {
   max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
+  gap: 1rem;
   @media screen and (max-width: 1220px) {
     grid-template-columns: 1fr 1fr;
   }
