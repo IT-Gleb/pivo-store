@@ -7,7 +7,7 @@ function FooterMain() {
             <li>
               <div className="is-size-7">
                 Благодарность{" "}
-                <a href="https://punkapi.com" target="_blank">
+                <a href="https://punkapi.com" target="_blank" rel="noreferrer">
                   https://punkapi.com/
                 </a>{" "}
                 за предоставленное API.

@@ -205,6 +205,9 @@ main {
   justify-content: flex-start;
   gap: 1rem;
   text-transform: uppercase;
+  font-family: "myRoboto";
+  font-weight: bold;
+
   &::before {
     content: "";
     width: 5rem;

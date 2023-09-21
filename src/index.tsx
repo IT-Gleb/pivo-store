@@ -5,7 +5,6 @@ import "./assets/sass/my.scss";
 import "./assets/font-awesome/all.min.css";
 
 import MainLayout from "./Layouts/MainLayout";
-import SecondPage from "./Components/Pages/SecondPage";
 import ErrorPage from "./Components/Pages/ErrorPage";
 
 import pivoStore from "./store/pivoStore";
@@ -27,6 +26,8 @@ const LoginPageComponent = React.lazy(
 const FavoritesPageComponent = React.lazy(
   () => import("./Components/Pages/favoritesPage")
 );
+
+const ECartComponent = React.lazy(() => import("./Components/Pages/eCartPage"));
 //----------------------------------------------------------------------------
 
 const Mrouter = createBrowserRouter([
@@ -57,7 +58,9 @@ const Mrouter = createBrowserRouter([
         path: "eCart",
         element: (
           <CheckAuth>
-            <SecondPage />
+            <Suspense fallback={<PivoSpinner text="загрузка eCart..." />}>
+              <ECartComponent />
+            </Suspense>
           </CheckAuth>
         ),
       },
