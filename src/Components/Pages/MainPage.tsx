@@ -57,6 +57,7 @@ function MainPage() {
   const favoritesCount = usePivoSelector(
     (state) => state.favorites.items.length
   );
+  const eBasketCount = usePivoSelector((state) => state.eBasket.Items.length);
 
   function toggleFilter() {
     setShowFilter(!showFiler);
@@ -332,8 +333,8 @@ function MainPage() {
       <RightMenu>
         <RightButton
           title={"Избранное"}
-          buttonClass={"button p-4 is-link is-relative"}
-          iconClass="icon is-size-4"
+          buttonClass={"button p-4 is-primary is-relative"}
+          iconClass="icon is-size-4 has-text-danger"
           iClass="fas fa-heart"
           hasName={false}
           isCount={favoritesCount}
@@ -342,10 +343,10 @@ function MainPage() {
         <RightButton
           title="Корзина"
           buttonClass="button p-4 is-info is-relative"
-          iconClass="icon is-size-4"
+          iconClass="icon is-size-4 has-text-dark"
           iClass="fas fa-shopping-cart"
           hasName={false}
-          isCount={-1}
+          isCount={eBasketCount}
           onClick={handleECartClick}
         />
         <RightButton

@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IPivoItem } from "../../types";
 import { motion } from "framer-motion";
-import { checkMounth, checkYear, checkInFavorites } from "../../libs";
+import {
+  checkMounth,
+  checkYear,
+  checkInFavorites,
+  randomFrom,
+} from "../../libs";
 import useScreenWidth from "../../hooks/screenWidth";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import InECartBtn from "../UI/Buttons/inECartBtn";
@@ -9,6 +14,7 @@ import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { addNewFavItem } from "../../store/slices/favorites";
 import DeleteFromFavoritesBtn from "../UI/Buttons/deleteFromFavorites";
+import { TBasketItem } from "../../store/slices/eCartSlice";
 
 function SmallItemCard({
   props,
@@ -22,6 +28,7 @@ function SmallItemCard({
   const dispatch = usePivoDispatch();
   const [inFavorites, setInFavorites] = useState<boolean>(false);
   const favItems = usePivoSelector((state) => state.favorites.items);
+  const [cartItem, setCartItem] = useState<TBasketItem>();
 
   useEffect(() => {
     let tmp: Array<number> = [];
@@ -34,6 +41,20 @@ function SmallItemCard({
       setStars(tmp);
     }
   }, [props._star]);
+
+  //Данные для корзины товаров
+  useEffect(() => {
+    let tmpCartItem: TBasketItem = {
+      id: props.id,
+      title: props.name,
+      imgPath: props.image_url,
+      count: 1,
+      timeAdd: Date.now(),
+      price: props._price,
+      stars: props._star,
+    };
+    setCartItem(tmpCartItem);
+  }, [props]);
 
   //Добавить в избранное
   const addToFavorites = () => {
@@ -62,6 +83,9 @@ function SmallItemCard({
         borderTop: "0.7rem solid red",
         transition: { duration: 0.15 },
       }}
+      initial={false}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: randomFrom(-250, -125) }}
       className="card mt-2 is-clipped"
       style={{
         minHeight: screenWidth > 560 ? 240 : 245,
@@ -141,18 +165,18 @@ function SmallItemCard({
             <FavoriteBtn addNew={addToFavorites} />
           </div>
         )}
-        <div className="card-footer-item">
-          <InECartBtn />
-        </div>
         {inFavorites && (
           <div className="card-footer-item">
             {" "}
             <DeleteFromFavoritesBtn paramId={props.id} />
           </div>
         )}
+        <div className="card-footer-item">
+          <InECartBtn itemProps={cartItem} />
+        </div>
       </div>
     </motion.article>
   );
 }
 
-export default SmallItemCard;
+export default React.memo(SmallItemCard);

@@ -1,27 +1,40 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { usePivoSelector } from "../../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { checkerAuth } from "../../../libs";
+import { motion } from "framer-motion";
+import {
+  addNewBasketItem,
+  type TBasketItem,
+} from "../../../store/slices/eCartSlice";
 
-function InECartBtn() {
+function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
   const isAuth = usePivoSelector((state) => state.currentUser);
   const isUserAuth = checkerAuth(isAuth);
   const navigate = useNavigate();
+  const dispatch = usePivoDispatch();
 
   const handleCartClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!isUserAuth) {
-      navigate("/login", { replace: true });
+      return navigate("/login", { replace: true });
     }
+    if (itemProps) dispatch(addNewBasketItem(itemProps));
   };
 
   return (
-    <button className="button is-link is-outlined" onClick={handleCartClick}>
+    <motion.button
+      initial={{ x: 600 }}
+      animate={{ x: 0 }}
+      whileTap={{ scale: 0.55 }}
+      className="button is-link is-outlined"
+      onClick={handleCartClick}
+    >
       <span className="icon mr-1">
         <i className="fas fa-shopping-cart"></i>
       </span>
       В корзину
-    </button>
+    </motion.button>
   );
 }
 

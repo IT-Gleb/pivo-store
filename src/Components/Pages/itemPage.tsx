@@ -10,6 +10,7 @@ import FavoriteBtn from "../UI/Buttons/favoriteBtn";
 import InECartBtn from "../UI/Buttons/inECartBtn";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { addNewFavItem } from "../../store/slices/favorites";
+import { type TBasketItem } from "../../store/slices/eCartSlice";
 
 function ItemPage() {
   const { itemId } = useParams();
@@ -25,6 +26,7 @@ function ItemPage() {
   const dispatch = usePivoDispatch();
   const [isFavBtnVisible, setIsFavVisible] = useState<boolean>(false);
   const favItems = usePivoSelector((state) => state.favorites.items);
+  const [eCartItem, setCartItem] = useState<TBasketItem>();
 
   const GoodGrapth = lazy(() => import("../UI/Chart/randomChart"));
 
@@ -70,6 +72,19 @@ function ItemPage() {
           setIsFavVisible(false);
         }
       }
+    }
+    //Установить данные для корзины
+    if (Item) {
+      let tmpBasket: TBasketItem = {
+        id: Item.id,
+        title: Item.name,
+        imgPath: Item.image_url,
+        count: 1,
+        price: Item._price,
+        stars: Item._star,
+        timeAdd: Date.now(),
+      };
+      setCartItem(tmpBasket);
     }
   }, [favItems, Item]);
 
@@ -290,7 +305,7 @@ function ItemPage() {
 
             <div className="block buttons are-small is-rounded is-centered">
               {!isFavBtnVisible && <FavoriteBtn addNew={addFavItem} />}
-              <InECartBtn />
+              <InECartBtn itemProps={eCartItem} />
             </div>
           </section>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { usePivoDispatch } from "../../../hooks/storeHooks";
 import { deleteFromFav } from "../../../store/slices/favorites";
+import { motion } from "framer-motion";
 
 function DeleteFromFavoritesBtn({ paramId }: { paramId: number }) {
   const dispatch = usePivoDispatch();
@@ -10,7 +11,10 @@ function DeleteFromFavoritesBtn({ paramId }: { paramId: number }) {
   };
 
   return (
-    <button
+    <motion.button
+      initial={{ x: -800 }}
+      animate={{ x: 0 }}
+      whileTap={{ scale: 0.6 }}
       className="button is-small is-danger is-outlined"
       onClick={(e) => {
         e.preventDefault();
@@ -21,7 +25,7 @@ function DeleteFromFavoritesBtn({ paramId }: { paramId: number }) {
         <i className="fas fa-heart"></i>
       </span>
       Удалить из избранного
-    </button>
+    </motion.button>
   );
 }
 

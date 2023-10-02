@@ -9,6 +9,7 @@ import { type IUser } from "../../types";
 import { v5 as uuidV5 } from "uuid";
 import { checkerAuth } from "../../libs";
 import { setFavUserId } from "../../store/slices/favorites";
+import { updateBasketUserId } from "../../store/slices/eCartSlice";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ function LoginPage() {
     //console.log(AuthUser.id);
     dispatch(updateUserData(AuthUser));
     dispatch(setFavUserId(AuthUser.id));
+    dispatch(updateBasketUserId(crypto.randomUUID()));
 
     setNameValue("");
     setEMail("");

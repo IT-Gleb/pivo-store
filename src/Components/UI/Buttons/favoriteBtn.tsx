@@ -2,6 +2,7 @@ import React from "react";
 import { usePivoSelector } from "../../../hooks/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { checkerAuth } from "../../../libs";
+import { motion } from "framer-motion";
 
 function FavoriteBtn({ addNew }: { addNew: () => void }) {
   const isAuth = usePivoSelector((state) => state.currentUser);
@@ -19,7 +20,10 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
   };
 
   return (
-    <button
+    <motion.button
+      initial={{ x: -400 }}
+      animate={{ x: 0 }}
+      whileTap={{ scale: 0.6 }}
       className="button has-text-dark is-warning is-outlined"
       onClick={handleFavClick}
     >
@@ -27,7 +31,7 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
         <i className="fas fa-heart"></i>
       </span>
       В избранное
-    </button>
+    </motion.button>
   );
 }
 

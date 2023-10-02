@@ -33,10 +33,11 @@ const RightButton: React.FC<IRightButtonProps> = ({
           overflow: "hidden",
           cursor: "pointer",
         }}
+        title={title}
         onClick={onClick}
       >
         {isCount > 0 && (
-          <span className="is-size-4 has-text-weight-bold is-clickable has-text-primary">
+          <span className="is-size-4 has-text-weight-bold is-clickable has-text-light">
             {isCount}
           </span>
         )}

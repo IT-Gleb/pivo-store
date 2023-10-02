@@ -5,6 +5,7 @@ import { IPivoItem, MaxPerPage } from "../../types";
 import SmallItemCard from "../PivoItem/SmallItemCard";
 import UserIsLogin from "../userIsLogin";
 import { setCurrentPage } from "../../store/slices/favorites";
+import { AnimatePresence } from "framer-motion";
 
 function FavoritesPage() {
   const favItems = usePivoSelector((state) => state.favorites.items);
@@ -62,20 +63,22 @@ function FavoritesPage() {
         <span className="title is-size-6">{favItems.length} позиций</span>
       </div>
       <div className="small-item-grid">
-        {favItems &&
-          pageCount > 0 &&
-          pageItems.length > 0 &&
-          pageItems.map((item: IPivoItem) => {
-            return (
-              <Link
-                key={item.id}
-                to={`/items/${item.id}`}
-                state={{ price: item._price, stars: item._star }}
-              >
-                <SmallItemCard props={item} paramSel={2} />
-              </Link>
-            );
-          })}
+        <AnimatePresence>
+          {favItems &&
+            pageCount > 0 &&
+            pageItems.length > 0 &&
+            pageItems.map((item: IPivoItem) => {
+              return (
+                <Link
+                  key={item.id}
+                  to={`/items/${item.id}`}
+                  state={{ price: item._price, stars: item._star }}
+                >
+                  <SmallItemCard props={item} paramSel={2} />
+                </Link>
+              );
+            })}
+        </AnimatePresence>
       </div>
       {pageCount > 0 && (
         <nav
