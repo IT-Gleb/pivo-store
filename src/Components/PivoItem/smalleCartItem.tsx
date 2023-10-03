@@ -103,15 +103,12 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
         </div>
         <div className="card-content p-0">
           <div className="level">
-            <div className="level-left">
+            <div className="level-left" style={{ margin: "0 auto" }}>
               <Link
                 to={`/items/${prop.id}`}
                 state={{ price: prop.price, stars: prop.stars }}
               >
-                <div
-                  className="level-item"
-                  style={{ maxWidth: "5rem", maxHeight: "12rem" }}
-                >
+                <div className="level-item">
                   <picture className="eCardPicture">
                     <source srcSet={prop.imgPath} />
                     <img src={Pivovar} alt={prop.title} />
@@ -150,7 +147,10 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
                     </label>
                   </li>
                   <li className="control">
-                    <label className="label is-flex">
+                    <label
+                      className="label is-flex is-flex-direction-column"
+                      style={{ gap: 10 }}
+                    >
                       Изменить:
                       <input
                         type="range"

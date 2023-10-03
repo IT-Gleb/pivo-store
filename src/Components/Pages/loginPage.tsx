@@ -6,7 +6,6 @@ import useNameValidate from "../../hooks/nameValidate";
 import { usePivoDispatch } from "../../hooks/storeHooks";
 import { updateUserData } from "../../store/slices/userSlice";
 import { type IUser } from "../../types";
-import { v5 as uuidV5 } from "uuid";
 import { checkerAuth } from "../../libs";
 import { setFavUserId } from "../../store/slices/favorites";
 import { updateBasketUserId } from "../../store/slices/eCartSlice";
@@ -37,6 +36,7 @@ function LoginPage() {
     email: "",
     passWord: "",
     isAuth: false,
+    eCartId: "",
   };
 
   const dispatch = usePivoDispatch();
@@ -55,12 +55,13 @@ function LoginPage() {
     AuthUser.email = eMail;
     AuthUser.Name = nameValue;
     AuthUser.passWord = passValue;
-    AuthUser.id = uuidV5(AuthUser.passWord, uuidV5.URL);
+    AuthUser.id = crypto.randomUUID();
     AuthUser.isAuth = checkerAuth(AuthUser);
+    AuthUser.eCartId = crypto.randomUUID();
     //console.log(AuthUser.id);
     dispatch(updateUserData(AuthUser));
     dispatch(setFavUserId(AuthUser.id));
-    dispatch(updateBasketUserId(crypto.randomUUID()));
+    dispatch(updateBasketUserId(AuthUser.eCartId));
 
     setNameValue("");
     setEMail("");

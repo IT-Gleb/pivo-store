@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserIsLogin from "../userIsLogin";
 import { usePivoSelector } from "../../hooks/storeHooks";
@@ -8,25 +8,10 @@ const ECartPage: React.FC = () => {
   const navigate = useNavigate();
   const itemCount = usePivoSelector((state) => state.eBasket.Items.length);
   const CartItems = usePivoSelector((state) => state.eBasket.Items);
-  const [rangeValue, setRangeValue] = useState<number>(1);
-  const maxCount: number = 100;
-  const [price, setPrice] = useState<number>(125);
-  const [Coast, setCoast] = useState<number>(price * rangeValue);
 
   const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     navigate(-1);
-  };
-
-  const handleRangeChange = (event: any) => {
-    let tmpNum = Number(event.target.value);
-    // if (tmpNum > maxCount) tmpNum = maxCount;
-    // if (tmpNum < 1) tmpNum = 1;
-    tmpNum = Math.max(1, Math.min(maxCount, tmpNum));
-
-    setRangeValue(tmpNum);
-    let tmpCoast = price * tmpNum;
-    setCoast(tmpCoast);
   };
 
   return (

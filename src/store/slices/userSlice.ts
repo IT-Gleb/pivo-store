@@ -18,6 +18,7 @@ const initialState: IUser = {
   email: "",
   passWord: "",
   id: "",
+  eCartId: "",
 };
 
 export const userSlice = createSlice({
@@ -30,6 +31,7 @@ export const userSlice = createSlice({
       state.id = "";
       state.isAuth = false;
       state.Name = "";
+      state.eCartId = "";
       PivoDb.clear();
     },
     updateUserAuth(state, action: PayloadAction<boolean>) {
@@ -41,12 +43,14 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.passWord = action.payload.passWord;
       state.isAuth = action.payload.isAuth;
+      state.eCartId = action.payload.eCartId;
       PivoDb.setItem(nameDb, {
         Name: state.Name,
         id: state.id,
         email: state.email,
         passWord: state.passWord,
         isAuth: checkerAuth(state),
+        eCartId: state.eCartId,
       })
         .then((value) => {
           // console.log(value);
@@ -64,6 +68,7 @@ export const userSlice = createSlice({
         state.email = action.payload.email;
         state.isAuth = action.payload.isAuth;
         state.passWord = action.payload.passWord;
+        state.eCartId = action.payload.eCartId;
       }
 
       // console.log(state);

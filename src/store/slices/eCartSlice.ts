@@ -1,5 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  AnyAction,
+} from "@reduxjs/toolkit";
 import orderBy from "lodash/orderBy";
+import { PivoDb } from "../../libs";
 
 export type TBasketItem = {
   id: number;
@@ -13,13 +19,35 @@ export type TBasketItem = {
 
 export interface IBasket {
   userId: string;
+  error: string;
   Items: TBasketItem[];
 }
 
 const stateInit: IBasket = {
   userId: "",
+  error: "",
   Items: [],
 };
+
+export const getCartDataDb = createAsyncThunk<
+  TBasketItem[], //Что возвращаем из функции
+  void, //Что передаем как параметр
+  { rejectValue: string; state: { eBasket: IBasket } } //Конфигурация
+>(
+  "eBasketSlice/getCartDataDb",
+  async function (_, { rejectWithValue, getState }) {
+    const result = await PivoDb.getItem(getState().eBasket.userId).catch(
+      (e) => {
+        return rejectWithValue("Ошибка. eCart. Не могу получить данные...");
+      }
+    );
+    return result as TBasketItem[];
+  }
+);
+
+function isError(action: AnyAction) {
+  return action.type.endsWith("rejected");
+}
 
 export const eBasketSlice = createSlice({
   name: "eBasket",
@@ -27,6 +55,11 @@ export const eBasketSlice = createSlice({
   reducers: {
     updateBasketUserId(state, action: PayloadAction<string>) {
       state.userId = action.payload;
+    },
+    clearBasket(state) {
+      state.Items = [];
+      state.userId = "";
+      state.error = "";
     },
     addNewBasketItem(state, action: PayloadAction<TBasketItem>) {
       if (action.payload) {
@@ -37,6 +70,8 @@ export const eBasketSlice = createSlice({
         ) {
           state.Items.push(action.payload);
           state.Items = orderBy(state.Items, ["title"], ["asc"]);
+          if (state.userId.trim().length > 0)
+            PivoDb.setItem(state.userId, state.Items);
         }
       }
     },
@@ -46,12 +81,32 @@ export const eBasketSlice = createSlice({
           return item.id !== action.payload;
         });
         state.Items = orderBy(state.Items, ["title"], ["asc"]);
+        if (state.userId.trim().length > 0)
+          PivoDb.setItem(state.userId, state.Items);
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCartDataDb.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.error = "";
+          state.Items = action.payload;
+        }
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.Items = [];
+        state.error = action.payload;
+        console.log(state.error);
+      });
+  },
 });
 
-export const { deleteBasketItem, addNewBasketItem, updateBasketUserId } =
-  eBasketSlice.actions;
+export const {
+  deleteBasketItem,
+  addNewBasketItem,
+  updateBasketUserId,
+  clearBasket,
+} = eBasketSlice.actions;
 
 export default eBasketSlice.reducer;

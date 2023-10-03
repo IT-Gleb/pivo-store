@@ -4,6 +4,7 @@ import { checkerAuth } from "../libs";
 import { useEffect } from "react";
 import { getStorageData } from "../store/slices/userSlice";
 import { getFavoriteData, setFavUserId } from "../store/slices/favorites";
+import { getCartDataDb, updateBasketUserId } from "../store/slices/eCartSlice";
 
 function UserIsLogin() {
   const dispatch = usePivoDispatch();
@@ -17,11 +18,15 @@ function UserIsLogin() {
     if (!isValidate) {
       dispatch(getStorageData());
       dispatch(setFavUserId(isLogin.id));
+      dispatch(updateBasketUserId(isLogin.eCartId));
       dispatch(getFavoriteData());
+      dispatch(getCartDataDb());
     }
     if (isValidate) {
       dispatch(setFavUserId(isLogin.id));
+      dispatch(updateBasketUserId(isLogin.eCartId));
       dispatch(getFavoriteData());
+      dispatch(getCartDataDb());
     }
   }, [isValidate, dispatch, isLogin]);
 
