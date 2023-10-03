@@ -25,6 +25,14 @@ const ECartPage: React.FC = () => {
         Ваша корзина {itemCount}
       </div>
 
+      {itemCount < 1 && (
+        <article className="message">
+          <div className="message-body is-size-1 has-text-centered">
+            У Вас нет товаров в корзине.
+          </div>
+        </article>
+      )}
+
       <div className="small-item-grid">
         {CartItems &&
           itemCount > 0 &&

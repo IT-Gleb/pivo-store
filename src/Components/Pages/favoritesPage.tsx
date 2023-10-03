@@ -62,6 +62,13 @@ function FavoritesPage() {
         Вы выбрали{" "}
         <span className="title is-size-6">{favItems.length} позиций</span>
       </div>
+      {favItems.length < 1 && (
+        <article className="message">
+          <div className="message-body is-size-1 has-text-centered">
+            У Вас нет товаров в избранном.
+          </div>
+        </article>
+      )}
       <div className="small-item-grid">
         <AnimatePresence>
           {favItems &&

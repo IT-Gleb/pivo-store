@@ -3,6 +3,7 @@ import { usePivoSelector } from "../../../hooks/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { checkerAuth } from "../../../libs";
 import { motion } from "framer-motion";
+import PivoNotification from "../../../libs/Notification/notification";
 
 function FavoriteBtn({ addNew }: { addNew: () => void }) {
   const isAuth = usePivoSelector((state) => state.currentUser);
@@ -16,6 +17,10 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
       navigate("/login", { replace: true });
     } else {
       addNew();
+      PivoNotification("Вы добавили в Избранное...", [
+        "has-background-info",
+        "has-text-light",
+      ]);
     }
   };
 

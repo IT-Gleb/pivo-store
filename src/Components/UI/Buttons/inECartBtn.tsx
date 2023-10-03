@@ -7,6 +7,7 @@ import {
   addNewBasketItem,
   type TBasketItem,
 } from "../../../store/slices/eCartSlice";
+import PivoNotification from "../../../libs/Notification/notification";
 
 function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
   const isAuth = usePivoSelector((state) => state.currentUser);
@@ -19,7 +20,13 @@ function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
     if (!isUserAuth) {
       return navigate("/login", { replace: true });
     }
-    if (itemProps) dispatch(addNewBasketItem(itemProps));
+    if (itemProps) {
+      dispatch(addNewBasketItem(itemProps));
+      PivoNotification("Товар добавлен в корзину...", [
+        "has-background-warning",
+        "has-text-dark",
+      ]);
+    }
   };
 
   return (
