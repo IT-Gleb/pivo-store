@@ -17,7 +17,7 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
       navigate("/login", { replace: true });
     } else {
       addNew();
-      PivoNotification("Вы добавили в Избранное...", [
+      PivoNotification("Вы добавили продукт в Избранное...", [
         "has-background-info",
         "has-text-light",
       ]);

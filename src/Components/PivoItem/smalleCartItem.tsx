@@ -90,7 +90,12 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
         />
       </RightMenu>
 
-      <motion.div className="card is-clipped">
+      <motion.div
+        initial={false}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ opacity: 0.2, scale: 0.25 }}
+        className="card is-clipped"
+      >
         <div className="card-header has-background-black-ter has-text-light">
           <div className="card-header-title myTitle has-text-light p-0 px-2">
             {prop.title}
@@ -171,14 +176,11 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
                     </label>
                   </li>
                   <li>
-                    <label className="label">
-                      Итого:
-                      <span className="is-size-3 has-text-link ml-2">
-                        {totalPrice}
-                      </span>
-                      <span className="is-size-4">.00</span>
-                      <span className="is-size-5 ml-1">&#8381;</span>
-                    </label>
+                    <span className="title is-size-2 has-text-link ml-2">
+                      {totalPrice}
+                    </span>
+                    <span className="is-size-4">.00</span>
+                    <span className="is-size-5 ml-1">&#8381;</span>
                   </li>
                 </ul>
               </div>

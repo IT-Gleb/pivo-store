@@ -76,13 +76,20 @@ export const eBasketSlice = createSlice({
       }
     },
     deleteBasketItem(state, action: PayloadAction<number>) {
-      if (state.Items && state.Items.length > 0) {
-        state.Items.filter((item) => {
-          return item.id !== action.payload;
-        });
-        state.Items = orderBy(state.Items, ["title"], ["asc"]);
-        if (state.userId.trim().length > 0)
+      // console.log("Удаляю - ", action.payload);
+      state.Items = state.Items.filter((item: TBasketItem) => {
+        return item.id !== action.payload;
+      });
+      // console.log(state.Items.length);
+      state.Items = orderBy(state.Items, ["title"], ["asc"]);
+      if (state.userId.trim().length > 0) {
+        try {
+          state.error = "";
           PivoDb.setItem(state.userId, state.Items);
+        } catch (e) {
+          state.error = e as string;
+          console.log(e);
+        }
       }
     },
   },
