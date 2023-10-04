@@ -14,7 +14,9 @@ import CheckAuth from "./HOC/checkAuth";
 import CheckIsLogin from "./HOC/checkIsLogin";
 
 //----------------------------------------------------------------------------
-const ItemPage = React.lazy(() => import("./Components/Pages/itemPage"));
+const ItemPageComponent = React.lazy(
+  () => import("./Components/Pages/itemPage")
+);
 const MainPageComponent = React.lazy(
   () => import("./Components/Pages/MainPage")
 );
@@ -28,6 +30,10 @@ const FavoritesPageComponent = React.lazy(
 );
 
 const ECartComponent = React.lazy(() => import("./Components/Pages/eCartPage"));
+
+const OrdersPageComponent = React.lazy(
+  () => import("./Components/Pages/ordersPage")
+);
 //----------------------------------------------------------------------------
 
 const Mrouter = createBrowserRouter([
@@ -68,7 +74,15 @@ const Mrouter = createBrowserRouter([
         path: "items/:itemId",
         element: (
           <Suspense fallback={<PivoSpinner text="загрузка..." />}>
-            <ItemPage />
+            <ItemPageComponent />
+          </Suspense>
+        ),
+      },
+      {
+        path: "orders",
+        element: (
+          <Suspense fallback={<PivoSpinner text="загрузка..." />}>
+            <OrdersPageComponent />
           </Suspense>
         ),
       },

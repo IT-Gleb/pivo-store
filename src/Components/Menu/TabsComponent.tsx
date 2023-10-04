@@ -36,11 +36,19 @@ const tabMenu: Tabs = [
   },
   {
     id: 3,
+    Name: "Заказы",
+    icon: "fa-list",
+    isActive: false,
+    Ref: "/orders",
+  },
+  {
+    id: 4,
     Name: "Авторизация",
     icon: "fa-user",
     isActive: false,
     Ref: "/login",
   },
+
   // { id: 3, Name: "Документы", isActive: false, Ref: "/" },
 ];
 

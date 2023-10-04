@@ -276,6 +276,11 @@ function MainPage() {
     setSerchModal(!serchModal);
   };
 
+  const handleOrderClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    navigate("/orders");
+  };
+
   //Загрузка и ошибки
   if (areError || isSerchError)
     return (
@@ -348,6 +353,15 @@ function MainPage() {
           hasName={false}
           isCount={eBasketCount}
           onClick={handleECartClick}
+        />
+        <RightButton
+          title="Заказы"
+          buttonClass="button p-4 is-primary is-relative"
+          iconClass="icon is-size-4 has-text-dark"
+          iClass="fas fa-list"
+          hasName={false}
+          isCount={-1}
+          onClick={handleOrderClick}
         />
         <RightButton
           title="Поиск"

@@ -1,13 +1,13 @@
 const noteName = "notification";
 
 function PivoNotification(paramMessage: string, paramClass: string[]) {
-  // let oldest = document.querySelectorAll(noteName);
+  let oldest = document.querySelectorAll("." + noteName);
   // console.log(oldest);
-  // if (oldest && oldest.length > 0) {
-  //   oldest.forEach((item) => {
-  //     item.remove();
-  //   });
-  // }
+  if (oldest && oldest.length > 0) {
+    oldest.forEach((item) => {
+      item.remove();
+    });
+  }
 
   let notification = document.createElement("div");
   notification.className = noteName;
@@ -25,7 +25,7 @@ function PivoNotification(paramMessage: string, paramClass: string[]) {
   document.body.appendChild(notification);
 
   let timerId = setTimeout(() => {
-    notification.remove();
+    if (document.body.contains(notification)) notification.remove();
     //console.log("removed notification...");
     clearTimeout(timerId);
   }, 4000);
