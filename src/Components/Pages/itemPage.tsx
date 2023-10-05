@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useGetItemQuery } from "../../store/punkApi/pivo.punk.api";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { IPivoItem } from "../../types";
@@ -11,11 +11,11 @@ import InECartBtn from "../UI/Buttons/inECartBtn";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { addNewFavItem } from "../../store/slices/favorites";
 import { type TBasketItem } from "../../store/slices/eCartSlice";
+import BackButton from "../UI/Buttons/backButton";
 
 function ItemPage() {
   const { itemId } = useParams();
   const stateId = useLocation();
-  const navigate = useNavigate();
   const { isError, isSuccess, isLoading, data } = useGetItemQuery(
     String(itemId),
     { refetchOnReconnect: true, pollingInterval: 35000 }
@@ -98,12 +98,7 @@ function ItemPage() {
           <p>Ошибка загрузки данных...</p>
         </div>
         <div className="block buttons are-small is-centered">
-          <button className="button is-danger " onClick={() => navigate(-1)}>
-            <span className="icon mr-1">
-              <i className="fas fa-arrow-left"></i>
-            </span>
-            Вернуться
-          </button>
+          <BackButton />
         </div>
       </article>
     );
@@ -290,17 +285,7 @@ function ItemPage() {
               </div>
             </div>
             <div className="block mt-5">
-              <button
-                className="button is-small is-info"
-                onClick={(e) => {
-                  navigate(-1);
-                }}
-              >
-                <span className="icon mr-1">
-                  <i className="fas fa-arrow-left"></i>
-                </span>
-                Вернуться
-              </button>
+              <BackButton />
             </div>
 
             <div className="block buttons are-small is-rounded is-centered">
@@ -315,17 +300,7 @@ function ItemPage() {
               <GoodGrapth fromYear={Item.first_brewed} nameItem={Item.name} />
             </Suspense>
             <div className="block mt-5">
-              <button
-                className="button is-small is-info"
-                onClick={(e) => {
-                  navigate(-1);
-                }}
-              >
-                <span className="icon mr-1">
-                  <i className="fas fa-arrow-left"></i>
-                </span>
-                Вернуться
-              </button>
+              <BackButton />
             </div>
           </section>
           <UserIsLogin />

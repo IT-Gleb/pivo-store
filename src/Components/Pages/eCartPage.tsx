@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import UserIsLogin from "../userIsLogin";
+import { useNavigate } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import SmalleBasketItemCard from "../PivoItem/smalleCartItem";
 import RightMenu from "../Menu/RightMenu";
@@ -12,6 +12,7 @@ import {
   type TBasketItem,
 } from "../../store/slices/eCartSlice";
 import { AnimatePresence } from "framer-motion";
+import BackButton from "../UI/Buttons/backButton";
 
 export const TimeInCart: number = 10;
 
@@ -32,7 +33,6 @@ function checkCartItem(paramItem: TBasketItem): boolean {
 }
 
 const ECartPage: React.FC = () => {
-  const navigate = useNavigate();
   const itemCount = usePivoSelector((state) => state.eBasket.Items.length);
   const CartItems = usePivoSelector((state) => state.eBasket.Items);
   const dispatch = usePivoDispatch();
@@ -40,6 +40,7 @@ const ECartPage: React.FC = () => {
     (state) => state.favorites.items.length
   );
   const { videoHeight } = useVideoHeight();
+  const navigate = useNavigate();
 
   const handleFavorites = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -62,11 +63,6 @@ const ECartPage: React.FC = () => {
   const handleMoveUp = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
-  };
-
-  const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    navigate(-1);
   };
 
   useEffect(() => {
@@ -172,12 +168,7 @@ const ECartPage: React.FC = () => {
           className="buttons are-small is-centered my-5 py-5"
           style={{ borderTop: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
-          <button className="button is-info" onClick={handleBack}>
-            <span className="icon mr-1">
-              <i className="fas fa-arrow-left"></i>
-            </span>
-            Вернуться
-          </button>
+          <BackButton />
         </div>
         <UserIsLogin />
       </section>

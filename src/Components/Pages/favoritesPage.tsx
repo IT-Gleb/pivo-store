@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { IPivoItem, MaxPerPage } from "../../types";
 import SmallItemCard from "../PivoItem/SmallItemCard";
 import UserIsLogin from "../userIsLogin";
 import { setCurrentPage } from "../../store/slices/favorites";
 import { AnimatePresence } from "framer-motion";
+import BackButton from "../UI/Buttons/backButton";
 
 function FavoritesPage() {
   const favItems = usePivoSelector((state) => state.favorites.items);
-  const navigate = useNavigate();
   const dispatch = usePivoDispatch();
   const currPage = usePivoSelector((state) => state.favorites.currentPage);
   const [activePage, setActivePage] = useState<number>(currPage);
   const [pageCount, setPageCount] = useState<number>(1);
   const [pageItems, setPageItems] = useState<IPivoItem[]>([]);
   const [pages, setPages] = useState<number[]>([]);
-
-  const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    navigate(-1);
-  };
 
   const handlePagClick = (pId: number) => {
     setActivePage(pId);
@@ -119,12 +114,7 @@ function FavoritesPage() {
         className="buttons are-small is-centered mt-4 p-4"
         style={{ borderTop: "1px solid rgba(120, 120, 120, 0.5)" }}
       >
-        <button className="button is-info" onClick={handleBack}>
-          <span className="icon mr-1">
-            <i className="fas fa-arrow-left"></i>
-          </span>
-          Вернуться
-        </button>
+        <BackButton />
       </div>
       <div className="title is-size-5 title-article has-text-centered">
         Вы выбрали{" "}

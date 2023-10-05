@@ -248,7 +248,7 @@ function MainPage() {
   //Поиск наименования по базе сервера
   const getSerchByName = async (paramSerch: string) => {
     paramSerch.length > 0 ? setIsSerch(true) : setIsSerch(false);
-    if (paramSerch.length > 2) {
+    if (paramSerch.length > 1) {
       //Отменить фмльтрацию
       if (filterUp) setFilterUp(false);
       //-------------------
@@ -316,16 +316,7 @@ function MainPage() {
             style={{ borderTop: "1px solid rgba(0, 0, 0, 0.5)" }}
           >
             <Link to="/" reloadDocument={true}>
-              <button
-                className="button is-danger"
-                // onClick={(e) => {
-                //   setIsSerch(false);
-                //   dispatch(zeroData());
-                //   window.location.reload();
-                // }}
-              >
-                Вернуться
-              </button>
+              <button className="button is-danger">Вернуться</button>
             </Link>
           </div>
         </motion.div>

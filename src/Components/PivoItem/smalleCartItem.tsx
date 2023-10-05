@@ -3,6 +3,7 @@ import { type TBasketItem } from "../../store/slices/eCartSlice";
 import { motion } from "framer-motion";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import { Link } from "react-router-dom";
+import OrderBtn from "../UI/Buttons/inOrderBtn";
 
 const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
   const maxCount: number = 100;
@@ -133,9 +134,7 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
       </div>
       <div className="card-footer buttons are-small has-background-black-ter">
         <div className="card-footer-item">
-          <motion.button whileTap={{ scale: 0.65 }} className="button is-info">
-            В заказ
-          </motion.button>
+          <OrderBtn />
         </div>
       </div>
     </motion.div>
