@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import { Link } from "react-router-dom";
 import OrderBtn from "../UI/Buttons/inOrderBtn";
+import { type TOrderItem } from "../../store/slices/currOrderSlice";
 
 const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
   const maxCount: number = 100;
@@ -13,6 +14,13 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
     prop.price! * prop.count
   );
   const [stars, setStars] = useState<number[]>([]);
+  const OrderItem: TOrderItem = {
+    id: prop.id,
+    name: prop.title,
+    count: prop.count,
+    price: prop.price!,
+    priceOne: Math.floor(prop.price! / prop.count),
+  };
 
   const handleCount = (event: React.ChangeEvent<HTMLInputElement>) => {
     let tmpVal: number = Math.max(
@@ -33,6 +41,14 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
       setStars(tmpStars);
     }
   }, [prop.stars]);
+
+  useEffect(() => {
+    //Занести данные в заказ
+    OrderItem.name = prop.title;
+    OrderItem.price = totalPrice;
+    OrderItem.count = count;
+    OrderItem.id = prop.id;
+  }, [handleCount]);
 
   return (
     <motion.div
@@ -134,7 +150,7 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
       </div>
       <div className="card-footer buttons are-small has-background-black-ter">
         <div className="card-footer-item">
-          <OrderBtn />
+          <OrderBtn paramOrder={OrderItem} />
         </div>
       </div>
     </motion.div>

@@ -1,12 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
 import PivoNotification from "../../../libs/Notification/notification";
+import { usePivoDispatch } from "../../../hooks/storeHooks";
+import {
+  addNewOrderItem,
+  type TOrderItem,
+} from "../../../store/slices/currOrderSlice";
 
-function OrderBtn() {
+function OrderBtn({ paramOrder }: { paramOrder: TOrderItem }) {
+  const dispatch = usePivoDispatch();
+
   const handleOrderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    PivoNotification("Продукт добавлен в заказ...", [
+    // console.log(paramOrder);
+    dispatch(addNewOrderItem(paramOrder));
+
+    PivoNotification("Продукт отправлен в заказ...", [
       "has-background-link",
       "has-text-light",
     ]);
@@ -14,7 +24,7 @@ function OrderBtn() {
 
   return (
     <motion.button
-      whileTap={{ scale: 0.5 }}
+      whileTap={{ scale: 0.8 }}
       className="button is-small is-info"
       onClick={handleOrderClick}
     >
@@ -26,4 +36,4 @@ function OrderBtn() {
   );
 }
 
-export default OrderBtn;
+export default React.memo(OrderBtn);

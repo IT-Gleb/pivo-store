@@ -33,7 +33,7 @@ function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
     <motion.button
       initial={{ x: 600 }}
       animate={{ x: 0 }}
-      whileTap={{ scale: 0.55 }}
+      whileTap={{ scale: 0.8 }}
       className="button is-link is-outlined"
       onClick={handleCartClick}
     >

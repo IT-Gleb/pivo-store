@@ -81,9 +81,11 @@ const Mrouter = createBrowserRouter([
       {
         path: "orders",
         element: (
-          <Suspense fallback={<PivoSpinner text="загрузка..." />}>
-            <OrdersPageComponent />
-          </Suspense>
+          <CheckAuth>
+            <Suspense fallback={<PivoSpinner text="загрузка..." />}>
+              <OrdersPageComponent />
+            </Suspense>
+          </CheckAuth>
         ),
       },
       {

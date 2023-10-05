@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, Path, useLocation } from "react-router-dom";
+import { usePivoSelector } from "../../hooks/storeHooks";
+import { checkerAuth } from "../../libs";
+import { type IUser } from "../../types";
 
 type TabText = {
   id: number;
@@ -11,6 +14,23 @@ type TabText = {
 };
 
 type Tabs = TabText[];
+
+const tabNoAuth: Tabs = [
+  {
+    id: 0,
+    Name: "Продукция",
+    icon: "fa-wine-bottle",
+    isActive: false,
+    Ref: "/",
+  },
+  {
+    id: 1,
+    Name: "Авторизация",
+    icon: "fa-user",
+    isActive: false,
+    Ref: "/login",
+  },
+];
 
 const tabMenu: Tabs = [
   {
@@ -41,13 +61,13 @@ const tabMenu: Tabs = [
     isActive: false,
     Ref: "/orders",
   },
-  {
-    id: 4,
-    Name: "Авторизация",
-    icon: "fa-user",
-    isActive: false,
-    Ref: "/login",
-  },
+  // {
+  //   id: 4,
+  //   Name: "Авторизация",
+  //   icon: "fa-user",
+  //   isActive: false,
+  //   Ref: "/login",
+  // },
 
   // { id: 3, Name: "Документы", isActive: false, Ref: "/" },
 ];
@@ -55,6 +75,9 @@ const tabMenu: Tabs = [
 function TabsComponent() {
   const [activeIndex, setActiveIndex] = useState(0);
   const isWhere = useLocation();
+  const isLogin: IUser = usePivoSelector((state) => state.currentUser);
+  const isAuthUser = checkerAuth(isLogin);
+  const [menuTabs, setMenuTabs] = useState<Tabs>(tabNoAuth);
 
   const handleActive = (
     event: React.MouseEvent<HTMLLIElement>,
@@ -70,8 +93,14 @@ function TabsComponent() {
     // console.log(isWhere);
 
     let tmpIndex: number = 0;
-    for (let item in tabMenu) {
-      if (tabMenu[item].Ref === isWhere.pathname) {
+    if (isAuthUser) {
+      setMenuTabs(tabMenu);
+    } else {
+      setMenuTabs(tabNoAuth);
+    }
+
+    for (let item in menuTabs) {
+      if (menuTabs[item].Ref === isWhere.pathname) {
         tmpIndex = Number(item);
         break;
       }
@@ -84,7 +113,7 @@ function TabsComponent() {
     <div className="tabs is-boxed is-centered is-fullwidth pt-0 m-0 has-background-dark">
       <ul>
         {/* {tabMenu.map((tab: TabText) => ( */}
-        {tabMenu.map<JSX.Element>((tab: TabText) => (
+        {menuTabs.map<JSX.Element>((tab: TabText) => (
           <li
             key={tab.id}
             className={

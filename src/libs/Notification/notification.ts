@@ -17,9 +17,9 @@ function PivoNotification(paramMessage: string, paramClass: string[]) {
     });
   }
 
-  notification.style.bottom = 0 + "px";
-  notification.style.left = 0 + "px";
-  notification.style.right = 0 + "px";
+  notification.style.bottom = 2 + "%";
+  notification.style.left = 2 + "%";
+  //  notification.style.right = 10 + "px";
 
   notification.innerHTML = paramMessage;
   document.body.appendChild(notification);

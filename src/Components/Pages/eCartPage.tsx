@@ -14,7 +14,7 @@ import {
 import { AnimatePresence } from "framer-motion";
 import BackButton from "../UI/Buttons/backButton";
 
-export const TimeInCart: number = 10;
+export const TimeInCart: number = 30;
 
 function checkCartItem(paramItem: TBasketItem): boolean {
   let res: boolean = false;
@@ -77,7 +77,7 @@ const ECartPage: React.FC = () => {
     };
     const timerId = setInterval(() => {
       checkerGoogs();
-    }, 5000);
+    }, 3500);
     return () => {
       clearInterval(timerId);
     };
@@ -126,13 +126,23 @@ const ECartPage: React.FC = () => {
       <section className="section my-0">
         <UserIsLogin />
         {itemCount > 0 && (
-          <div className="message is-info is-light">
-            <div className="message-body">
-              <span className="is-size-4">Внимание!</span> Товар в корзине будет
-              доступен в течении {TimeInCart} мин. c момента добавления. Успейти
-              сформировать заказ, или заново добавте товар.
+          <>
+            <div className="message is-info is-light">
+              <div className="message-body">
+                <span className="is-size-4">Внимание!</span> Товар в корзине
+                будет доступен в течении {TimeInCart} мин. c момента добавления.
+                Успейти сформировать заказ, или заново добавте товар.
+              </div>
             </div>
-          </div>
+
+            <div className="message is-primary">
+              <div className="message-body">
+                <span className="is-size-4">Подсказка!</span> Понравившиеся
+                сорта пива, храните в избранном. Легче найти и добавить в
+                корзину.
+              </div>
+            </div>
+          </>
         )}
         <div
           className="title is-size-5 title-article mt-5 pb-4"
@@ -143,7 +153,7 @@ const ECartPage: React.FC = () => {
 
         {itemCount < 1 && (
           <article className="message">
-            <div className="message-body is-size-1 has-text-centered">
+            <div className="message-body is-size-2 has-text-centered">
               У Вас нет товаров в корзине.
             </div>
           </article>

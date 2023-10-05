@@ -12,7 +12,7 @@ function BackButton() {
 
   return (
     <motion.button
-      whileTap={{ scale: 0.5 }}
+      whileTap={{ scale: 0.8 }}
       className="button is-small is-info"
       onClick={handleBackclick}
     >

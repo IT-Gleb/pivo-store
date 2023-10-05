@@ -19,7 +19,7 @@ function DeleteFromFavoritesBtn({ paramId }: { paramId: number }) {
     <motion.button
       initial={{ x: -800 }}
       animate={{ x: 0 }}
-      whileTap={{ scale: 0.6 }}
+      whileTap={{ scale: 0.8 }}
       className="button is-small is-danger is-outlined"
       onClick={(e) => {
         e.preventDefault();
