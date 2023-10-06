@@ -7,6 +7,7 @@ import useVideoHeight from "../../hooks/videoHeightHook";
 import { clearUserData } from "../../store/slices/userSlice";
 import { clearFavorites } from "../../store/slices/favorites";
 import { clearBasket } from "../../store/slices/eCartSlice";
+import { clearCurrOrder } from "../../store/slices/currOrderSlice";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -31,20 +32,13 @@ function MainTopMenu() {
       dispatch(clearUserData());
       dispatch(clearFavorites());
       dispatch(clearBasket());
+      dispatch(clearCurrOrder());
     }
     window.scrollTo(0, videoHeight);
   };
 
   return (
     <>
-      {/* {diagShow && (
-        <MyModal title="Привет" onClose={CloseDialog}>
-          <label className="p-5">
-            Введите что-нибудь:
-            <input type="text" className="input" maxLength={25} />
-          </label>
-        </MyModal>
-      )} */}
       <nav
         className="navbar has-background-dark is-primary my-sticky"
         role="navigation"

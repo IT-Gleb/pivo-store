@@ -106,7 +106,7 @@ function TabsComponent() {
       }
     }
     setActiveIndex(tmpIndex);
-  }, [isWhere]);
+  }, [isWhere, isAuthUser]);
   //End of --------- Задать активную вкладку в зависимости от текущкго пути
 
   return (
