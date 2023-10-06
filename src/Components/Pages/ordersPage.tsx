@@ -72,8 +72,8 @@ function OrdersPage() {
         </h3>
         {itemsCount < 1 && (
           <div className="message">
-            <div className="message-body is-size-1 has-text-centered">
-              У вас нет заказов.
+            <div className="message-body is-size-2 has-text-centered">
+              У вас нет текущих заказов.
             </div>
           </div>
         )}

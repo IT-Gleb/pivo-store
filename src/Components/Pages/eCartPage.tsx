@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import UserIsLogin from "../userIsLogin";
-import { useNavigate } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import SmalleBasketItemCard from "../PivoItem/smalleCartItem";
-import RightMenu from "../Menu/RightMenu";
-import RightButton from "../UI/Buttons/RightButtons";
-import useVideoHeight from "../../hooks/videoHeightHook";
 
 import {
   deleteBasketItem,
@@ -13,6 +9,7 @@ import {
 } from "../../store/slices/eCartSlice";
 import { AnimatePresence } from "framer-motion";
 import BackButton from "../UI/Buttons/backButton";
+import RightECartMenu from "../Menu/rightECartMenu";
 
 export const TimeInCart: number = 30;
 
@@ -36,37 +33,6 @@ const ECartPage: React.FC = () => {
   const itemCount = usePivoSelector((state) => state.eBasket.Items.length);
   const CartItems = usePivoSelector((state) => state.eBasket.Items);
   const dispatch = usePivoDispatch();
-  const favoritesCount = usePivoSelector(
-    (state) => state.favorites.items.length
-  );
-  const ordersCount = usePivoSelector(
-    (state) => state.currentOrder.Items.length
-  );
-  const { videoHeight } = useVideoHeight();
-  const navigate = useNavigate();
-
-  const handleFavorites = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    navigate("/favorites");
-  };
-
-  const handleMain = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    navigate("/");
-  };
-
-  const handleOrders = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    navigate("/orders");
-  };
-
-  const handleMoveUp = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-  };
 
   useEffect(() => {
     const checkerGoogs = () => {
@@ -88,44 +54,7 @@ const ECartPage: React.FC = () => {
 
   return (
     <>
-      <RightMenu>
-        <RightButton
-          title={"На глвную"}
-          buttonClass={"button p-4 is-warning is-relative"}
-          iconClass="icon is-size-4 has-text-black"
-          iClass="fas fa-file"
-          hasName={false}
-          isCount={-1}
-          onClick={handleMain}
-        />
-        <RightButton
-          title={"Избранное"}
-          buttonClass={"button p-4 is-primary is-relative"}
-          iconClass="icon is-size-4 has-text-danger"
-          iClass="fas fa-heart"
-          hasName={false}
-          isCount={favoritesCount}
-          onClick={handleFavorites}
-        />
-        <RightButton
-          title={"Заказы"}
-          buttonClass={"button p-4 is-danger is-relative"}
-          iconClass="icon is-size-4 has-text-light"
-          iClass="fas fa-list"
-          hasName={false}
-          isCount={ordersCount}
-          onClick={handleOrders}
-        />
-        <RightButton
-          title="Переход на верх"
-          buttonClass="button px-4 is-link"
-          iconClass="icon is-size-4"
-          iClass="fas fa-arrow-up"
-          hasName={false}
-          onClick={handleMoveUp}
-        />
-      </RightMenu>
-
+      <RightECartMenu />
       <section className="section my-0">
         <UserIsLogin />
         {itemCount > 0 && (

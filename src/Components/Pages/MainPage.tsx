@@ -350,7 +350,7 @@ function MainPage() {
         />
         <RightButton
           title="Заказы"
-          buttonClass="button p-4 is-primary is-relative"
+          buttonClass="button p-4 has-background-success is-relative"
           iconClass="icon is-size-4 has-text-dark"
           iClass="fas fa-list"
           hasName={false}
