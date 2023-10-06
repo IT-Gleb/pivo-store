@@ -39,6 +39,9 @@ const ECartPage: React.FC = () => {
   const favoritesCount = usePivoSelector(
     (state) => state.favorites.items.length
   );
+  const ordersCount = usePivoSelector(
+    (state) => state.currentOrder.Items.length
+  );
   const { videoHeight } = useVideoHeight();
   const navigate = useNavigate();
 
@@ -106,11 +109,11 @@ const ECartPage: React.FC = () => {
         />
         <RightButton
           title={"Заказы"}
-          buttonClass={"button p-4 is-warning is-relative"}
-          iconClass="icon is-size-4 has-text-danger"
+          buttonClass={"button p-4 is-danger is-relative"}
+          iconClass="icon is-size-4 has-text-light"
           iClass="fas fa-list"
           hasName={false}
-          isCount={-1}
+          isCount={ordersCount}
           onClick={handleOrders}
         />
         <RightButton

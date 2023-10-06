@@ -36,7 +36,7 @@ export const currentOrderSlice = createSlice({
           })
         ) {
           state.Items.push(action.payload);
-          state.Items = orderBy(state.Items, ["name", ["asc"]]);
+          state.Items = orderBy(state.Items, ["price", ["asc"]]);
           state.totalPrice = state.Items.reduce((acc, curr: TOrderItem) => {
             return (acc += curr.price);
           }, 0);
@@ -47,7 +47,7 @@ export const currentOrderSlice = createSlice({
       state.Items = state.Items.filter((item) => {
         return item.id !== action.payload;
       });
-      state.Items = orderBy(state.Items, ["name", ["asc"]]);
+      state.Items = orderBy(state.Items, ["price", ["asc"]]);
       state.totalPrice = state.Items.reduce((acc, curr: TOrderItem) => {
         return (acc += curr.price);
       }, 0);

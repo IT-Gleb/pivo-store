@@ -58,6 +58,9 @@ function MainPage() {
     (state) => state.favorites.items.length
   );
   const eBasketCount = usePivoSelector((state) => state.eBasket.Items.length);
+  const ordersCount = usePivoSelector(
+    (state) => state.currentOrder.Items.length
+  );
 
   function toggleFilter() {
     setShowFilter(!showFiler);
@@ -351,7 +354,7 @@ function MainPage() {
           iconClass="icon is-size-4 has-text-dark"
           iClass="fas fa-list"
           hasName={false}
-          isCount={-1}
+          isCount={ordersCount}
           onClick={handleOrderClick}
         />
         <RightButton

@@ -22,8 +22,8 @@ function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
     }
     if (itemProps) {
       dispatch(addNewBasketItem(itemProps));
-      PivoNotification("Товар добавлен в корзину...", [
-        "has-background-warning",
+      PivoNotification("Товар отправлен в корзину...", [
+        "has-background-primary",
         "has-text-dark",
       ]);
     }
