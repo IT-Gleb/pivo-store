@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
 import DoOrderBtn from "../UI/Buttons/doOrderBtn";
+import RightOrdersMenu from "../Menu/rightOrdersMenu";
 
 type TOrderTempItem = {
   id: number;
@@ -51,6 +52,7 @@ function OrdersPage() {
 
   return (
     <>
+      <RightOrdersMenu />
       <UserIsLogin />
       <section className="section">
         {itemsCount > 0 && (

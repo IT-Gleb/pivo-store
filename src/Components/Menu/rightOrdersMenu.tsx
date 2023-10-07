@@ -5,13 +5,13 @@ import useVideoHeight from "../../hooks/videoHeightHook";
 import RightMenu from "./RightMenu";
 import RightButton from "../UI/Buttons/RightButtons";
 
-function RightECartMenu() {
+function RightOrdersMenu() {
   const navigate = useNavigate();
   const favoritesCount = usePivoSelector(
     (state) => state.favorites.items.length
   );
-  const ordersCount = usePivoSelector(
-    (state) => state.currentOrder.Items.length
+  const ordersCartCount = usePivoSelector(
+    (state) => state.eBasket.Items.length
   );
   const { videoHeight } = useVideoHeight();
 
@@ -27,10 +27,10 @@ function RightECartMenu() {
     navigate("/");
   };
 
-  const handleOrders = (event: React.MouseEvent<HTMLElement>) => {
+  const handleCart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     window.scrollTo(0, videoHeight);
-    navigate("/orders");
+    navigate("/eCart");
   };
 
   const handleMoveUp = (event: React.MouseEvent<HTMLElement>) => {
@@ -59,13 +59,13 @@ function RightECartMenu() {
         onClick={handleFavorites}
       />
       <RightButton
-        title={"Заказы"}
-        buttonClass={"button p-4 has-background-success is-relative"}
+        title={"Корзина"}
+        buttonClass={"button p-4 has-background-primary is-relative"}
         iconClass="icon is-size-4 has-text-dark"
-        iClass="fas fa-list"
+        iClass="fas fa-shopping-cart"
         hasName={false}
-        isCount={ordersCount}
-        onClick={handleOrders}
+        isCount={ordersCartCount}
+        onClick={handleCart}
       />
       <RightButton
         title="Переход на верх"
@@ -79,4 +79,4 @@ function RightECartMenu() {
   );
 }
 
-export default React.memo(RightECartMenu);
+export default React.memo(RightOrdersMenu);
