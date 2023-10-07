@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, Suspense } from "react";
 import {
   useLazyGetItemsByNameQuery,
   useLazyGetItemsQuery,
@@ -11,10 +11,7 @@ import {
 } from "../../types";
 import SmallItemCard from "../PivoItem/SmallItemCard";
 import { InView } from "react-intersection-observer";
-import RightMenu from "../Menu/RightMenu";
-import RightButton from "../UI/Buttons/RightButtons";
-import { Link, useNavigate } from "react-router-dom";
-import useVideoHeight from "../../hooks/videoHeightHook";
+import { Link } from "react-router-dom";
 import FilterWindow from "../UI/Filter/FilterWindow";
 import orderBy from "lodash/orderBy";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
@@ -37,6 +34,10 @@ import MyModal from "../UI/MsgBox/myModal";
 import { motion } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
 
+const RightFullMenuComponent = React.lazy(
+  () => import("../Menu/rightFullMenu")
+);
+
 function MainPage() {
   const [load, setLoad] = useState<boolean>(false);
   const [page, setPage] = useState<IParamQuery>({
@@ -45,8 +46,6 @@ function MainPage() {
     perPage: MaxPerPage,
   });
   const [MainData, setMainData] = useState<IPivoItem[]>([]);
-  const navigate = useNavigate();
-  const { videoHeight } = useVideoHeight();
   const [showFiler, setShowFilter] = useState<boolean>(false);
   const FilterData = usePivoSelector((state) => state.filterD);
   const dispatch = usePivoDispatch();
@@ -54,37 +53,9 @@ function MainPage() {
   const [filterUp, setFilterUp] = useState<boolean>(FilterData.isFiltered);
 
   const { screenWidth } = useScreenWidth();
-  const favoritesCount = usePivoSelector(
-    (state) => state.favorites.items.length
-  );
-  const eBasketCount = usePivoSelector((state) => state.eBasket.Items.length);
-  const ordersCount = usePivoSelector(
-    (state) => state.currentOrder.Items.length
-  );
 
   function toggleFilter() {
     setShowFilter(!showFiler);
-  }
-
-  function handleBtnClick2(event: React.MouseEvent<HTMLElement>) {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    navigate("/favorites");
-  }
-
-  const handleECartClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    navigate("/eCart");
-  };
-
-  function handleMoveUp(event: React.MouseEvent<HTMLElement>) {
-    event.preventDefault();
-    window.scrollTo(0, videoHeight);
-    // if (TopRef.current) {
-    //   TopRef.current.scrollIntoView();
-    // }
-    // console.log(videoHeight);
   }
 
   function handleFilter(event: React.MouseEvent<HTMLElement>) {
@@ -102,7 +73,6 @@ function MainPage() {
     tmpData.isFiltered = !filterUp;
     dispatch(updateIsFiltered(!filterUp));
     // обновить данные в сторе
-    //console.log("from - function", tmpData.isFiltered);
     //скрыть окно фильтра
     setShowFilter(false);
     //Применить фильтр
@@ -279,11 +249,6 @@ function MainPage() {
     setSerchModal(!serchModal);
   };
 
-  const handleOrderClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    navigate("/orders");
-  };
-
   //Загрузка и ошибки
   if (areError || isSerchError)
     return (
@@ -329,59 +294,13 @@ function MainPage() {
   return (
     <>
       {/* Меню с иконками с права */}
-      <RightMenu>
-        <RightButton
-          title={"Избранное"}
-          buttonClass={"button p-4 is-primary is-relative"}
-          iconClass="icon is-size-4 has-text-danger"
-          iClass="fas fa-heart"
-          hasName={false}
-          isCount={favoritesCount}
-          onClick={handleBtnClick2}
+      <Suspense fallback={<PivoSpinner text="Загрузка компонента..." />}>
+        <RightFullMenuComponent
+          paramHandleSearch={handleSerch}
+          paramHandleFilter={handleFilter}
         />
-        <RightButton
-          title="Корзина"
-          buttonClass="button p-4 is-info is-relative"
-          iconClass="icon is-size-4 has-text-dark"
-          iClass="fas fa-shopping-cart"
-          hasName={false}
-          isCount={eBasketCount}
-          onClick={handleECartClick}
-        />
-        <RightButton
-          title="Заказы"
-          buttonClass="button p-4 has-background-success is-relative"
-          iconClass="icon is-size-4 has-text-dark"
-          iClass="fas fa-list"
-          hasName={false}
-          isCount={ordersCount}
-          onClick={handleOrderClick}
-        />
-        <RightButton
-          title="Поиск"
-          buttonClass="button px-4 is-warning"
-          iconClass="icon is-size-4"
-          iClass="fas fa-glasses"
-          hasName={false}
-          onClick={handleSerch}
-        />
-        <RightButton
-          title="Фильтр"
-          buttonClass="button px-4 is-primary"
-          iconClass="icon is-size-4"
-          iClass="fas fa-filter"
-          hasName={false}
-          onClick={handleFilter}
-        />
-        <RightButton
-          title="Переход на верх"
-          buttonClass="button px-4 is-link"
-          iconClass="icon is-size-4"
-          iClass="fas fa-arrow-up"
-          hasName={false}
-          onClick={handleMoveUp}
-        />
-      </RightMenu>
+      </Suspense>
+
       {/* end of Меню с иконками с права */}
       {/* Фильтр окно */}
       <UserIsLogin />
