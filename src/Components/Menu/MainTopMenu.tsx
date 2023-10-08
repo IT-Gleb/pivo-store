@@ -10,6 +10,8 @@ import { clearBasket } from "../../store/slices/eCartSlice";
 import { clearCurrOrder } from "../../store/slices/currOrderSlice";
 import { clearOrdersStore } from "../../store/slices/ordersSlice";
 import PivoNotification from "../../libs/Notification/notification";
+
+import UserIsLoginName from "../userIsLoginName";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -56,6 +58,7 @@ function MainTopMenu() {
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
             Главная
+            <UserIsLoginName />
           </Link>
 
           {/* Меню Гамбургер */}

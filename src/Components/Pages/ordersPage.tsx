@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import BackButton from "../UI/Buttons/backButton";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import MyCheckBox from "../UI/checkBox/myCheckBox";
@@ -10,8 +10,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
 import DoOrderBtn from "../UI/Buttons/doOrderBtn";
 import RightOrdersMenu from "../Menu/rightOrdersMenu";
-import AllOrdersCard from "./allOrdersCard";
 import { FormatSumString } from "../../libs";
+import PivoSpinner from "../UI/Spinner/pivoSpinner";
 
 type TOrderTempItem = {
   id: number;
@@ -28,6 +28,8 @@ function initTempItem(param: TOrderItem[]): TOrderTempItem {
   }
   return res;
 }
+
+const AllOrdersCardComponent = React.lazy(() => import("./allOrdersCard"));
 
 function OrdersPage() {
   const orderItems = usePivoSelector((state) => state.currentOrder.Items);
@@ -161,7 +163,10 @@ function OrdersPage() {
           <BackButton />
         </div>
       </section>
-      <AllOrdersCard />
+      {/* Заказы уже созданные */}
+      <Suspense fallback={<PivoSpinner text="Загрузка компонента..." />}>
+        <AllOrdersCardComponent />
+      </Suspense>
       <UserIsLogin />
     </>
   );
