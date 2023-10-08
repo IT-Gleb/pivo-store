@@ -1,9 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  AnyAction,
+} from "@reduxjs/toolkit";
 import { type IOrder } from "./currOrderSlice";
 import orderBy from "lodash/orderBy";
 import { PivoDb } from "../../libs";
 
-interface IOrders {
+export interface IOrders {
   orderItems: IOrder[];
   userId: string;
 }
@@ -13,8 +18,26 @@ const initialData: IOrders = {
   orderItems: [],
 };
 
+export const get_OrdersFromDb = createAsyncThunk<
+  IOrder[], //Получаемое значение
+  string, //Передаваемое значение (Ничего)
+  { rejectValue: string } //Конфигурация>
+>(
+  "allOrdersSlice/get_OrdersFromDb",
+  async function (paramId, { rejectWithValue }) {
+    const result = await PivoDb.getItem(paramId).catch((e) => {
+      return rejectWithValue("Ошибка. all Orders. Не могу получить данные...");
+    });
+    return result as IOrder[];
+  }
+);
+
+function isError(action: AnyAction) {
+  return action.type.endsWith("rejected");
+}
+
 export const OrdersSlice = createSlice({
-  name: "allOrders",
+  name: "allOrdersSlice",
   initialState: initialData,
   reducers: {
     updateOrdersUserId(state, action: PayloadAction<string>) {
@@ -43,6 +66,20 @@ export const OrdersSlice = createSlice({
         //console.log(state.orderItems);
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_OrdersFromDb.fulfilled, (state, action) => {
+        // console.log("loaded...");
+        if (action.payload) {
+          state.orderItems = orderBy(action.payload, ["orderDate"], ["desc"]);
+        }
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.orderItems = [];
+        state.userId = "";
+        console.log(action.payload);
+      });
   },
 });
 

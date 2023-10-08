@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BackButton from "../UI/Buttons/backButton";
-import { usePivoSelector } from "../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { type IOrder } from "../../store/slices/currOrderSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dt_To_String, FormatSumString } from "../../libs";
+import { updateOrdersUserId } from "../../store/slices/ordersSlice";
 
 function AllOrdersCard() {
   const allOrdersCount = usePivoSelector(
     (state) => state.allOrders.orderItems.length
   );
   const allOrders = usePivoSelector((state) => state.allOrders.orderItems);
+  const currUserOrdersId = usePivoSelector(
+    (state) => state.currentUser.ordersId
+  );
+  const currOrdersId = usePivoSelector((state) => state.allOrders.userId);
+  const dispatch = usePivoDispatch();
+
+  useEffect(() => {
+    if (currOrdersId === "" || currOrdersId !== currUserOrdersId) {
+      dispatch(updateOrdersUserId(currUserOrdersId));
+    }
+  }, [currOrdersId, currUserOrdersId, dispatch]);
 
   return (
     <section className="section mt-0">
@@ -64,7 +76,7 @@ function AllOrdersCard() {
                         whileTap={{ scale: 0.8 }}
                         className="button is-small is-success is-rounded"
                       >
-                        Сформировать документ
+                        Заказ
                       </motion.button>
                     </td>
                   </motion.tr>

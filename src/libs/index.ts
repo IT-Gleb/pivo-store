@@ -69,6 +69,7 @@ function getMounthFromNumber(paramMounth: number): string {
 
 function Dt_To_String(paramDt: number): string {
   let res: string = "";
+  let dateRazdelitel: string = "-";
   if (!paramDt) return (res = "no Date");
   let dt = new Date(paramDt);
   let tm = dt.getHours() < 10 ? "0" + dt.getHours() : String(dt.getHours());
@@ -85,9 +86,9 @@ function Dt_To_String(paramDt: number): string {
 
   res =
     res +
-    "/" +
+    dateRazdelitel +
     getMounthFromNumber(dt.getMonth() + 1) +
-    "/" +
+    dateRazdelitel +
     dt.getFullYear() +
     " " +
     tm;

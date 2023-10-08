@@ -5,6 +5,10 @@ import { useEffect } from "react";
 import { getStorageData } from "../store/slices/userSlice";
 import { getFavoriteData, setFavUserId } from "../store/slices/favorites";
 import { getCartDataDb, updateBasketUserId } from "../store/slices/eCartSlice";
+import {
+  get_OrdersFromDb,
+  updateOrdersUserId,
+} from "../store/slices/ordersSlice";
 
 function UserIsLogin() {
   const dispatch = usePivoDispatch();
@@ -14,19 +18,23 @@ function UserIsLogin() {
   const userName = usePivoSelector((state) => state.currentUser.Name);
 
   useEffect(() => {
-    //Получить данные из базы данных
+    //Получить данные из локальной базы
     if (!isValidate) {
       dispatch(getStorageData());
       dispatch(setFavUserId(isLogin.id));
       dispatch(updateBasketUserId(isLogin.eCartId));
+      dispatch(updateOrdersUserId(isLogin.ordersId));
       dispatch(getFavoriteData());
       dispatch(getCartDataDb());
+      dispatch(get_OrdersFromDb(isLogin.ordersId));
     }
     if (isValidate) {
       dispatch(setFavUserId(isLogin.id));
       dispatch(updateBasketUserId(isLogin.eCartId));
+      dispatch(updateOrdersUserId(isLogin.ordersId));
       dispatch(getFavoriteData());
       dispatch(getCartDataDb());
+      dispatch(get_OrdersFromDb(isLogin.ordersId));
     }
   }, [isValidate, dispatch, isLogin]);
 

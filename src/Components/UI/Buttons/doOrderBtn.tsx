@@ -1,24 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import {
   type IOrder,
   clearCurrOrder,
 } from "../../../store/slices/currOrderSlice";
-import {
-  addNew_Orders_Item,
-  updateOrdersUserId,
-} from "../../../store/slices/ordersSlice";
+import { addNew_Orders_Item } from "../../../store/slices/ordersSlice";
 import { randomFrom } from "../../../libs";
 import PivoNotification from "../../../libs/Notification/notification";
 
 function DoOrderButton() {
   const currOrder = usePivoSelector((state) => state.currentOrder);
   const dispatch = usePivoDispatch();
-  const currUserOrdersId = usePivoSelector(
-    (state) => state.currentUser.ordersId
-  );
-  const currOrdersId = usePivoSelector((state) => state.allOrders.userId);
 
   const handleNewOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -36,12 +29,6 @@ function DoOrderButton() {
       "has-text-dark",
     ]);
   };
-
-  useEffect(() => {
-    if (currOrdersId === "" || currOrdersId !== currUserOrdersId) {
-      dispatch(updateOrdersUserId(currUserOrdersId));
-    }
-  }, [currOrdersId, currUserOrdersId]);
 
   return (
     <motion.button
