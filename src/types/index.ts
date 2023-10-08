@@ -173,6 +173,7 @@ export interface IUser {
   passWord: string;
   id: string;
   eCartId: string;
+  ordersId: string;
 }
 
 export type { ISliderItemProp, IMessageBoxProps, TWords, IParamQuery };

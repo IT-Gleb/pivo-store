@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
 import DoOrderBtn from "../UI/Buttons/doOrderBtn";
 import RightOrdersMenu from "../Menu/rightOrdersMenu";
+import AllOrdersCard from "./allOrdersCard";
+import { FormatSumString } from "../../libs";
 
 type TOrderTempItem = {
   id: number;
@@ -150,21 +152,16 @@ function OrdersPage() {
             </div>
             <div className="title is-size-4">Итог:</div>
             <div className="title is-size-4 has-text-dark">
-              {totalPrice}.00
+              {FormatSumString(totalPrice)}.00
               <span className="is-size-5 has-text-dark"> &#8381;</span>
             </div>
           </div>
         )}
-        <h3
-          className="title is-size-5 title-article pb-2"
-          style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.25)" }}
-        >
-          Ваши заказы
-        </h3>
         <div className="buttons are-small is-centered">
           <BackButton />
         </div>
       </section>
+      <AllOrdersCard />
       <UserIsLogin />
     </>
   );

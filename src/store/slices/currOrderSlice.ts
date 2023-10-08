@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, AnyAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import orderBy from "lodash/orderBy";
 
 export type TOrderItem = {
@@ -13,12 +13,16 @@ export interface IOrder {
   Items: TOrderItem[];
   totalPrice: number;
   id: string;
+  orderDate: number;
+  orderNum: string;
 }
 
 const InitOrderState: IOrder = {
   Items: [],
   totalPrice: 0,
   id: crypto.randomUUID(),
+  orderDate: 0,
+  orderNum: "",
 };
 
 export const currentOrderSlice = createSlice({
@@ -56,6 +60,14 @@ export const currentOrderSlice = createSlice({
       state.Items = [];
       state.totalPrice = 0;
       state.id = crypto.randomUUID();
+      state.orderDate = 0;
+      state.orderNum = "";
+    },
+    updateOrderDate(state, action: PayloadAction<number>) {
+      state.orderDate = action.payload;
+    },
+    updateOrderNum(state, action: PayloadAction<string>) {
+      state.orderNum = action.payload;
     },
   },
 });
@@ -65,6 +77,8 @@ export const {
   addNewOrderItem,
   deleteOrderItem,
   clearCurrOrder,
+  updateOrderDate,
+  updateOrderNum,
 } = currentOrderSlice.actions;
 
 export default currentOrderSlice.reducer;

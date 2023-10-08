@@ -298,10 +298,8 @@ function ItemPage() {
                   {Item.food_pairing &&
                     Item.food_pairing.map((item, ind) => {
                       return (
-                        <div className="message is-info is-light">
-                          <p key={ind} className="message-body has-text-dark">
-                            {item}
-                          </p>
+                        <div key={ind} className="message is-info is-light">
+                          <p className="message-body has-text-dark">{item}</p>
                         </div>
                       );
                     })}

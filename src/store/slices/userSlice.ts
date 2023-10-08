@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { type IUser } from "../../types";
 
 import { checkerAuth, PivoDb, nameDb } from "../../libs";
+import PivoNotification from "../../libs/Notification/notification";
 
 export const getStorageData = createAsyncThunk<IUser, void, {}>(
   "userSlice/getStorageData",
@@ -19,6 +20,7 @@ const initialState: IUser = {
   passWord: "",
   id: "",
   eCartId: "",
+  ordersId: "",
 };
 
 export const userSlice = createSlice({
@@ -32,6 +34,7 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.Name = "";
       state.eCartId = "";
+      state.ordersId = "";
       PivoDb.clear();
     },
     updateUserAuth(state, action: PayloadAction<boolean>) {
@@ -44,6 +47,7 @@ export const userSlice = createSlice({
       state.passWord = action.payload.passWord;
       state.isAuth = action.payload.isAuth;
       state.eCartId = action.payload.eCartId;
+      state.ordersId = action.payload.ordersId;
       PivoDb.setItem(nameDb, {
         Name: state.Name,
         id: state.id,
@@ -51,9 +55,14 @@ export const userSlice = createSlice({
         passWord: state.passWord,
         isAuth: checkerAuth(state),
         eCartId: state.eCartId,
+        ordersId: state.ordersId,
       })
         .then((value) => {
           // console.log(value);
+          PivoNotification(
+            `Данные пользователя - ${action.payload.Name} - успешно сохранены...`,
+            ["has-background-success", "has-text-light"]
+          );
         })
         .catch((err) => {
           console.log("Ошибка при записи данных:", err);
@@ -69,6 +78,7 @@ export const userSlice = createSlice({
         state.isAuth = action.payload.isAuth;
         state.passWord = action.payload.passWord;
         state.eCartId = action.payload.eCartId;
+        state.ordersId = action.payload.ordersId;
       }
 
       // console.log(state);

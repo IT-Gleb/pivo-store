@@ -8,6 +8,8 @@ import { clearUserData } from "../../store/slices/userSlice";
 import { clearFavorites } from "../../store/slices/favorites";
 import { clearBasket } from "../../store/slices/eCartSlice";
 import { clearCurrOrder } from "../../store/slices/currOrderSlice";
+import { clearOrdersStore } from "../../store/slices/ordersSlice";
+import PivoNotification from "../../libs/Notification/notification";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -33,6 +35,12 @@ function MainTopMenu() {
       dispatch(clearFavorites());
       dispatch(clearBasket());
       dispatch(clearCurrOrder());
+      dispatch(clearOrdersStore());
+
+      PivoNotification(`Данные пользователя - ${isAuthUser.Name} - удалены.`, [
+        "has-background-success",
+        "has-text-danger",
+      ]);
     }
     window.scrollTo(0, videoHeight);
   };

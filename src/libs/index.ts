@@ -10,6 +10,91 @@ import { nameDb, PivoDb } from "./myLocalForage";
 
 const TOPMENUVIDEO: string = "TopMenuVideo";
 
+function FormatSumString(paramSum: number | null): string {
+  let res: string = "";
+  if (paramSum === null) return (res = "0.0");
+  res = new Intl.NumberFormat("ru-Ru").format(paramSum);
+  return res;
+}
+
+function getMounthFromNumber(paramMounth: number): string {
+  let res: string = "";
+  switch (paramMounth) {
+    case 0:
+      res = "январь";
+      break;
+    case 1:
+      res = "январь";
+      break;
+    case 2:
+      res = "февраль";
+      break;
+    case 3:
+      res = "март";
+      break;
+    case 4:
+      res = "апрель";
+      break;
+    case 5:
+      res = "май";
+      break;
+    case 6:
+      res = "июнь";
+      break;
+    case 7:
+      res = "июль";
+      break;
+    case 8:
+      res = "август";
+      break;
+    case 9:
+      res = "сентябрь";
+      break;
+    case 10:
+      res = "октябрь";
+      break;
+    case 11:
+      res = "ноябрь";
+      break;
+    case 12:
+      res = "декабрь";
+      break;
+    default:
+      res = "январь";
+      break;
+  }
+
+  return res;
+}
+
+function Dt_To_String(paramDt: number): string {
+  let res: string = "";
+  if (!paramDt) return (res = "no Date");
+  let dt = new Date(paramDt);
+  let tm = dt.getHours() < 10 ? "0" + dt.getHours() : String(dt.getHours());
+  tm =
+    tm +
+    ":" +
+    (dt.getMinutes() < 10 ? "0" + dt.getMinutes() : String(dt.getMinutes()));
+  tm =
+    tm +
+    ":" +
+    (dt.getSeconds() < 10 ? "0" + dt.getSeconds() : String(dt.getSeconds()));
+
+  res = dt.getDate() < 10 ? "0" + dt.getDate() : String(dt.getDate());
+
+  res =
+    res +
+    "/" +
+    getMounthFromNumber(dt.getMonth() + 1) +
+    "/" +
+    dt.getFullYear() +
+    " " +
+    tm;
+
+  return res;
+}
+
 function checkerAuth(pUser: IUser): boolean {
   let res: boolean = false;
   try {
@@ -98,8 +183,11 @@ function checkYear(paramStr: string, paramDel: string = "/") {
   let res: string = "";
   if (!paramStr) return "no Year";
   let yStr = paramStr.split(paramDel)[1];
-  if (yStr) res = yStr.trim();
-  else res = "no Year";
+  if (yStr) {
+    res = yStr.trim();
+  } else {
+    res = "no Year";
+  }
 
   return res;
 }
@@ -137,4 +225,7 @@ export {
   nameDb,
   PivoDb,
   checkInFavorites,
+  FormatSumString,
+  Dt_To_String,
+  getMounthFromNumber,
 };

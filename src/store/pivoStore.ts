@@ -11,6 +11,7 @@ import { userSlice } from "./slices/userSlice";
 import { FavoriteSlice } from "./slices/favorites";
 import { eBasketSlice } from "./slices/eCartSlice";
 import { currentOrderSlice } from "./slices/currOrderSlice";
+import { OrdersSlice } from "./slices/ordersSlice";
 
 export const pivoStore = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const pivoStore = configureStore({
     favorites: FavoriteSlice.reducer,
     eBasket: eBasketSlice.reducer,
     currentOrder: currentOrderSlice.reducer,
+    allOrders: OrdersSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(pivoApi.middleware),

@@ -9,6 +9,7 @@ import { type IUser } from "../../types";
 import { checkerAuth } from "../../libs";
 import { setFavUserId } from "../../store/slices/favorites";
 import { updateBasketUserId } from "../../store/slices/eCartSlice";
+import { updateOrdersUserId } from "../../store/slices/ordersSlice";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function LoginPage() {
     passWord: "",
     isAuth: false,
     eCartId: "",
+    ordersId: "",
   };
 
   const dispatch = usePivoDispatch();
@@ -58,10 +60,12 @@ function LoginPage() {
     AuthUser.id = crypto.randomUUID();
     AuthUser.isAuth = checkerAuth(AuthUser);
     AuthUser.eCartId = crypto.randomUUID();
+    AuthUser.ordersId = crypto.randomUUID();
     //console.log(AuthUser.id);
     dispatch(updateUserData(AuthUser));
     dispatch(setFavUserId(AuthUser.id));
     dispatch(updateBasketUserId(AuthUser.eCartId));
+    dispatch(updateOrdersUserId(AuthUser.ordersId));
 
     setNameValue("");
     setEMail("");

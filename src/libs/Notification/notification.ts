@@ -1,4 +1,4 @@
-const noteName = "notification";
+const noteName = "Mynotification";
 
 function PivoNotification(paramMessage: string, paramClass: string[]) {
   let oldest = document.querySelectorAll("." + noteName);
