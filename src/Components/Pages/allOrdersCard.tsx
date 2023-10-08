@@ -3,7 +3,7 @@ import BackButton from "../UI/Buttons/backButton";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { type IOrder } from "../../store/slices/currOrderSlice";
 import { motion, AnimatePresence } from "framer-motion";
-import { Dt_To_String, FormatSumString } from "../../libs";
+import { Dt_To_String, FormatSumString, randomFrom } from "../../libs";
 import { updateOrdersUserId } from "../../store/slices/ordersSlice";
 
 function AllOrdersCard() {
@@ -56,7 +56,9 @@ function AllOrdersCard() {
                   <motion.tr
                     initial={{ scale: 0.1 }}
                     animate={{ scale: [1.3, 0.65, 1] }}
-                    transition={{ duration: 0.3 }}
+                    transition={{
+                      duration: 0.25,
+                    }}
                     key={item.id}
                   >
                     <td>{ind + 1}.</td>
