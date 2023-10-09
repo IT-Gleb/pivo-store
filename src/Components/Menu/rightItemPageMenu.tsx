@@ -51,7 +51,7 @@ function RightItemPageMenu() {
         title={"На глвную"}
         buttonClass={"button p-4 is-warning is-relative"}
         iconClass="icon is-size-4 has-text-black"
-        iClass="fas fa-file"
+        iClass="fas fa-home"
         hasName={false}
         isCount={-1}
         onClick={handleMain}

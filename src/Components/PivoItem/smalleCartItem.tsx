@@ -74,12 +74,12 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
               to={`/items/${prop.id}`}
               state={{ price: prop.price, stars: prop.stars }}
             >
-              <div className="level-item">
+              <motion.div whileHover={{ scale: 1.1 }} className="level-item">
                 <picture className="eCardPicture">
                   <source srcSet={prop.imgPath} />
                   <img src={Pivovar} alt={prop.title} />
                 </picture>
-              </div>
+              </motion.div>
             </Link>
           </div>
           <div className="level-right has-background-grey-lighter">
