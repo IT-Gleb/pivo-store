@@ -64,9 +64,9 @@ const MyModal = (props: TModalProps) => {
       <div className="wrapperPortal" ref={rootRef}>
         <motion.div
           className="message"
-          initial={{ top: "32%", scale: 0.25 }}
+          initial={{ top: "2%", scale: 0.25 }}
           animate={{
-            top: "30%",
+            top: "2%",
             scale: [0.5, 1.2, 0.8, 1],
             transition: { duration: 0.3 },
           }}
@@ -75,8 +75,8 @@ const MyModal = (props: TModalProps) => {
             maxWidth: "70%",
             maxHeight: "auto",
             margin: "0 auto",
-            top: "50%",
-            transform: "translateY(-50%)",
+            // top: "50%",
+            // transform: "translateY(-50%)",
             boxShadow: "0 0 2rem 0.6rem rgba(0, 0, 0, 0.85)",
             //   transform: "translateY(75%)",
           }}

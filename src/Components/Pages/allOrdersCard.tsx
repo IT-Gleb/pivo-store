@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "../UI/Buttons/backButton";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
-import { type IOrder } from "../../store/slices/currOrderSlice";
+import { TOrderItem, type IOrder } from "../../store/slices/currOrderSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dt_To_String, FormatSumString } from "../../libs";
 import { updateOrdersUserId } from "../../store/slices/ordersSlice";
-import DoDocumentButton from "../UI/Buttons/doDocumentBtn";
+import Pdf_Invoice from "../PDF/pdfInvoice";
+import MyModal from "../UI/MsgBox/myModal";
+import PdfView from "../PDF/pdfView";
 
 function AllOrdersCard() {
   const allOrdersCount = usePivoSelector(
@@ -15,8 +17,14 @@ function AllOrdersCard() {
   const currUserOrdersId = usePivoSelector(
     (state) => state.currentUser.ordersId
   );
+  const ClientName = usePivoSelector((state) => state.currentUser.Name);
   const currOrdersId = usePivoSelector((state) => state.allOrders.userId);
   const dispatch = usePivoDispatch();
+  const [isPreview, setIsPreview] = useState<boolean>(false);
+  const [orderNum, setOrderNum] = useState<string>("");
+  const [orderDate, setOrderDate] = useState<string>("");
+  const [OrderItems, setOrderItems] = useState<TOrderItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState<string>("0");
 
   useEffect(() => {
     if (currOrdersId === "" || currOrdersId !== currUserOrdersId) {
@@ -24,8 +32,37 @@ function AllOrdersCard() {
     }
   }, [currOrdersId, currUserOrdersId, dispatch]);
 
+  const handlePreview = (
+    paramNumOrder: string,
+    paramDateOrder: string,
+    paramTotalPrice: string,
+    paramOrderItems: TOrderItem[]
+  ) => {
+    setIsPreview(!isPreview);
+    setOrderNum(paramNumOrder);
+    setOrderDate(paramDateOrder);
+    setOrderItems(paramOrderItems);
+    setTotalPrice(paramTotalPrice);
+  };
+
   return (
     <section className="section mt-0">
+      {isPreview && (
+        <MyModal
+          title="Предварительный просмотр"
+          onClose={() => {
+            setIsPreview(false);
+          }}
+        >
+          <PdfView
+            paramNumOrder={orderNum}
+            paramNameClient={ClientName}
+            paramDateOrder={orderDate}
+            paramTotalPrice={totalPrice}
+            paramOrderItems={OrderItems}
+          />
+        </MyModal>
+      )}
       <h3
         className="title is-size-5 title-article pb-2"
         style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.25)" }}
@@ -49,6 +86,7 @@ function AllOrdersCard() {
                 <th>Номер заказа</th>
                 <th>Итог</th>
                 <th>Документ</th>
+                <th>Предпросмотр</th>
               </tr>
             </thead>
             <tbody>
@@ -57,7 +95,9 @@ function AllOrdersCard() {
                   return (
                     <motion.tr
                       initial={{ scale: 0.1 }}
-                      animate={{ scale: [1.3, 0.65, 1] }}
+                      animate={{
+                        scale: [1.3, 0.8, 1],
+                      }}
                       transition={{
                         duration: 0.25,
                       }}
@@ -79,8 +119,36 @@ function AllOrdersCard() {
                           &nbsp; &#8381;
                         </span>
                       </td>
-                      <td className="has-text-right">
-                        <DoDocumentButton />
+                      <td className="has-text-left">
+                        {item && OrderItems && OrderItems.length > 0 && (
+                          <Pdf_Invoice
+                            filename={(item.orderNum + ".pdf").replaceAll(
+                              " ",
+                              "_"
+                            )}
+                            paramNumOrder={orderNum}
+                            paramNameClient={ClientName}
+                            paramDateOrder={orderDate}
+                            paramTotalPrice={totalPrice}
+                            paramOrderItems={OrderItems}
+                          />
+                        )}
+                      </td>
+                      <td className="has-tex-center">
+                        <button
+                          className="button is-small is-primary has-text-dark"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            handlePreview(
+                              item.orderNum,
+                              Dt_To_String(item.orderDate),
+                              FormatSumString(item.totalPrice),
+                              item.Items
+                            );
+                          }}
+                        >
+                          Просмотреть
+                        </button>
                       </td>
                     </motion.tr>
                   );

@@ -21,7 +21,7 @@ function MyCheckBox({
     <input
       className="checkbox"
       type="checkbox"
-      name="myCheckBox"
+      name="myCheckBox1"
       checked={checkValue}
       onChange={handleChecked}
     />

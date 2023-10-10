@@ -16,7 +16,8 @@ function DoOrderButton() {
   const handleNewOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     let tmpDt: number = Date.now();
-    let tmpNum: string = `ON № ${randomFrom(100, 999)}/00` + randomFrom(1, 99);
+    let tmpNum: string =
+      `order № ${randomFrom(100, 999)}/00` + randomFrom(1, 99);
     let tmpOrder: IOrder = Object.assign({}, currOrder);
     tmpOrder.orderDate = tmpDt;
     tmpOrder.orderNum = tmpNum;
