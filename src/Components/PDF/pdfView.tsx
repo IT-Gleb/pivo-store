@@ -1,3 +1,4 @@
+import React from "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import PdfOrder from "./pdfOrder";
 import { TOrderItem } from "../../store/slices/currOrderSlice";
@@ -30,4 +31,4 @@ function PdfView({
   );
 }
 
-export default PdfView;
+export default React.memo(PdfView);

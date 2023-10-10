@@ -120,17 +120,17 @@ function AllOrdersCard() {
                         </span>
                       </td>
                       <td className="has-text-left">
-                        {item && OrderItems && OrderItems.length > 0 && (
+                        {item && (
                           <Pdf_Invoice
                             filename={(item.orderNum + ".pdf").replaceAll(
                               " ",
                               "_"
                             )}
-                            paramNumOrder={orderNum}
+                            paramNumOrder={item.orderNum}
                             paramNameClient={ClientName}
-                            paramDateOrder={orderDate}
-                            paramTotalPrice={totalPrice}
-                            paramOrderItems={OrderItems}
+                            paramDateOrder={Dt_To_String(item.orderDate)}
+                            paramTotalPrice={FormatSumString(item.totalPrice)}
+                            paramOrderItems={item.Items}
                           />
                         )}
                       </td>

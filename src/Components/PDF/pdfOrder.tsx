@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Document,
   Page,
@@ -396,4 +397,4 @@ const PdfOrder = ({
   );
 };
 
-export default PdfOrder;
+export default React.memo(PdfOrder);
