@@ -196,8 +196,19 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[0],
-    borderBottom: "1px solid darkgrey",
     backgroundColor: "white",
+  },
+  TD1_bg: {
+    fontFamily: "myFiraSuns",
+    fontSize: 10,
+    fontWeight: "light",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    padding: 6,
+    marginHorizontal: 0.5,
+    marginVertical: 0.5,
+    width: tdthWidth[0],
+    backgroundColor: "rgba(127, 127, 127, 0.1)",
   },
   TD2: {
     fontFamily: "myFiraSuns",
@@ -210,8 +221,20 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[1],
-    borderBottom: "1px solid darkgrey",
     backgroundColor: "white",
+  },
+  TD2_bg: {
+    fontFamily: "myFiraSuns",
+    fontSize: 11,
+    textAlign: "left",
+    fontWeight: "light",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    padding: 6,
+    marginHorizontal: 0.5,
+    marginVertical: 0.5,
+    width: tdthWidth[1],
+    backgroundColor: "rgba(127, 127, 127, 0.1)",
   },
   TD3: {
     fontFamily: "myFiraSuns",
@@ -223,9 +246,21 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[2],
-    borderBottom: "1px solid darkgrey",
     backgroundColor: "white",
   },
+  TD3_bg: {
+    fontFamily: "myFiraSuns",
+    fontSize: 10,
+    fontWeight: "light",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    padding: 6,
+    marginHorizontal: 0.5,
+    marginVertical: 0.5,
+    width: tdthWidth[2],
+    backgroundColor: "rgba(127, 127, 127, 0.1)",
+  },
+
   TDnull1: {
     width: tdthWidth[0],
     padding: 6,
@@ -250,6 +285,7 @@ const pdfStyles = StyleSheet.create({
     overflow: "hidden",
     textOverflow: "ellipsis",
     padding: 6,
+    borderBottom: "1px solid lightgrey",
   },
   imageSt: {
     width: 110,
@@ -346,19 +382,42 @@ const PdfOrder = ({
             {paramOrderItems &&
               paramOrderItems.length > 0 &&
               paramOrderItems.map((item, ind) => {
+                let tmp: boolean = ind % 2 === 0 ? true : false;
                 return (
                   <View
                     key={item.id}
                     style={pdfStyles.tableRow}
                     break={ind >= 15 ? true : false}
-                    wrap={ind >= 15 ? true : false}
+                    // wrap={ind >= 15 ? true : false}
                   >
-                    <Text style={pdfStyles.TD1}>{ind + 1}.</Text>
-                    <Text style={pdfStyles.TD2}>{item.name}</Text>
-                    <Text style={pdfStyles.TD3}>{item.count}</Text>
-                    <Text style={pdfStyles.TD3}>шт.</Text>
-                    <Text style={pdfStyles.TD3}>{item.priceOne}.00&#8381;</Text>
-                    <Text style={pdfStyles.TD3}>{item.price}.00&#8381;</Text>
+                    {tmp && (
+                      <>
+                        <Text style={pdfStyles.TD1}>{ind + 1}.</Text>
+                        <Text style={pdfStyles.TD2}>{item.name}</Text>
+                        <Text style={pdfStyles.TD3}>{item.count}</Text>
+                        <Text style={pdfStyles.TD3}>шт.</Text>
+                        <Text style={pdfStyles.TD3}>
+                          {item.priceOne}.00&#8381;
+                        </Text>
+                        <Text style={pdfStyles.TD3}>
+                          {item.price}.00&#8381;
+                        </Text>
+                      </>
+                    )}
+                    {!tmp && (
+                      <>
+                        <Text style={pdfStyles.TD1_bg}>{ind + 1}.</Text>
+                        <Text style={pdfStyles.TD2_bg}>{item.name}</Text>
+                        <Text style={pdfStyles.TD3_bg}>{item.count}</Text>
+                        <Text style={pdfStyles.TD3_bg}>шт.</Text>
+                        <Text style={pdfStyles.TD3_bg}>
+                          {item.priceOne}.00&#8381;
+                        </Text>
+                        <Text style={pdfStyles.TD3_bg}>
+                          {item.price}.00&#8381;
+                        </Text>
+                      </>
+                    )}
                   </View>
                 );
               })}
