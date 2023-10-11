@@ -45,7 +45,7 @@ Font.register({
   ],
 });
 
-const tdthWidth: number[] = [45, 220, 65];
+const tdthWidth: number[] = [40, 210, 65];
 
 const pdfStyles = StyleSheet.create({
   page: {
