@@ -137,6 +137,17 @@ const pdfStyles = StyleSheet.create({
     textAlign: "center",
     margin: "0 auto",
   },
+  tableRow_bg: {
+    flexDirection: "row",
+    textAlign: "center",
+    margin: "0 auto",
+    backgroundColor: "rgba(127, 127, 127, 0.07)",
+  },
+  tableRowTH: {
+    flexDirection: "row",
+    textAlign: "center",
+    margin: "0 auto",
+  },
   TH1: {
     fontFamily: "myRoboto",
     fontSize: 10,
@@ -196,19 +207,6 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[0],
-    backgroundColor: "white",
-  },
-  TD1_bg: {
-    fontFamily: "myFiraSuns",
-    fontSize: 10,
-    fontWeight: "light",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    padding: 6,
-    marginHorizontal: 0.5,
-    marginVertical: 0.5,
-    width: tdthWidth[0],
-    backgroundColor: "rgba(127, 127, 127, 0.1)",
   },
   TD2: {
     fontFamily: "myFiraSuns",
@@ -221,20 +219,6 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[1],
-    backgroundColor: "white",
-  },
-  TD2_bg: {
-    fontFamily: "myFiraSuns",
-    fontSize: 11,
-    textAlign: "left",
-    fontWeight: "light",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    padding: 6,
-    marginHorizontal: 0.5,
-    marginVertical: 0.5,
-    width: tdthWidth[1],
-    backgroundColor: "rgba(127, 127, 127, 0.1)",
   },
   TD3: {
     fontFamily: "myFiraSuns",
@@ -246,19 +230,6 @@ const pdfStyles = StyleSheet.create({
     marginHorizontal: 0.5,
     marginVertical: 0.5,
     width: tdthWidth[2],
-    backgroundColor: "white",
-  },
-  TD3_bg: {
-    fontFamily: "myFiraSuns",
-    fontSize: 10,
-    fontWeight: "light",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    padding: 6,
-    marginHorizontal: 0.5,
-    marginVertical: 0.5,
-    width: tdthWidth[2],
-    backgroundColor: "rgba(127, 127, 127, 0.1)",
   },
 
   TDnull1: {
@@ -292,7 +263,7 @@ const pdfStyles = StyleSheet.create({
     height: 108,
     position: "absolute",
     bottom: "4%",
-    left: `${randomFrom(7, 15)}%`,
+    left: `${randomFrom(7, 40)}%`,
     transform: `rotate(${8 + randomFrom(-60, 60)}deg)`,
   },
 });
@@ -311,7 +282,7 @@ const PdfOrder = ({
   paramOrderItems: TOrderItem[];
 }) => {
   return (
-    <Document author="IT-Gleb">
+    <Document author="IT-Gleb" language="russian">
       <Page size="A4" style={pdfStyles.page} wrap={true}>
         <View style={pdfStyles.row}>
           <View style={pdfStyles.section_50}>
@@ -371,7 +342,7 @@ const PdfOrder = ({
         </View>
         <View style={pdfStyles.row}>
           <View style={pdfStyles.sectionFullWithMarginTop20}>
-            <View style={pdfStyles.tableRow}>
+            <View style={pdfStyles.tableRowTH} fixed>
               <Text style={pdfStyles.TH1}>№/№</Text>
               <Text style={pdfStyles.TH2}>Позиция</Text>
               <Text style={pdfStyles.TH3}>Кол-во</Text>
@@ -382,45 +353,61 @@ const PdfOrder = ({
             {paramOrderItems &&
               paramOrderItems.length > 0 &&
               paramOrderItems.map((item, ind) => {
+                //Для бэкгроунда строки в документе белый или темнее
                 let tmp: boolean = ind % 2 === 0 ? true : false;
+
+                //Определяем количество страниц документа
+                const firstPage = 18;
+                const itemsOnPage = 25;
+
+                let pagesItems: number[] = [firstPage];
+                let pages = 0;
+
+                if (paramOrderItems.length > firstPage)
+                  pages = Math.ceil(
+                    (paramOrderItems.length - firstPage) / itemsOnPage
+                  );
+                if (pages > 0) {
+                  let itm: number = firstPage;
+                  for (let i: number = 0; i < pages; i++) {
+                    itm = itm + itemsOnPage;
+                    pagesItems[i + 1] = itm;
+                  }
+                  // console.log(pagesItems);
+                }
+                //---------------------------------------------------
                 return (
                   <View
                     key={item.id}
-                    style={pdfStyles.tableRow}
-                    break={ind >= 15 ? true : false}
+                    style={tmp ? pdfStyles.tableRow : pdfStyles.tableRow_bg}
+                    break={
+                      pagesItems.find((item_n) => {
+                        return item_n === ind;
+                      })
+                        ? true
+                        : false
+                    }
                     // wrap={ind >= 15 ? true : false}
                   >
-                    {tmp && (
-                      <>
-                        <Text style={pdfStyles.TD1}>{ind + 1}.</Text>
-                        <Text style={pdfStyles.TD2}>{item.name}</Text>
-                        <Text style={pdfStyles.TD3}>{item.count}</Text>
-                        <Text style={pdfStyles.TD3}>шт.</Text>
-                        <Text style={pdfStyles.TD3}>
-                          {item.priceOne}.00&#8381;
-                        </Text>
-                        <Text style={pdfStyles.TD3}>
-                          {item.price}.00&#8381;
-                        </Text>
-                      </>
-                    )}
-                    {!tmp && (
-                      <>
-                        <Text style={pdfStyles.TD1_bg}>{ind + 1}.</Text>
-                        <Text style={pdfStyles.TD2_bg}>{item.name}</Text>
-                        <Text style={pdfStyles.TD3_bg}>{item.count}</Text>
-                        <Text style={pdfStyles.TD3_bg}>шт.</Text>
-                        <Text style={pdfStyles.TD3_bg}>
-                          {item.priceOne}.00&#8381;
-                        </Text>
-                        <Text style={pdfStyles.TD3_bg}>
-                          {item.price}.00&#8381;
-                        </Text>
-                      </>
-                    )}
+                    <Text style={pdfStyles.TD1}>{ind + 1}.</Text>
+                    <Text style={pdfStyles.TD2}>{item.name}</Text>
+                    <Text style={pdfStyles.TD3}>{item.count}</Text>
+                    <Text style={pdfStyles.TD3}>шт.</Text>
+                    <Text style={pdfStyles.TD3}>
+                      {item.priceOne}.00 &#8381;
+                    </Text>
+                    <Text style={pdfStyles.TD3}>{item.price}.00 &#8381;</Text>
                   </View>
                 );
               })}
+            <View style={pdfStyles.tableRow}>
+              <Text style={pdfStyles.TDnull1}></Text>
+              <Text style={pdfStyles.TDnull2}></Text>
+              <Text style={pdfStyles.TDnull3}></Text>
+              <Text style={pdfStyles.TDnull3}></Text>
+              <Text style={pdfStyles.TDnull3}></Text>
+              <Text style={pdfStyles.TDnull3}></Text>
+            </View>
             <View style={pdfStyles.tableRow}>
               <Text style={pdfStyles.TDnull1}></Text>
               <Text style={pdfStyles.TDnull2}></Text>
@@ -442,14 +429,9 @@ const PdfOrder = ({
             </View>
           </View>
         </View>
-        <View style={pdfStyles.row}>
-          {/* <View style={pdfStyles.sectionFullWithMarginTop}></View> */}
-        </View>
 
         <View style={pdfStyles.row}>
-          <View style={pdfStyles.sectionFullWithMarginTop}>
-            <Image style={pdfStyles.imageSt} src={Pechat1}></Image>
-          </View>
+          <Image style={pdfStyles.imageSt} src={Pechat1}></Image>
         </View>
       </Page>
     </Document>
