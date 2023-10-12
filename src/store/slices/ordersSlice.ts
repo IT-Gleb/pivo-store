@@ -8,13 +8,17 @@ import { type IOrder } from "./currOrderSlice";
 import orderBy from "lodash/orderBy";
 import { PivoDb } from "../../libs";
 
+export const defaultOnPage: number = 5;
+
 export interface IOrders {
   orderItems: IOrder[];
   userId: string;
+  onPage: number;
 }
 
 const initialData: IOrders = {
   userId: "",
+  onPage: defaultOnPage,
   orderItems: [],
 };
 
@@ -47,6 +51,10 @@ export const OrdersSlice = createSlice({
     clearOrdersStore(state) {
       state.orderItems = [];
       state.userId = "";
+      state.onPage = defaultOnPage;
+    },
+    updateOrdersOnPage(state, action: PayloadAction<number>) {
+      state.onPage = action.payload;
     },
     addNew_Orders_Item(state, action: PayloadAction<IOrder>) {
       let tmpId = action.payload.id;
@@ -83,7 +91,11 @@ export const OrdersSlice = createSlice({
   },
 });
 
-export const { updateOrdersUserId, clearOrdersStore, addNew_Orders_Item } =
-  OrdersSlice.actions;
+export const {
+  updateOrdersUserId,
+  clearOrdersStore,
+  addNew_Orders_Item,
+  updateOrdersOnPage,
+} = OrdersSlice.actions;
 
 export default OrdersSlice.reducer;

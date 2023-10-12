@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useTransition } from "react";
 import BackButton from "../UI/Buttons/backButton";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import { TOrderItem, type IOrder } from "../../store/slices/currOrderSlice";
@@ -8,16 +8,21 @@ import { updateOrdersUserId } from "../../store/slices/ordersSlice";
 import Pdf_Invoice from "../PDF/pdfInvoice";
 import MyModal from "../UI/MsgBox/myModal";
 import PdfView from "../PDF/pdfView";
+import PivoSpinner from "../UI/Spinner/pivoSpinner";
+import MySelect from "../UI/MySelect/mySelect";
 
 function AllOrdersCard() {
   const allOrdersCount = usePivoSelector(
     (state) => state.allOrders.orderItems.length
   );
   const allOrders = usePivoSelector((state) => state.allOrders.orderItems);
+  const [itemsOnPage, setItemsOnPage] = useState<IOrder[]>([]);
   const currUserOrdersId = usePivoSelector(
     (state) => state.currentUser.ordersId
   );
+  const onPageOrders = usePivoSelector((state) => state.allOrders.onPage);
   const ClientName = usePivoSelector((state) => state.currentUser.Name);
+  const ClientEmail = usePivoSelector((state) => state.currentUser.email);
   const currOrdersId = usePivoSelector((state) => state.allOrders.userId);
   const dispatch = usePivoDispatch();
   const [isPreview, setIsPreview] = useState<boolean>(false);
@@ -25,6 +30,7 @@ function AllOrdersCard() {
   const [orderDate, setOrderDate] = useState<string>("");
   const [OrderItems, setOrderItems] = useState<TOrderItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<string>("0");
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (currOrdersId === "" || currOrdersId !== currUserOrdersId) {
@@ -45,6 +51,27 @@ function AllOrdersCard() {
     setTotalPrice(paramTotalPrice);
   };
 
+  useEffect(() => {
+    let tmpOrders: IOrder[] = [];
+    let tmpOnPageOrders: number = 0;
+    //console.log(onPageOrders);
+    if (onPageOrders !== -1 && allOrders) {
+      tmpOnPageOrders =
+        allOrdersCount > onPageOrders ? onPageOrders : allOrdersCount;
+      if (tmpOnPageOrders > 0) {
+        for (let ind = 0; ind < tmpOnPageOrders; ind++) {
+          tmpOrders.push(allOrders[ind]);
+        }
+      }
+      tmpOnPageOrders === 0
+        ? setItemsOnPage(allOrders)
+        : setItemsOnPage(tmpOrders);
+    }
+    //console.log(tmpOrders);
+  }, [onPageOrders, allOrders, setItemsOnPage]);
+
+  if (isPending) return <PivoSpinner text="Данные загружаются..." />;
+
   return (
     <section className="section mt-0">
       {isPreview && (
@@ -54,13 +81,16 @@ function AllOrdersCard() {
             setIsPreview(false);
           }}
         >
-          <PdfView
-            paramNumOrder={orderNum}
-            paramNameClient={ClientName}
-            paramDateOrder={orderDate}
-            paramTotalPrice={totalPrice}
-            paramOrderItems={OrderItems}
-          />
+          <Suspense fallback={<PivoSpinner text="Загружаю..." />}>
+            <PdfView
+              paramNumOrder={orderNum}
+              paramNameClient={ClientName}
+              paramClientEmail={ClientEmail}
+              paramDateOrder={orderDate}
+              paramTotalPrice={totalPrice}
+              paramOrderItems={OrderItems}
+            />
+          </Suspense>
         </MyModal>
       )}
       <h3
@@ -76,87 +106,106 @@ function AllOrdersCard() {
           </div>
         </div>
       )}
-      {allOrders && allOrdersCount > 0 && (
-        <div className="table-container">
-          <table className="table is-fullwidth is-striped">
-            <thead className="is-size-6 is-size-6-mobile">
-              <tr>
-                <th>№/№</th>
-                <th>Дата</th>
-                <th>Номер заказа</th>
-                <th>Итог</th>
-                <th>Документ</th>
-                <th>Предпросмотр</th>
-              </tr>
-            </thead>
-            <tbody>
-              <AnimatePresence>
-                {allOrders.map((item: IOrder, ind) => {
-                  return (
-                    <motion.tr
-                      initial={{ scale: 0.1 }}
-                      animate={{
-                        scale: [1.3, 0.8, 1],
-                      }}
-                      transition={{
-                        duration: 0.25,
-                      }}
-                      key={item.id}
-                    >
-                      <td className="is-size-6 is-size-7-mobile">{ind + 1}.</td>
-                      <td className="has-text-info is-size-6 is-size-7-mobile">
-                        {Dt_To_String(item.orderDate)}
-                      </td>
-                      <td className="subtitle is-size-6 is-size-7-mobile has-text-weight-semibold">
-                        {item.orderNum}
-                      </td>
-                      <td className="subtitle" style={{ whiteSpace: "nowrap" }}>
-                        <span className="is-size-6 is-size-6-mobile has-text-link">
-                          {FormatSumString(item.totalPrice)}
-                        </span>
-                        <span className="is-size-7 is-size-7-mobile">.00</span>
-                        <span className="is-size-7 is-size-7-mobile">
-                          &nbsp; &#8381;
-                        </span>
-                      </td>
-                      <td className="has-text-left">
-                        {item && (
-                          <Pdf_Invoice
-                            filename={(item.orderNum + ".pdf").replaceAll(
-                              " ",
-                              "_"
-                            )}
-                            paramNumOrder={item.orderNum}
-                            paramNameClient={ClientName}
-                            paramDateOrder={Dt_To_String(item.orderDate)}
-                            paramTotalPrice={FormatSumString(item.totalPrice)}
-                            paramOrderItems={item.Items}
-                          />
-                        )}
-                      </td>
-                      <td className="has-tex-center">
-                        <button
-                          className="button is-small is-primary has-text-dark"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            handlePreview(
-                              item.orderNum,
-                              Dt_To_String(item.orderDate),
-                              FormatSumString(item.totalPrice),
-                              item.Items
-                            );
-                          }}
+      {itemsOnPage && allOrdersCount > 0 && (
+        <>
+          <MySelect />
+          <div className="table-container">
+            <table className="table is-fullwidth is-striped">
+              <thead className="is-size-6 is-size-6-mobile">
+                <tr>
+                  <th>№/№</th>
+                  <th>Дата</th>
+                  <th>Номер заказа</th>
+                  <th>Итог</th>
+                  <th>Документ</th>
+                  <th>Предпросмотр</th>
+                </tr>
+              </thead>
+              <tbody>
+                <AnimatePresence>
+                  {itemsOnPage.map((item: IOrder, ind) => {
+                    return (
+                      <motion.tr
+                        initial={{ scale: 0.1 }}
+                        animate={{
+                          scale: [1.3, 0.8, 1],
+                        }}
+                        transition={{
+                          duration: 0.25,
+                        }}
+                        key={item.id}
+                      >
+                        <td className="is-size-6 is-size-7-mobile">
+                          {ind + 1}.
+                        </td>
+                        <td className="has-text-info is-size-6 is-size-7-mobile">
+                          {Dt_To_String(item.orderDate)}
+                        </td>
+                        <td className="subtitle is-size-6 is-size-7-mobile has-text-weight-semibold">
+                          {item.orderNum}
+                        </td>
+                        <td
+                          className="subtitle"
+                          style={{ whiteSpace: "nowrap" }}
                         >
-                          Просмотреть
-                        </button>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </AnimatePresence>
-            </tbody>
-          </table>
-        </div>
+                          <span className="is-size-6 is-size-6-mobile has-text-link">
+                            {FormatSumString(item.totalPrice)}
+                          </span>
+                          <span className="is-size-7 is-size-7-mobile">
+                            .00
+                          </span>
+                          <span className="is-size-7 is-size-7-mobile">
+                            &nbsp; &#8381;
+                          </span>
+                        </td>
+                        <td className="has-text-left">
+                          {item && (
+                            <Suspense
+                              fallback={<PivoSpinner text="Загрузка..." />}
+                            >
+                              <Pdf_Invoice
+                                filename={(item.orderNum + ".pdf").replaceAll(
+                                  " ",
+                                  "_"
+                                )}
+                                paramNumOrder={item.orderNum}
+                                paramNameClient={ClientName}
+                                paramClientEmail={ClientEmail}
+                                paramDateOrder={Dt_To_String(item.orderDate)}
+                                paramTotalPrice={FormatSumString(
+                                  item.totalPrice
+                                )}
+                                paramOrderItems={item.Items}
+                              />
+                            </Suspense>
+                          )}
+                        </td>
+                        <td className="has-tex-center">
+                          <button
+                            className="button is-small is-primary has-text-dark"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              startTransition(() => {
+                                handlePreview(
+                                  item.orderNum,
+                                  Dt_To_String(item.orderDate),
+                                  FormatSumString(item.totalPrice),
+                                  item.Items
+                                );
+                              });
+                            }}
+                          >
+                            Просмотреть
+                          </button>
+                        </td>
+                      </motion.tr>
+                    );
+                  })}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
       <div className="buttons are-small is-centered">
         <BackButton />

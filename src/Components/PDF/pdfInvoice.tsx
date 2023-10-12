@@ -7,6 +7,7 @@ function Pdf_Invoice({
   filename,
   paramNumOrder,
   paramNameClient,
+  paramClientEmail,
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
@@ -14,6 +15,7 @@ function Pdf_Invoice({
   filename: string;
   paramNumOrder: string;
   paramNameClient: string;
+  paramClientEmail: string;
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
@@ -25,6 +27,7 @@ function Pdf_Invoice({
           <PdfOrder
             paramNumOrder={paramNumOrder}
             paramNameClient={paramNameClient}
+            paramClientEmail={paramClientEmail}
             paramDateOrder={paramDateOrder}
             paramTotalPrice={paramTotalPrice}
             paramOrderItems={paramOrderItems}

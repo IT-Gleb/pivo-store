@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useTransition } from "react";
 import { motion } from "framer-motion";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import {
@@ -12,6 +12,7 @@ import PivoNotification from "../../../libs/Notification/notification";
 function DoOrderButton() {
   const currOrder = usePivoSelector((state) => state.currentOrder);
   const dispatch = usePivoDispatch();
+  const [isPending, startTransition] = useTransition();
 
   const handleNewOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -22,13 +23,15 @@ function DoOrderButton() {
     tmpOrder.orderDate = tmpDt;
     tmpOrder.orderNum = tmpNum;
 
-    dispatch(addNew_Orders_Item(tmpOrder));
+    startTransition(() => {
+      dispatch(addNew_Orders_Item(tmpOrder));
 
-    dispatch(clearCurrOrder());
-    PivoNotification(`Текущий заказ - ${tmpNum} - успешно сформирован!`, [
-      "has-background-warning",
-      "has-text-dark",
-    ]);
+      dispatch(clearCurrOrder());
+      PivoNotification(`Текущий заказ - ${tmpNum} - успешно сформирован!`, [
+        "has-background-warning",
+        "has-text-dark",
+      ]);
+    });
   };
 
   return (

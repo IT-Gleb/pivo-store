@@ -271,19 +271,41 @@ const pdfStyles = StyleSheet.create({
 const PdfOrder = ({
   paramNumOrder,
   paramNameClient,
+  paramClientEmail,
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
 }: {
   paramNumOrder: string;
   paramNameClient: string;
+  paramClientEmail: string;
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
 }) => {
+  let CurrentPage: string = "1";
   return (
     <Document author="IT-Gleb" language="russian">
       <Page size="A4" style={pdfStyles.page} wrap={true}>
+        <Text
+          style={{
+            width: "100%",
+            padding: 2,
+            textAlign: "center",
+            fontFamily: "myRoboto",
+            fontSize: 9,
+            fontWeight: "light",
+            position: "absolute",
+            top: "93%",
+            left: 0,
+            right: 0,
+            zIndex: 10,
+          }}
+          render={({ pageNumber, totalPages }) =>
+            `Страница: ${pageNumber} / ${totalPages}`
+          }
+          fixed
+        />
         <View style={pdfStyles.row}>
           <View style={pdfStyles.section_50}>
             <Text style={pdfStyles.title2}>
@@ -325,11 +347,50 @@ const PdfOrder = ({
             </Text>
             <Text style={pdfStyles.smalltext}>
               <Text style={pdfStyles.smallBlueBoldtext}>Заказчик: </Text>
-              <Text style={pdfStyles.smallBoldtext}> {paramNameClient} </Text>
+              <Text
+                style={{
+                  padding: 2,
+                  fontFamily: "myFiraSuns",
+                  fontSize: 14,
+                  fontWeight: "normal",
+                }}
+              >
+                {" "}
+                {paramNameClient}{" "}
+              </Text>
             </Text>
+            <Text style={pdfStyles.smalltext}>
+              <Text style={pdfStyles.smallBlueBoldtext}>
+                E-mail заказчика:{" "}
+              </Text>
+              <Text
+                style={{
+                  padding: 2,
+                  fontFamily: "myFiraSuns",
+                  fontSize: 12,
+                  fontWeight: "light",
+                  textAlign: "right",
+                }}
+              >
+                {" "}
+                {paramClientEmail}{" "}
+              </Text>
+            </Text>
+
             <Text>
               <Text style={pdfStyles.smallBlueBoldtext}>Дата заказа: </Text>
-              <Text style={pdfStyles.smallBoldtext}> {paramDateOrder} </Text>
+              <Text
+                style={{
+                  padding: 2,
+                  fontFamily: "myFiraSuns",
+                  fontSize: 10,
+                  fontWeight: "light",
+                  textAlign: "right",
+                }}
+              >
+                {" "}
+                {paramDateOrder}{" "}
+              </Text>
             </Text>
           </View>
         </View>
@@ -357,8 +418,8 @@ const PdfOrder = ({
                 let tmp: boolean = ind % 2 === 0 ? true : false;
 
                 //Определяем количество страниц документа
-                const firstPage = 18;
-                const itemsOnPage = 25;
+                const firstPage = 15;
+                const itemsOnPage = 24;
 
                 let pagesItems: number[] = [firstPage];
                 let pages = 0;
@@ -400,6 +461,7 @@ const PdfOrder = ({
                   </View>
                 );
               })}
+
             <View style={pdfStyles.tableRow}>
               <Text style={pdfStyles.TDnull1}></Text>
               <Text style={pdfStyles.TDnull2}></Text>

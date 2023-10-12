@@ -6,12 +6,14 @@ import { TOrderItem } from "../../store/slices/currOrderSlice";
 function PdfView({
   paramNumOrder,
   paramNameClient,
+  paramClientEmail,
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
 }: {
   paramNumOrder: string;
   paramNameClient: string;
+  paramClientEmail: string;
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
@@ -22,6 +24,7 @@ function PdfView({
         <PdfOrder
           paramNumOrder={paramNumOrder}
           paramNameClient={paramNameClient}
+          paramClientEmail={paramClientEmail}
           paramDateOrder={paramDateOrder}
           paramTotalPrice={paramTotalPrice}
           paramOrderItems={paramOrderItems}
