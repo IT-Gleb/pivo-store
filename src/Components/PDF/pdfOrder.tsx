@@ -262,8 +262,8 @@ const pdfStyles = StyleSheet.create({
     width: 110,
     height: 108,
     position: "absolute",
-    bottom: "4%",
-    left: `${randomFrom(7, 40)}%`,
+    top: "80%",
+    left: `${randomFrom(8, 30)}%`,
     transform: `rotate(${8 + randomFrom(-60, 60)}deg)`,
   },
 });
@@ -283,7 +283,6 @@ const PdfOrder = ({
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
 }) => {
-  let CurrentPage: string = "1";
   return (
     <Document author="IT-Gleb" language="russian">
       <Page size="A4" style={pdfStyles.page} wrap={true}>
@@ -492,7 +491,13 @@ const PdfOrder = ({
           </View>
         </View>
 
-        <View style={pdfStyles.row}>
+        <View
+          style={[
+            pdfStyles.row,
+            { position: "absolute", top: "80%", left: randomFrom(12, 35) },
+          ]}
+          fixed
+        >
           <Image style={pdfStyles.imageSt} src={Pechat1}></Image>
         </View>
       </Page>

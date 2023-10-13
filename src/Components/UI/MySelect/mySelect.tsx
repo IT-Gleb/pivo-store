@@ -15,8 +15,8 @@ type TmySelValues = TmySelect[];
 function MySelect() {
   const selValues: TmySelValues = [
     { optName: "--по умолчанию---", value: defaultOnPage },
-    { optName: "7 последних", value: 7 },
-    { optName: "12 последних", value: 12 },
+    { optName: `${defaultOnPage * 2} последних`, value: defaultOnPage * 2 },
+    { optName: `${defaultOnPage * 3} последних`, value: defaultOnPage * 3 },
     { optName: "Все", value: 0 },
   ];
   const [selValue, setSelValue] = useState<TmySelect>(selValues[0]);

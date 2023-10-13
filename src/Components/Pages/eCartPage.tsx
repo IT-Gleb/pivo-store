@@ -10,6 +10,7 @@ import {
 import { AnimatePresence } from "framer-motion";
 import BackButton from "../UI/Buttons/backButton";
 import RightECartMenu from "../Menu/rightECartMenu";
+import AllCardInOrder_Button from "../UI/Buttons/allCartInOrder";
 
 export const TimeInCart: number = 30;
 
@@ -81,6 +82,9 @@ const ECartPage: React.FC = () => {
           style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
           Ваша корзина {itemCount}
+        </div>
+        <div className="buttons are-small is-centered">
+          <AllCardInOrder_Button />
         </div>
 
         {itemCount < 1 && (
