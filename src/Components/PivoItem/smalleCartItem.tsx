@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { type TBasketItem } from "../../store/slices/eCartSlice";
+import React, { useEffect, useState, startTransition } from "react";
+import {
+  type TBasketItem,
+  TBasketItemNewCount,
+  updateBasketItemCount,
+} from "../../store/slices/eCartSlice";
 import { motion } from "framer-motion";
 import Pivovar from "../../assets/imgs/pivovar.png";
 import { Link } from "react-router-dom";
 import OrderBtn from "../UI/Buttons/inOrderBtn";
 import { type TOrderItem } from "../../store/slices/currOrderSlice";
+import { usePivoDispatch } from "../../hooks/storeHooks";
+import PivoCheckComponent from "../UI/PivoCheck/pivoCheckComponent";
 
 const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
   const maxCount: number = 100;
@@ -22,14 +28,22 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
     priceOne: Math.floor(prop.price! / prop.count),
   };
 
+  const dispatch = usePivoDispatch();
+
   const handleCount = (event: React.ChangeEvent<HTMLInputElement>) => {
     let tmpVal: number = Math.max(
       1,
       Math.min(maxCount, Number(event.target.value))
     );
-    setCount(tmpVal);
-    setNumValue(tmpVal);
-    if (prop.price) setTotalPrice(tmpVal * prop.price!);
+    let paramNewCount: TBasketItemNewCount = { id: prop.id, newCount: tmpVal };
+    startTransition(() => {
+      setCount(tmpVal);
+
+      setNumValue(tmpVal);
+      dispatch(updateBasketItemCount(paramNewCount));
+
+      if (prop.price) setTotalPrice(tmpVal * prop.price!);
+    });
   };
 
   useEffect(() => {
@@ -58,9 +72,13 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
       className="card is-clipped"
     >
       <div className="card-header has-background-black-ter has-text-light">
+        <div className="mx-2 my-1">
+          <PivoCheckComponent prop={prop} />
+        </div>
         <div className="card-header-title myTitle has-text-light p-0 px-2">
           {prop.title}
         </div>
+
         <div className="card-header-icon">
           <span className="icon ">
             <i className="fas fa-shopping-cart"></i>

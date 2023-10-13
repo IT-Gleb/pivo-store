@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, startTransition } from "react";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import {
   defaultOnPage,
@@ -21,7 +21,6 @@ function MySelect() {
   ];
   const [selValue, setSelValue] = useState<TmySelect>(selValues[0]);
   const dispatch = usePivoDispatch();
-  const [isPending, startTransition] = useTransition();
   const onPageFromStore = usePivoSelector((state) => state.allOrders.onPage);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

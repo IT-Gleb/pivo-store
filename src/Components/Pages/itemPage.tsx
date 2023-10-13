@@ -95,6 +95,7 @@ function ItemPage() {
         price: Item._price,
         stars: Item._star,
         timeAdd: Date.now(),
+        isSelected: false,
       };
       setCartItem(tmpBasket);
     }

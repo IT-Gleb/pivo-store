@@ -15,6 +15,17 @@ export type TBasketItem = {
   count: number;
   price: number | undefined;
   stars: number | undefined;
+  isSelected: boolean;
+};
+
+export type TBasketItemNewCount = {
+  id: number;
+  newCount: number;
+};
+
+export type TBasketItemSelected = {
+  id: number;
+  newSelected: boolean;
 };
 
 export interface IBasket {
@@ -92,6 +103,48 @@ export const eBasketSlice = createSlice({
         }
       }
     },
+    deleteBasketSelected(state) {
+      if (state.Items.length > 0) {
+        state.Items = state.Items.filter((item) => {
+          return item.isSelected === false;
+        });
+      }
+      state.Items = orderBy(state.Items, ["title"], ["asc"]);
+      if (state.userId.trim().length > 0) {
+        try {
+          state.error = "";
+          PivoDb.setItem(state.userId, state.Items);
+        } catch (e) {
+          state.error = e as string;
+          console.log(e);
+        }
+      }
+    },
+    updateBasketItemCount(state, action: PayloadAction<TBasketItemNewCount>) {
+      if (state.Items.length > 0) {
+        let tmpId: number = action.payload.id;
+        for (let i: number = 0; i < state.Items.length; i++) {
+          if (state.Items[i].id === tmpId) {
+            state.Items[i].count = action.payload.newCount;
+            break;
+          }
+        }
+      }
+    },
+    updateBasketItemSelected(
+      state,
+      action: PayloadAction<TBasketItemSelected>
+    ) {
+      if (state.Items.length > 0) {
+        let tmpId: number = action.payload.id;
+        for (let i: number = 0; i < state.Items.length; i++) {
+          if (state.Items[i].id === tmpId) {
+            state.Items[i].isSelected = action.payload.newSelected;
+            break;
+          }
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,6 +167,9 @@ export const {
   addNewBasketItem,
   updateBasketUserId,
   clearBasket,
+  updateBasketItemCount,
+  updateBasketItemSelected,
+  deleteBasketSelected,
 } = eBasketSlice.actions;
 
 export default eBasketSlice.reducer;

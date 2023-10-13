@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UserIsLogin from "../userIsLogin";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import SmalleBasketItemCard from "../PivoItem/smalleCartItem";
@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import BackButton from "../UI/Buttons/backButton";
 import RightECartMenu from "../Menu/rightECartMenu";
 import AllCardInOrder_Button from "../UI/Buttons/allCartInOrder";
+import RemoveSelectedBasketItems from "../UI/Buttons/removeSelectedBasketItems";
 
 export const TimeInCart: number = 30;
 
@@ -34,6 +35,7 @@ const ECartPage: React.FC = () => {
   const itemCount = usePivoSelector((state) => state.eBasket.Items.length);
   const CartItems = usePivoSelector((state) => state.eBasket.Items);
   const dispatch = usePivoDispatch();
+  const [checkSelected, setCheckSelected] = useState<boolean>(false);
 
   useEffect(() => {
     const checkerGoogs = () => {
@@ -52,6 +54,19 @@ const ECartPage: React.FC = () => {
       clearInterval(timerId);
     };
   }, []);
+
+  useEffect(() => {
+    if (CartItems.length > 0) {
+      let tmpV: boolean = false;
+      for (let i: number = 0; i < CartItems.length; i++) {
+        if (CartItems[i].isSelected) {
+          tmpV = true;
+          break;
+        }
+      }
+      setCheckSelected(tmpV);
+    }
+  }, [CartItems]);
 
   return (
     <>
@@ -83,9 +98,12 @@ const ECartPage: React.FC = () => {
         >
           Ваша корзина {itemCount}
         </div>
-        <div className="buttons are-small is-centered">
-          <AllCardInOrder_Button />
-        </div>
+        {itemCount > 0 && (
+          <div className="buttons are-small is-centered">
+            <AllCardInOrder_Button />
+            {checkSelected && <RemoveSelectedBasketItems />}
+          </div>
+        )}
 
         {itemCount < 1 && (
           <article className="message">

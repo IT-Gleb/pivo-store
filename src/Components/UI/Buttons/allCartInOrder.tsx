@@ -1,4 +1,4 @@
-import React, { useTransition } from "react";
+import React, { startTransition } from "react";
 import { motion } from "framer-motion";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { type TBasketItem } from "../../../store/slices/eCartSlice";
@@ -9,7 +9,6 @@ import {
 import PivoNotification from "../../../libs/Notification/notification";
 
 function AllCardInOrder_Button() {
-  const [isPending, startTransition] = useTransition();
   const cardItems = usePivoSelector((state) => state.eBasket.Items);
   const dispatch = usePivoDispatch();
 

@@ -52,6 +52,7 @@ function SmallItemCard({
       timeAdd: Date.now(),
       price: props._price,
       stars: props._star,
+      isSelected: false,
     };
     setCartItem(tmpCartItem);
   }, [props]);
