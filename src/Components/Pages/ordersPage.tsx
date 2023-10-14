@@ -12,6 +12,7 @@ import DoOrderBtn from "../UI/Buttons/doOrderBtn";
 import RightOrdersMenu from "../Menu/rightOrdersMenu";
 import { FormatSumString } from "../../libs";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
+import CurrentOrderChart from "../UI/Chart/currentOrderChart";
 
 type TOrderTempItem = {
   id: number;
@@ -58,7 +59,7 @@ function OrdersPage() {
     <>
       <RightOrdersMenu />
       <UserIsLogin />
-      <section className="section">
+      <section className="section is-center">
         {itemsCount > 0 && (
           <div className="message is-primary">
             <div className="message-body">
@@ -76,6 +77,7 @@ function OrdersPage() {
         >
           Текущий заказ
         </h3>
+        {itemsCount > 0 && <CurrentOrderChart />}
         {itemsCount < 1 && (
           <div className="message">
             <div className="message-body is-size-2 has-text-centered">
