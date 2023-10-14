@@ -18,6 +18,9 @@ function RemoveSelectedBasketItems() {
       className="button is-small is-danger is-light"
       onClick={handleClick}
     >
+      <span className="icon mr-1 is-small">
+        <i className="fas fa-minus"></i>
+      </span>
       Удалить выделенное
     </motion.button>
   );

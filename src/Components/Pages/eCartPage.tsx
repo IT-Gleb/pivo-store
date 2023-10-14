@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, startTransition } from "react";
 import UserIsLogin from "../userIsLogin";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import SmalleBasketItemCard from "../PivoItem/smalleCartItem";
@@ -12,6 +12,7 @@ import BackButton from "../UI/Buttons/backButton";
 import RightECartMenu from "../Menu/rightECartMenu";
 import AllCardInOrder_Button from "../UI/Buttons/allCartInOrder";
 import RemoveSelectedBasketItems from "../UI/Buttons/removeSelectedBasketItems";
+import AllSelectedAddButton from "../UI/Buttons/allSelectedaddButton";
 
 export const TimeInCart: number = 30;
 
@@ -48,7 +49,9 @@ const ECartPage: React.FC = () => {
       }
     };
     const timerId = setInterval(() => {
-      checkerGoogs();
+      startTransition(() => {
+        checkerGoogs();
+      });
     }, 3500);
     return () => {
       clearInterval(timerId);
@@ -65,6 +68,8 @@ const ECartPage: React.FC = () => {
         }
       }
       setCheckSelected(tmpV);
+    } else {
+      setCheckSelected(false);
     }
   }, [CartItems]);
 
@@ -99,9 +104,14 @@ const ECartPage: React.FC = () => {
           Ваша корзина {itemCount}
         </div>
         {itemCount > 0 && (
-          <div className="buttons are-small is-centered">
+          <div className="buttons are-small is-right">
             <AllCardInOrder_Button />
-            {checkSelected && <RemoveSelectedBasketItems />}
+            {checkSelected && (
+              <>
+                <AllSelectedAddButton />
+                <RemoveSelectedBasketItems />
+              </>
+            )}
           </div>
         )}
 

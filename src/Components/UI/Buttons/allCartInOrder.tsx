@@ -42,6 +42,9 @@ function AllCardInOrder_Button() {
       className="button is-small is-primary"
       onClick={handleClick}
     >
+      <span className="icon is-small mr-1">
+        <i className="fas fa-list"></i>
+      </span>
       Добавить все
     </motion.button>
   );
