@@ -11,6 +11,7 @@ function Pdf_Invoice({
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
+  paramImage64,
 }: {
   filename: string;
   paramNumOrder: string;
@@ -19,6 +20,7 @@ function Pdf_Invoice({
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
+  paramImage64: string;
 }) {
   return (
     <button className="button is-small is-primary">
@@ -31,6 +33,7 @@ function Pdf_Invoice({
             paramDateOrder={paramDateOrder}
             paramTotalPrice={paramTotalPrice}
             paramOrderItems={paramOrderItems}
+            paramImage64={paramImage64}
           />
         }
         fileName={filename}

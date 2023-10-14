@@ -12,6 +12,7 @@ import { FavoriteSlice } from "./slices/favorites";
 import { eBasketSlice } from "./slices/eCartSlice";
 import { currentOrderSlice } from "./slices/currOrderSlice";
 import { OrdersSlice } from "./slices/ordersSlice";
+import { currImageOrderSlice } from "./slices/currImageOrderSlice";
 
 export const pivoStore = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const pivoStore = configureStore({
     eBasket: eBasketSlice.reducer,
     currentOrder: currentOrderSlice.reducer,
     allOrders: OrdersSlice.reducer,
+    chartImage: currImageOrderSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(pivoApi.middleware),

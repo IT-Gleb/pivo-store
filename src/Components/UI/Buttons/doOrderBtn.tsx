@@ -1,4 +1,4 @@
-import React, { useTransition } from "react";
+import React, { startTransition } from "react";
 import { motion } from "framer-motion";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import {
@@ -11,8 +11,8 @@ import PivoNotification from "../../../libs/Notification/notification";
 
 function DoOrderButton() {
   const currOrder = usePivoSelector((state) => state.currentOrder);
+  const Image64 = usePivoSelector((state) => state.chartImage.Image64);
   const dispatch = usePivoDispatch();
-  const [isPending, startTransition] = useTransition();
 
   const handleNewOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -22,6 +22,11 @@ function DoOrderButton() {
     let tmpOrder: IOrder = Object.assign({}, currOrder);
     tmpOrder.orderDate = tmpDt;
     tmpOrder.orderNum = tmpNum;
+
+    if (Image64) {
+      // console.log("From Btn: ", Image64);
+      tmpOrder.orderImgBase64 = Image64;
+    }
 
     startTransition(() => {
       dispatch(addNew_Orders_Item(tmpOrder));

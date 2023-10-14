@@ -4,6 +4,7 @@ import {
   type TOrderItem,
   addNewOrderItem,
 } from "../../../store/slices/currOrderSlice";
+import { motion } from "framer-motion";
 
 function AllSelectedAddButton() {
   const allItems = usePivoSelector((state) => state.eBasket.Items);
@@ -31,12 +32,16 @@ function AllSelectedAddButton() {
     });
   };
   return (
-    <button className="button is-small is-success" onClick={handleClick}>
+    <motion.button
+      whileTap={{ scale: 0.8 }}
+      className="button is-small is-success"
+      onClick={handleClick}
+    >
       <span className="icon is-small mr-1">
         <i className="fas fa-plus"></i>
       </span>
       Добавить все выделенные
-    </button>
+    </motion.button>
   );
 }
 

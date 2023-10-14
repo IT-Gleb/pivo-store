@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import { usePivoSelector } from "../../hooks/storeHooks";
+
 import {
   Document,
   Page,
@@ -275,6 +277,7 @@ const PdfOrder = ({
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
+  paramImage64,
 }: {
   paramNumOrder: string;
   paramNameClient: string;
@@ -282,7 +285,10 @@ const PdfOrder = ({
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
+  paramImage64: string;
 }) => {
+  const ImgBuffer = new TextEncoder();
+  const dataImage = ImgBuffer.encode(paramImage64);
   return (
     <Document author="IT-Gleb" language="russian">
       <Page size="A4" style={pdfStyles.page} wrap={true}>
@@ -393,6 +399,26 @@ const PdfOrder = ({
             </Text>
           </View>
         </View>
+        {/* //Image Chart */}
+        <View
+          style={[
+            {
+              width: 240,
+              height: 160,
+              objectFit: "cover",
+              objectPosition: "top center",
+            },
+          ]}
+        >
+          <Image
+            // source={paramImage64}
+            source={paramImage64}
+            cache={false}
+            style={{ width: "100%", height: "100%" }}
+          ></Image>
+        </View>
+        {/* //--------------- */}
+
         <View style={pdfStyles.row}>
           <View style={pdfStyles.sectionFullWithMarginTop}>
             <Text style={pdfStyles.textCenter}>
@@ -417,7 +443,7 @@ const PdfOrder = ({
                 let tmp: boolean = ind % 2 === 0 ? true : false;
 
                 //Определяем количество страниц документа
-                const firstPage = 15;
+                const firstPage = 8;
                 const itemsOnPage = 24;
 
                 let pagesItems: number[] = [firstPage];
@@ -490,7 +516,6 @@ const PdfOrder = ({
             </View>
           </View>
         </View>
-
         <View
           style={[
             pdfStyles.row,

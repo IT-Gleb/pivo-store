@@ -15,6 +15,7 @@ export interface IOrder {
   id: string;
   orderDate: number;
   orderNum: string;
+  orderImgBase64?: string;
 }
 
 const InitOrderState: IOrder = {
@@ -23,6 +24,7 @@ const InitOrderState: IOrder = {
   id: crypto.randomUUID(),
   orderDate: 0,
   orderNum: "",
+  orderImgBase64: "",
 };
 
 export const currentOrderSlice = createSlice({
@@ -62,6 +64,7 @@ export const currentOrderSlice = createSlice({
       state.id = crypto.randomUUID();
       state.orderDate = 0;
       state.orderNum = "";
+      state.orderImgBase64 = "";
     },
     updateOrderDate(state, action: PayloadAction<number>) {
       state.orderDate = action.payload;

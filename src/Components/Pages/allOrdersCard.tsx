@@ -30,6 +30,7 @@ function AllOrdersCard() {
   const [orderDate, setOrderDate] = useState<string>("");
   const [OrderItems, setOrderItems] = useState<TOrderItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<string>("0");
+  const [image64, setImage64] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -42,13 +43,17 @@ function AllOrdersCard() {
     paramNumOrder: string,
     paramDateOrder: string,
     paramTotalPrice: string,
-    paramOrderItems: TOrderItem[]
+    paramOrderItems: TOrderItem[],
+    paramImage64: string | undefined
   ) => {
-    setIsPreview(!isPreview);
-    setOrderNum(paramNumOrder);
-    setOrderDate(paramDateOrder);
-    setOrderItems(paramOrderItems);
-    setTotalPrice(paramTotalPrice);
+    startTransition(() => {
+      setIsPreview(!isPreview);
+      setOrderNum(paramNumOrder);
+      setOrderDate(paramDateOrder);
+      setOrderItems(paramOrderItems);
+      setTotalPrice(paramTotalPrice);
+      if (paramImage64) setImage64(paramImage64);
+    });
   };
 
   useEffect(() => {
@@ -89,6 +94,7 @@ function AllOrdersCard() {
               paramDateOrder={orderDate}
               paramTotalPrice={totalPrice}
               paramOrderItems={OrderItems}
+              paramImage64={image64}
             />
           </Suspense>
         </MyModal>
@@ -176,6 +182,7 @@ function AllOrdersCard() {
                                   item.totalPrice
                                 )}
                                 paramOrderItems={item.Items}
+                                paramImage64={item.orderImgBase64!}
                               />
                             </Suspense>
                           )}
@@ -190,7 +197,8 @@ function AllOrdersCard() {
                                   item.orderNum,
                                   Dt_To_String(item.orderDate),
                                   FormatSumString(item.totalPrice),
-                                  item.Items
+                                  item.Items,
+                                  item.orderImgBase64
                                 );
                               });
                             }}

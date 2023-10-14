@@ -10,6 +10,7 @@ function PdfView({
   paramDateOrder,
   paramTotalPrice,
   paramOrderItems,
+  paramImage64,
 }: {
   paramNumOrder: string;
   paramNameClient: string;
@@ -17,6 +18,7 @@ function PdfView({
   paramDateOrder: string;
   paramTotalPrice: string;
   paramOrderItems: TOrderItem[];
+  paramImage64: string;
 }) {
   return (
     <section className="section m-0 p-0 has-text-centered">
@@ -28,6 +30,7 @@ function PdfView({
           paramDateOrder={paramDateOrder}
           paramTotalPrice={paramTotalPrice}
           paramOrderItems={paramOrderItems}
+          paramImage64={paramImage64}
         />
       </PDFViewer>
     </section>

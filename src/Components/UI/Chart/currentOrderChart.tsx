@@ -1,14 +1,21 @@
-import React, { useLayoutEffect, useRef, startTransition } from "react";
+import React, {
+  useLayoutEffect,
+  useRef,
+  startTransition,
+  useEffect,
+} from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import { usePivoSelector } from "../../../hooks/storeHooks";
+import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { randomFrom } from "../../../libs";
+import { updateImage64 } from "../../../store/slices/currImageOrderSlice";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function CurrentOrderChart() {
   const currOrderData = usePivoSelector((state) => state.currentOrder.Items);
   const ctxRef = useRef<ChartJS>(null);
+  const dispatch = usePivoDispatch();
 
   const PieData = {
     labels: [],
@@ -23,8 +30,22 @@ function CurrentOrderChart() {
     ],
   };
 
+  const plugin = {
+    id: "customCanvasBackgroundColor",
+    beforeDraw: (chart: any, args: any, options: any) => {
+      const { ctx } = chart;
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = options.color || "#99ffff";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
   const options = {
     plugins: {
+      // customCanvasBackgroundColor: {
+      //   color: "lightgreen",
+      // },
       tooltip: {
         backgroundColor: "rgba(45, 37, 108, 0.5)",
         titleColor: "#abfbaf",
@@ -108,14 +129,33 @@ function CurrentOrderChart() {
       PieData.datasets[0].borderColor = tmpBorderColor;
 
       if (ctxRef.current) {
-        ctxRef.current.update();
+        ctxRef.current.update("none");
+        //   //Сохранить картинку
+        //   ctxRef.current.render();
+        //   dispatch(updateImage64(ctxRef.current.toBase64Image("image/jpeg", 1)));
       }
     });
   }, [currOrderData]);
 
+  useEffect(() => {
+    if (ctxRef.current) {
+      //Сохранить картинку
+      ctxRef.current.render();
+      const img = ctxRef.current.toBase64Image("image/jpeg", 1);
+      // const img = ctxRef.current.toBase64Image();
+      dispatch(updateImage64(img));
+    }
+  }, [Chart]);
+
   return (
     <div className="p-1 m-0" style={{ width: 420, height: 360 }}>
-      <Chart type="doughnut" ref={ctxRef} options={options} data={PieData} />
+      <Chart
+        type="doughnut"
+        ref={ctxRef}
+        options={options}
+        data={PieData}
+        plugins={[plugin]}
+      />
     </div>
   );
 }
