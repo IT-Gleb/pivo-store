@@ -13,7 +13,7 @@ function OrderBtn({ paramOrder }: { paramOrder: TOrderItem }) {
   const handleOrderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    // console.log(paramOrder);
+    //console.log(paramOrder);
     dispatch(addNewOrderItem(paramOrder));
 
     PivoNotification("Продукт отправлен в заказ...", [

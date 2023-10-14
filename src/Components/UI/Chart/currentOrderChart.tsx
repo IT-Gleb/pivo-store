@@ -23,6 +23,38 @@ function CurrentOrderChart() {
     ],
   };
 
+  const options = {
+    plugins: {
+      tooltip: {
+        backgroundColor: "rgba(45, 37, 108, 0.5)",
+        titleColor: "#abfbaf",
+        callbacks: {
+          label: function (context: any) {
+            // console.log(context.parsed);
+            //let label = context.parsed || "";
+            let label = "";
+            if (context.parsed) label = "На сумму:";
+            // if (label) {
+            //   label += "На сумму: ";
+            // }
+            if (context.parsed !== null) {
+              // console.log(context.parsed.y);
+              label += new Intl.NumberFormat("ru-RU", {
+                style: "currency",
+                currency: "RUB",
+              }).format(context.parsed);
+            }
+            return label;
+          },
+          labelTextColor: function (context: any) {
+            return "#cfa";
+          },
+        },
+      },
+    },
+    scales: {},
+  };
+
   const getLabelsPie = () => {
     let res: any = [];
     if (currOrderData.length > 0) {
@@ -83,7 +115,7 @@ function CurrentOrderChart() {
 
   return (
     <div className="p-1 m-0" style={{ width: 420, height: 360 }}>
-      <Chart type="doughnut" ref={ctxRef} data={PieData} />
+      <Chart type="doughnut" ref={ctxRef} options={options} data={PieData} />
     </div>
   );
 }

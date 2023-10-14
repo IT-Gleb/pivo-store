@@ -37,10 +37,10 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
     );
     let paramNewCount: TBasketItemNewCount = { id: prop.id, newCount: tmpVal };
     startTransition(() => {
+      dispatch(updateBasketItemCount(paramNewCount));
       setCount(tmpVal);
 
       setNumValue(tmpVal);
-      dispatch(updateBasketItemCount(paramNewCount));
 
       if (prop.price) setTotalPrice(tmpVal * prop.price!);
     });
@@ -62,6 +62,7 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
     OrderItem.price = totalPrice;
     OrderItem.count = count;
     OrderItem.id = prop.id;
+    OrderItem.priceOne = prop.price!;
   }, [handleCount]);
 
   return (
