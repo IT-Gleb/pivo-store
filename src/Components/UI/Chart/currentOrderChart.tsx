@@ -1,9 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useRef,
-  startTransition,
-  useEffect,
-} from "react";
+import React, { useLayoutEffect, useRef, startTransition } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
@@ -25,6 +20,7 @@ function CurrentOrderChart() {
         data: [],
         backgroundColor: [],
         borderColor: [],
+        hoverBackgroundColor: "rgba(255, 172, 115, 1)",
         borderWidth: 0.45,
       },
     ],
@@ -43,9 +39,9 @@ function CurrentOrderChart() {
   };
   const options = {
     plugins: {
-      // customCanvasBackgroundColor: {
-      //   color: "lightgreen",
-      // },
+      customCanvasBackgroundColor: {
+        color: "rgba(112, 205, 20436, 0.15)",
+      },
       tooltip: {
         backgroundColor: "rgba(45, 37, 108, 0.5)",
         titleColor: "#abfbaf",
@@ -98,7 +94,7 @@ function CurrentOrderChart() {
   useLayoutEffect(() => {
     // ChartJS.defaults.responsive = true;
     // ChartJS.defaults.maintainAspectRatio = true;
-    ChartJS.defaults.plugins.legend.display = true;
+    ChartJS.defaults.plugins.legend.display = false;
     ChartJS.defaults.plugins.legend.position = "right";
   }, []);
 
@@ -130,22 +126,16 @@ function CurrentOrderChart() {
 
       if (ctxRef.current) {
         ctxRef.current.update("none");
-        //   //Сохранить картинку
-        //   ctxRef.current.render();
-        //   dispatch(updateImage64(ctxRef.current.toBase64Image("image/jpeg", 1)));
+        //Сохранить картинку
+        if (ctxRef.current) {
+          ctxRef.current.render();
+          dispatch(
+            updateImage64(ctxRef.current.toBase64Image("image/jpeg", 1))
+          );
+        }
       }
     });
   }, [currOrderData]);
-
-  useEffect(() => {
-    if (ctxRef.current) {
-      //Сохранить картинку
-      ctxRef.current.render();
-      const img = ctxRef.current.toBase64Image("image/jpeg", 1);
-      // const img = ctxRef.current.toBase64Image();
-      dispatch(updateImage64(img));
-    }
-  }, [Chart]);
 
   return (
     <div className="p-1 m-0" style={{ width: 420, height: 360 }}>
