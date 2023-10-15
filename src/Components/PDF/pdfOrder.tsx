@@ -21,7 +21,7 @@ import MyFiraSansThin from "../../assets/fonts/Fira_Sans/FiraSans-Thin.ttf";
 import MyFiraSansBold from "../../assets/fonts/Fira_Sans/FiraSans-Bold.ttf";
 import MyFiraSansNormal from "../../assets/fonts/Fira_Sans/FiraSans-Regular.ttf";
 import { randomFrom } from "../../libs";
-// import ImageFromString from "./imageFromString";
+import ImageFromString from "./imageFromString";
 
 Font.register({
   family: "myRoboto",
@@ -398,7 +398,7 @@ const PdfOrder = ({
           </View>
         </View>
 
-        {/* <ImageFromString paramImage64={paramImage64} /> */}
+        <ImageFromString paramImage64={paramImage64} />
 
         <View style={pdfStyles.row}>
           <View style={pdfStyles.sectionFullWithMarginTop}>
@@ -424,7 +424,7 @@ const PdfOrder = ({
                 let tmp: boolean = ind % 2 === 0 ? true : false;
 
                 //Определяем количество страниц документа
-                const firstPage = 15;
+                const firstPage = 8;
                 const itemsOnPage = 24;
 
                 let pagesItems: number[] = [firstPage];

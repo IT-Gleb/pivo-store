@@ -37,10 +37,26 @@ function CurrentOrderChart() {
       ctx.restore();
     },
   };
+
   const options = {
+    animation: {
+      onComplete: async function (animation: any) {
+        //Сохранить картинку
+        if (ctxRef.current) {
+          let img: string = await ctxRef.current.toBase64Image(
+            "image/jpeg",
+            0.5
+          );
+          if (img && img.length > 0) {
+            dispatch(updateImage64(img));
+          }
+        }
+      },
+    },
     plugins: {
       customCanvasBackgroundColor: {
-        color: "rgba(112, 205, 20436, 0.15)",
+        // color: "rgba(112, 205, 20436, 0.15)",
+        color: "white",
       },
       tooltip: {
         backgroundColor: "rgba(45, 37, 108, 0.5)",
@@ -125,14 +141,7 @@ function CurrentOrderChart() {
       PieData.datasets[0].borderColor = tmpBorderColor;
 
       if (ctxRef.current) {
-        ctxRef.current.update("none");
-        //Сохранить картинку
-        if (ctxRef.current) {
-          ctxRef.current.render();
-          dispatch(
-            updateImage64(ctxRef.current.toBase64Image("image/jpeg", 1))
-          );
-        }
+        ctxRef.current.update();
       }
     });
   }, [currOrderData]);
