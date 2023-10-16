@@ -33,6 +33,7 @@ import ShowSerchedData from "../Serch/showSerchedData";
 import MyModal from "../UI/MsgBox/myModal";
 import { motion } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
+import AllSkidkaItems from "../SmallPivoItem/allSkidkaItems";
 
 const RightFullMenuComponent = React.lazy(
   () => import("../Menu/rightFullMenu")
@@ -372,6 +373,7 @@ function MainPage() {
         {load && <div className="loadLine"></div>}
       </InView>
       {areLoading && <PivoSpinner text="Загрузка данных..." />}
+
       {/* //Вывод данных без фильтрации */}
       {areSuccess && !filterUp && !isSerch && (
         <section className="section mb-4">
@@ -381,6 +383,10 @@ function MainPage() {
               {MainData?.length} позиций
             </span>
           </h1>
+          <article className="is-centered">
+            {/* Вывод по скидкам */}
+            <AllSkidkaItems />
+          </article>
           <div className="small-item-grid">
             {MainData?.map((item: IPivoItem) => {
               return (

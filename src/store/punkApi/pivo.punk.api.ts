@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { MaxStars, type IParamQuery, type IPivoItem } from "../../types";
 import { randomFrom, getPrice } from "../../libs";
 
@@ -88,9 +89,40 @@ export const pivoApi = createApi({
       },
     }),
     getRandomItems: builder.query<IPivoItem[], void>({
-      query: (_) => ({
-        url: "https://api.punkapi.com/v2/beers/random",
-      }),
+      async queryFn(_, _baseQueryApi, _extraOptions, fetchWidthBQ) {
+        let randomResult: any = [];
+        let resultError;
+        const randomQueryes = [
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+        ];
+
+        let randomItems: any = randomQueryes.map((item) => fetchWidthBQ(item));
+        await Promise.allSettled(randomItems)
+          .then((results) => {
+            results.forEach((item) => {
+              // console.log(item);
+              if (item.status === "fulfilled") {
+                //console.log(item.value.data[0]);
+                let tmpItem: IPivoItem = item.value.data[0];
+                tmpItem._price = randomFrom(100, 300);
+                tmpItem._star = randomFrom(1, 4);
+                randomResult.push(tmpItem);
+              }
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            resultError = err;
+          });
+
+        // console.log(randomResult);
+        return randomResult ? { data: randomResult } : { error: resultError };
+      },
     }),
   }),
 });
@@ -99,4 +131,5 @@ export const {
   useLazyGetItemsQuery,
   useGetItemQuery,
   useLazyGetItemsByNameQuery,
+  useGetRandomItemsQuery,
 } = pivoApi;
