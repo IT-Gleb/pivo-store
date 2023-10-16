@@ -87,6 +87,11 @@ export const pivoApi = createApi({
         return Items;
       },
     }),
+    getRandomItems: builder.query<IPivoItem[], void>({
+      query: (_) => ({
+        url: "https://api.punkapi.com/v2/beers/random",
+      }),
+    }),
   }),
 });
 

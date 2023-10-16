@@ -484,7 +484,7 @@ const PdfOrder = ({
               <Text style={pdfStyles.TDnull3}></Text>
               <Text style={pdfStyles.TDnull3}></Text>
             </View>
-            <View style={pdfStyles.tableRow}>
+            <View style={pdfStyles.tableRow} wrap>
               <Text style={pdfStyles.TDnull1}></Text>
               <Text style={pdfStyles.TDnull2}></Text>
               <Text style={pdfStyles.TDnull3}></Text>

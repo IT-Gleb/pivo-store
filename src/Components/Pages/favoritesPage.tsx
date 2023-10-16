@@ -56,13 +56,15 @@ function FavoritesPage() {
       <RightFavoritesMenu />
       <section className="section">
         <UserIsLogin />
-        <div className="title is-size-5 title-article has-text-centered">
+        <div className="title is-size-5 is-size-6-mobile title-article has-text-centered">
           Вы выбрали{" "}
-          <span className="title is-size-6">{favItems.length} позиций</span>
+          <span className="title is-size-6 is-size-7-mobile">
+            {favItems.length} позиций
+          </span>
         </div>
         {favItems.length < 1 && (
           <article className="message">
-            <div className="message-body is-size-2 has-text-centered">
+            <div className="message-body is-size-2 is-size-3-mobile has-text-centered">
               У Вас нет товаров в избранном.
             </div>
           </article>
@@ -119,9 +121,11 @@ function FavoritesPage() {
         >
           <BackButton />
         </div>
-        <div className="title is-size-5 title-article has-text-centered">
+        <div className="title is-size-5 is-size-6-mobile title-article has-text-centered">
           Вы выбрали{" "}
-          <span className="title is-size-6">{favItems.length} позиций</span>
+          <span className="title is-size-6 is-size-7-mobile">
+            {favItems.length} позиций
+          </span>
         </div>
         <UserIsLogin />
       </section>

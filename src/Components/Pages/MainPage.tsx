@@ -375,9 +375,9 @@ function MainPage() {
       {/* //Вывод данных без фильтрации */}
       {areSuccess && !filterUp && !isSerch && (
         <section className="section mb-4">
-          <h1 className="title is-size-4 mt-2 mb-2 title-article">
+          <h1 className="title is-size-4 is-size-5-mobile mt-2 mb-2 title-article">
             Товар в наличии -{" "}
-            <span className="subtitle is-size-6 ">
+            <span className="subtitle is-size-6 is-size-7-mobile">
               {MainData?.length} позиций
             </span>
           </h1>

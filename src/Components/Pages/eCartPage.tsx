@@ -82,8 +82,8 @@ const ECartPage: React.FC = () => {
         {itemCount > 0 && (
           <>
             <div className="message is-info is-light">
-              <div className="message-body is-size-6 is-size-6-mobile">
-                <span className="is-size-4 is-size-4-mobile">Внимание!</span>{" "}
+              <div className="message-body is-size-6 is-size-7-mobile">
+                <span className="is-size-4 is-size-5-mobile">Внимание!</span>{" "}
                 Товар в корзине будет доступен в течении {TimeInCart} мин. c
                 момента добавления. Успейти сформировать заказ, или заново
                 добавте товар.
@@ -91,8 +91,8 @@ const ECartPage: React.FC = () => {
             </div>
 
             <div className="message is-primary">
-              <div className="message-body is-size-6 is-size-6-mobile">
-                <span className="is-size-4 is-size-4-mobile">Подсказка!</span>{" "}
+              <div className="message-body is-size-6 is-size-7-mobile">
+                <span className="is-size-4 is-size-5-mobile">Подсказка!</span>{" "}
                 Понравившиеся сорта пива, храните в избранном. Легче найти и
                 добавить в корзину.
               </div>
@@ -100,10 +100,13 @@ const ECartPage: React.FC = () => {
           </>
         )}
         <div
-          className="title is-size-5 is-size-5-mobile title-article mt-5 pb-4"
+          className="title is-size-5 is-size-6-mobile title-article mt-5 pb-4"
           style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
-          Ваша корзина {itemCount}
+          Ваша корзина{" "}
+          <span className="is-size-6 is-size-7-mobile">
+            {itemCount} - позиция(и)
+          </span>
         </div>
         {/* Кнопки добавить удалить */}
         {itemCount > 0 && (
@@ -124,7 +127,7 @@ const ECartPage: React.FC = () => {
 
         {itemCount < 1 && (
           <article className="message">
-            <div className="message-body is-size-2 is-size-2-mobile has-text-centered">
+            <div className="message-body is-size-2 is-size-3-mobile has-text-centered">
               У Вас нет товаров в корзине.
             </div>
           </article>
@@ -157,10 +160,13 @@ const ECartPage: React.FC = () => {
         )}
 
         <div
-          className="title is-size-5 is-size-5-mobile title-article mt-5 pt-4"
+          className="title is-size-5 is-size-6-mobile title-article mt-5 pt-4"
           style={{ borderTop: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
-          Ваша корзина {itemCount}
+          Ваша корзина{" "}
+          <span className="is-size-6 is-size-7-mobile">
+            {itemCount} - позиция(и)
+          </span>
         </div>
         <div
           className="buttons are-small is-centered my-5 py-5"

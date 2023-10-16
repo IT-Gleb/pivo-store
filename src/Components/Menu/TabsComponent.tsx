@@ -109,8 +109,8 @@ function TabsComponent() {
             key={tab.id}
             className={
               activeIndex === tab.id
-                ? "is-active  is-size-6 is-uppercase"
-                : "is-size-6  is-uppercase"
+                ? "is-active  is-size-6 is-size-7-mobile is-uppercase"
+                : "is-size-6 is-size-7-mobile  is-uppercase"
             }
             onClick={(event) => handleActive(event, tab.id)}
           >
