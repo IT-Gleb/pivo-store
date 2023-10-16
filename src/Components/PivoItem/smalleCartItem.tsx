@@ -76,7 +76,7 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
         <div className="mx-2 my-1">
           <PivoCheckComponent prop={prop} />
         </div>
-        <div className="card-header-title myTitle has-text-light p-0 px-2">
+        <div className="card-header-title myTitle is-size-6 is-size-6-mobile has-text-light p-0 px-2">
           {prop.title}
         </div>
 
@@ -123,12 +123,14 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
                     })}
                 </li>
                 <li>
-                  <label className="label">
+                  <label className="label is-size-6 is-size-6-mobile">
                     Цена за шт. :
-                    <span className="has-text-info is-size-4 ml-2">
+                    <span className="has-text-info is-size-4 is-size-4-mobile ml-2">
                       {prop.price}
                     </span>
-                    <span className="is-size-5 ml-1">&#8381;</span>
+                    <span className="is-size-5 is-size-5-mobile ml-1">
+                      &#8381;
+                    </span>
                   </label>
                 </li>
                 <li className="control">
@@ -156,11 +158,13 @@ const SmalleBasketItemCard = ({ prop }: { prop: TBasketItem }) => {
                   </label>
                 </li>
                 <li>
-                  <span className="title is-size-2 has-text-link ml-2">
+                  <span className="title is-size-2 is-size-2-mobile has-text-link ml-2">
                     {totalPrice}
                   </span>
-                  <span className="is-size-4">.00</span>
-                  <span className="is-size-5 ml-1">&#8381;</span>
+                  <span className="is-size-4 is-size-4-mobile">.00</span>
+                  <span className="is-size-5 is-size-4-mobile ml-1">
+                    &#8381;
+                  </span>
                 </li>
               </ul>
             </div>

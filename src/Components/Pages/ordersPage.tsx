@@ -62,17 +62,17 @@ function OrdersPage() {
       <section className="section is-center">
         {itemsCount > 0 && (
           <div className="message is-primary">
-            <div className="message-body">
-              <span className="is-size-4">Подсказка!</span> Если убрали товар и
-              хотите его перезаказать. Или изменить количество товара. Удалите
-              позицию из заказа. Вернитесь в корзину и снова добавте нужное
-              количество.
+            <div className="message-body is-size-6 is-size-6-mobile">
+              <span className="is-size-4 is-size-4-mobile">Подсказка!</span>{" "}
+              Если убрали товар и хотите его перезаказать. Или изменить
+              количество товара. Удалите позицию из заказа. Вернитесь в корзину
+              и снова добавте нужное количество.
             </div>
           </div>
         )}
 
         <h3
-          className="title is-size-5 title-article pb-2"
+          className="title is-size-5 is-size-5-mobile title-article pb-2"
           style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.25)" }}
         >
           Текущий заказ
@@ -80,7 +80,7 @@ function OrdersPage() {
         {itemsCount > 0 && <CurrentOrderChart />}
         {itemsCount < 1 && (
           <div className="message">
-            <div className="message-body is-size-2 has-text-centered">
+            <div className="message-body is-size-2 is-size-2-mobile has-text-centered">
               У вас нет текущих заказов.
             </div>
           </div>
@@ -90,7 +90,7 @@ function OrdersPage() {
           <div className="table-container">
             <table className="table is-striped is-fullwidth">
               <thead>
-                <tr>
+                <tr className="is-size-6 is-size-6-mobile">
                   <th>№/№</th>
                   <th>Убрать</th>
                   <th>Название</th>
@@ -109,7 +109,9 @@ function OrdersPage() {
                         exit={{ scale: 0.1, opacity: 0.1 }}
                         key={item.id}
                       >
-                        <th className="subtitle is-size-6">{ind + 1}.</th>
+                        <th className="subtitle is-size-6 is-size-6-mobile">
+                          {ind + 1}.
+                        </th>
                         <th className="has-text-centered">
                           <MyCheckBox
                             paramVal={orders[ind].isNoDelete}
@@ -117,23 +119,27 @@ function OrdersPage() {
                             onchange={isCheck}
                           />
                         </th>
-                        <th className="myTitle">{item.name}</th>
-                        <th className="subtitle is-size-6 has-text-link has-text-center">
+                        <th className="myTitle is-size-6 is-size-6-mobile">
+                          {item.name}
+                        </th>
+                        <th className="subtitle is-size-6 is-size-6-mobile has-text-link has-text-center">
                           {item.priceOne}
-                          <span className="is-size-7 has-text-link">
+                          <span className="is-size-7 is-size-7-mobile has-text-link">
                             .00
                           </span>{" "}
-                          <span className="is-size-6 has-text-dark">
+                          <span className="is-size-6 is-size-6-mobile has-text-dark">
                             &#8381;
                           </span>
                         </th>
-                        <th className="subtitle is-size-6 has-text-centered">
+                        <th className="subtitle is-size-6 is-size-6-mobile has-text-centered">
                           {item.count}
                         </th>
-                        <th className="subtitle is-size-6 has-text-info has-text-right">
+                        <th className="subtitle is-size-6 is-size-6-mobile has-text-info has-text-right">
                           {item.price}
-                          <span className="is-size-7 has-text-info">.00</span>
-                          <span className="is-size-6 has-text-dark">
+                          <span className="is-size-7 is-size-7-mobile has-text-info">
+                            .00
+                          </span>
+                          <span className="is-size-6 is-size-6-mobile has-text-dark">
                             {" "}
                             &#8381;
                           </span>
@@ -154,10 +160,13 @@ function OrdersPage() {
             <div className="buttons are-small mr-6">
               <DoOrderBtn />
             </div>
-            <div className="title is-size-4">Итог:</div>
-            <div className="title is-size-4 has-text-dark">
+            <div className="title is-size-4 is-size-4-mobile">Итог:</div>
+            <div className="title is-size-4 is-size-4-mobile has-text-dark">
               {FormatSumString(totalPrice)}.00
-              <span className="is-size-5 has-text-dark"> &#8381;</span>
+              <span className="is-size-5 is-size-5-mobile has-text-dark">
+                {" "}
+                &#8381;
+              </span>
             </div>
           </div>
         )}

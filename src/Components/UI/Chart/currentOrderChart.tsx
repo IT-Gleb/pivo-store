@@ -59,8 +59,8 @@ function CurrentOrderChart() {
         color: "white",
       },
       tooltip: {
-        backgroundColor: "rgba(45, 37, 108, 0.5)",
-        titleColor: "#abfbaf",
+        backgroundColor: "rgba(16, 26, 108, 0.75)",
+        titleColor: "rgba(255, 220, 215, 1)",
         callbacks: {
           label: function (context: any) {
             // console.log(context.parsed);

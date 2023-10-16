@@ -2,6 +2,7 @@ import React, { useEffect, useState, startTransition } from "react";
 import UserIsLogin from "../userIsLogin";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
 import SmalleBasketItemCard from "../PivoItem/smalleCartItem";
+import { animate, motion } from "framer-motion";
 
 import {
   deleteBasketItem,
@@ -81,43 +82,49 @@ const ECartPage: React.FC = () => {
         {itemCount > 0 && (
           <>
             <div className="message is-info is-light">
-              <div className="message-body">
-                <span className="is-size-4">Внимание!</span> Товар в корзине
-                будет доступен в течении {TimeInCart} мин. c момента добавления.
-                Успейти сформировать заказ, или заново добавте товар.
+              <div className="message-body is-size-6 is-size-6-mobile">
+                <span className="is-size-4 is-size-4-mobile">Внимание!</span>{" "}
+                Товар в корзине будет доступен в течении {TimeInCart} мин. c
+                момента добавления. Успейти сформировать заказ, или заново
+                добавте товар.
               </div>
             </div>
 
             <div className="message is-primary">
-              <div className="message-body">
-                <span className="is-size-4">Подсказка!</span> Понравившиеся
-                сорта пива, храните в избранном. Легче найти и добавить в
-                корзину.
+              <div className="message-body is-size-6 is-size-6-mobile">
+                <span className="is-size-4 is-size-4-mobile">Подсказка!</span>{" "}
+                Понравившиеся сорта пива, храните в избранном. Легче найти и
+                добавить в корзину.
               </div>
             </div>
           </>
         )}
         <div
-          className="title is-size-5 title-article mt-5 pb-4"
+          className="title is-size-5 is-size-5-mobile title-article mt-5 pb-4"
           style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
           Ваша корзина {itemCount}
         </div>
+        {/* Кнопки добавить удалить */}
         {itemCount > 0 && (
-          <div className="buttons are-small is-right">
+          <div className="buttons are-small is-right is-clipped">
             <AllCardInOrder_Button />
             {checkSelected && (
-              <>
+              <motion.div
+                initial={{ x: -2500 }}
+                animate={{ x: 0 }}
+                exit={{ x: -2500 }}
+              >
                 <AllSelectedAddButton />
                 <RemoveSelectedBasketItems />
-              </>
+              </motion.div>
             )}
           </div>
         )}
 
         {itemCount < 1 && (
           <article className="message">
-            <div className="message-body is-size-2 has-text-centered">
+            <div className="message-body is-size-2 is-size-2-mobile has-text-centered">
               У Вас нет товаров в корзине.
             </div>
           </article>
@@ -132,8 +139,25 @@ const ECartPage: React.FC = () => {
               })}
           </AnimatePresence>
         </div>
+        {/* Кнопки добавить удалить */}
+        {itemCount > 0 && (
+          <div className="buttons are-small is-right mt-6 is-clipped">
+            <AllCardInOrder_Button />
+            {checkSelected && (
+              <motion.div
+                initial={{ x: -2500 }}
+                animate={{ x: 0 }}
+                exit={{ x: -2500 }}
+              >
+                <AllSelectedAddButton />
+                <RemoveSelectedBasketItems />
+              </motion.div>
+            )}
+          </div>
+        )}
+
         <div
-          className="title is-size-5 title-article mt-5 pt-4"
+          className="title is-size-5 is-size-5-mobile title-article mt-5 pt-4"
           style={{ borderTop: "1px solid rgba(0, 0, 0, 0.5)" }}
         >
           Ваша корзина {itemCount}
