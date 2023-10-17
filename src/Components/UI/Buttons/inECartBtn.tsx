@@ -9,7 +9,13 @@ import {
 } from "../../../store/slices/eCartSlice";
 import PivoNotification from "../../../libs/Notification/notification";
 
-function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
+function InECartBtn({
+  itemProps,
+  isFull,
+}: {
+  itemProps: TBasketItem | undefined;
+  isFull?: boolean;
+}) {
   const isAuth = usePivoSelector((state) => state.currentUser);
   const isUserAuth = checkerAuth(isAuth);
   const navigate = useNavigate();
@@ -36,7 +42,11 @@ function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
       initial={{ x: 600 }}
       animate={{ x: 0 }}
       whileTap={{ scale: 0.8 }}
-      className="button is-link is-outlined"
+      className={
+        isFull
+          ? "button is-link is-outlined is-fullwidth"
+          : "button is-link is-outlined"
+      }
       onClick={handleCartClick}
     >
       <span className="icon mr-1">

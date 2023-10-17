@@ -45,14 +45,14 @@ function AllSkidkaItems() {
       {pivoItems && pivoItems.length > 0 && (
         <article className="my-4">
           <h4
-            className="title is-size-4 is-size-6-mobile has-text-link has-text-centered"
+            className="title is-size-4 is-size-6-mobile has-text-link has-text-left"
             style={{ textTransform: "uppercase" }}
           >
             акция !!!
           </h4>
           <MSlider props={pivoItems} />
           <h4
-            className="title is-size-4 is-size-6-mobile has-text-link has-text-centered mt-2"
+            className="title is-size-4 is-size-6-mobile has-text-link has-text-right mt-2"
             style={{ textTransform: "uppercase" }}
           >
             акция !!!

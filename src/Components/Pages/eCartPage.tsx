@@ -105,7 +105,7 @@ const ECartPage: React.FC = () => {
         >
           Ваша корзина{" "}
           <span className="is-size-6 is-size-7-mobile">
-            {itemCount} - позиция(и)
+            {itemCount} - позиций(и)
           </span>
         </div>
         {/* Кнопки добавить удалить */}
@@ -165,7 +165,7 @@ const ECartPage: React.FC = () => {
         >
           Ваша корзина{" "}
           <span className="is-size-6 is-size-7-mobile">
-            {itemCount} - позиция(и)
+            {itemCount} - позиций(и)
           </span>
         </div>
         <div

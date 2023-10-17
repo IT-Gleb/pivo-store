@@ -1,9 +1,22 @@
 import React from "react";
 import { IPivoItem } from "../../types";
 import Pivovar from "../../assets/imgs/pivovar.png";
-import { motion } from "framer-motion";
+import InECartBtn from "../UI/Buttons/inECartBtn";
+import type { TBasketItem } from "../../store/slices/eCartSlice";
+import { Link } from "react-router-dom";
 
 const SmallSliderItem: React.FC<IPivoItem> = (propItem) => {
+  const itemCart: TBasketItem = {
+    id: propItem.id,
+    timeAdd: Date.now(),
+    title: propItem.name,
+    imgPath: propItem.image_url,
+    count: 1,
+    price: Math.floor(propItem._price! - (propItem._price! / 100) * 20),
+    stars: propItem._star!,
+    isSelected: false,
+  };
+
   return (
     <div
       className="card is-clipped"
@@ -11,8 +24,8 @@ const SmallSliderItem: React.FC<IPivoItem> = (propItem) => {
     >
       <div className="card-header">
         <div
-          className="card-header-title is-size-7 is-size-7-mobile is-clipped has-background-danger has-text-warning px-2 py-1"
-          style={{ whiteSpace: "nowrap" }}
+          className="card-header-title is-size-7 is-size-7-mobile is-clipped has-text-danger-light px-2 py-1"
+          style={{ whiteSpace: "nowrap", backgroundColor: "rgb(255, 168, 46)" }}
         >
           {propItem.name}
         </div>
@@ -26,29 +39,49 @@ const SmallSliderItem: React.FC<IPivoItem> = (propItem) => {
             <div
               className="level-item p-0 m-0"
               style={{
-                width: "24px",
-                height: "auto",
-                objectFit: "cover",
-                objectPosition: " top center",
+                width: "100%",
+                height: "48px",
               }}
             >
-              <picture style={{ width: "100%", height: "100%" }}>
-                <source srcSet={propItem.image_url}></source>
-                <img src={Pivovar} alt={propItem.name} />
-              </picture>
-            </div>
-          </div>
-          <div className="level-right">
-            <div className="level-item">
-              <ul className="is-size-7 iz-size-7-mobile">
+              <ul
+                className="is-size-7 iz-size-7-mobile mt-1"
+                style={{ width: "100%", textAlign: "center" }}
+              >
                 <li
-                  style={{ textDecoration: "line-through", color: "darkcyan" }}
+                  style={{
+                    display: "block",
+                    width: "1.8rem",
+                    height: "auto",
+                    margin: "0 auto",
+                    paddingTop: "5rem",
+                  }}
+                >
+                  <Link
+                    to={`/items/${propItem.id}`}
+                    state={{ price: itemCart.price, stars: propItem._star }}
+                  >
+                    <picture
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "top center",
+                      }}
+                    >
+                      <source srcSet={propItem.image_url}></source>
+                      <img src={Pivovar} alt={propItem.name} />
+                    </picture>
+                  </Link>
+                </li>
+                <li
+                  style={{ textDecoration: "line-through", color: "lightgrey" }}
                 >
                   Старая цена: {propItem._price}.00
                 </li>
                 <li>
                   Новая цена:{" "}
-                  <span className="is-size-6 is-size-6-mobile has-text-info has-text-weight-semibold">
+                  <span className="is-size-5 is-size-6-mobile has-text-info has-text-weight-semibold">
                     {Math.floor(
                       propItem._price! - (propItem._price! / 100) * 20
                     )}
@@ -62,13 +95,8 @@ const SmallSliderItem: React.FC<IPivoItem> = (propItem) => {
       </div>
 
       <div className="card-footer">
-        <div className="card-footer-item p-0">
-          <motion.button
-            whileTap={{ scale: 0.8 }}
-            className="button is-fullwidth is-small is-danger is-outlined "
-          >
-            В корзину
-          </motion.button>
+        <div className="card-footer-item p-0 buttons are-small">
+          <InECartBtn itemProps={itemCart} isFull={true} />
         </div>
       </div>
     </div>

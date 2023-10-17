@@ -324,14 +324,25 @@ main {
   text-orientation: sideways;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
-  font-size: medium;
+  font-size: 0.85vw;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   left: 0;
   top: 0;
-  background-color: rgb(255, 168, 46);
+  background-color: rgb(255, 99, 104);
   color: rgb(184, 255, 137);
   opacity: 1;
+
+  @media screen and (max-width: 1279px) {
+    font-size: 1.5vw;
+  }
+
+  @media screen and (max-width: 1023px) {
+    font-size: 2vw;
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 3.5vw;
+  }
 }
 
 .Mynotification {

@@ -27,6 +27,7 @@ const MSlider = ({ props }: { props: IPivoItem[] }) => {
       <motion.div
         drag="x"
         dragConstraints={{ right: 0, left: -width }}
+        whileDrag={{ cursor: "grab" }}
         // dragConstraints={SliderRef}
         className="sliderLine"
       >
