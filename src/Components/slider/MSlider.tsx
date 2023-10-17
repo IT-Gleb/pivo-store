@@ -10,10 +10,13 @@ const MSlider = ({ props }: { props: IPivoItem[] }) => {
 
   useEffect(() => {
     //console.log(SliderRef.current?.scrollWidth, SliderRef.current?.offsetWidth);
-    let tmpWidth: number = 300;
-    if (SliderRef.current)
+    //console.log(width);
+    let tmpWidth: number = 800;
+    if (SliderRef.current) {
       tmpWidth =
         SliderRef.current!.scrollWidth - SliderRef.current!.offsetWidth;
+    }
+    // console.log(LineRef.current!.scrollWidth, LineRef.current!.offsetWidth);
     SetWidth(tmpWidth);
   }, []);
 
@@ -24,6 +27,7 @@ const MSlider = ({ props }: { props: IPivoItem[] }) => {
       <motion.div
         drag="x"
         dragConstraints={{ right: 0, left: -width }}
+        // dragConstraints={SliderRef}
         className="sliderLine"
       >
         {props &&

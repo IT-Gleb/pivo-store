@@ -1,4 +1,4 @@
-import React from "react";
+import React, { startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { checkerAuth } from "../../../libs";
@@ -21,11 +21,13 @@ function InECartBtn({ itemProps }: { itemProps: TBasketItem | undefined }) {
       return navigate("/login", { replace: true });
     }
     if (itemProps) {
-      dispatch(addNewBasketItem(itemProps));
-      PivoNotification("Товар отправлен в корзину...", [
-        "has-background-primary",
-        "has-text-dark",
-      ]);
+      startTransition(() => {
+        dispatch(addNewBasketItem(itemProps));
+        PivoNotification("Товар отправлен в корзину...", [
+          "has-background-primary",
+          "has-text-dark",
+        ]);
+      });
     }
   };
 

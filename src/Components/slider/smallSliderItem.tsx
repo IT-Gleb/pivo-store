@@ -11,7 +11,7 @@ const SmallSliderItem: React.FC<IPivoItem> = (propItem) => {
     >
       <div className="card-header">
         <div
-          className="card-header-title is-size-7 is-size-7-mobile is-clipped has-background-warning-light px-2 py-1"
+          className="card-header-title is-size-7 is-size-7-mobile is-clipped has-background-danger has-text-warning px-2 py-1"
           style={{ whiteSpace: "nowrap" }}
         >
           {propItem.name}
