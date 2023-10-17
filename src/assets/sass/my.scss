@@ -314,6 +314,26 @@ main {
   }
 }
 
+.infoSale::before {
+  content: "Распродажа";
+  display: block;
+  width: 24px;
+  height: 100%;
+  position: absolute;
+  writing-mode: vertical-lr;
+  text-orientation: sideways;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: thin;
+  font-size: medium;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  left: 0;
+  top: 0;
+  background-color: rgba(55, 200, 155, 1);
+  color: rgb(184, 255, 137);
+  opacity: 1;
+}
+
 .Mynotification {
   position: fixed;
   background-color: red;

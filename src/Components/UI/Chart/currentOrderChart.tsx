@@ -22,6 +22,7 @@ function CurrentOrderChart() {
         borderColor: [],
         hoverBackgroundColor: "rgba(255, 172, 115, 1)",
         borderWidth: 0.45,
+        animation: true,
       },
     ],
   };
@@ -110,7 +111,7 @@ function CurrentOrderChart() {
   useLayoutEffect(() => {
     // ChartJS.defaults.responsive = true;
     // ChartJS.defaults.maintainAspectRatio = true;
-    ChartJS.defaults.plugins.legend.display = false;
+    ChartJS.defaults.plugins.legend.display = !(currOrderData.length > 5);
     ChartJS.defaults.plugins.legend.position = "right";
   }, []);
 

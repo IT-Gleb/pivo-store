@@ -65,6 +65,11 @@ export interface IPivoResponse<T> {
   Items: T[];
 }
 
+export interface IPivoResponseItem {
+  error: string;
+  item: IPivoItem | null;
+}
+
 export interface IPivoItem {
   id: number;
   name: string;

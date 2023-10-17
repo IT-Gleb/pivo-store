@@ -5,9 +5,7 @@ import MSlider from "../slider/MSlider";
 function SecondPage() {
   return (
     <div className="container">
-      <div className="mt-5 mb-5">
-        <MSlider />
-      </div>
+      <div className="mt-5 mb-5">{/* <MSlider /> */}</div>
 
       <p className="title is-size-3 has-text-centered">Вторая страница.</p>
       <article className="section">

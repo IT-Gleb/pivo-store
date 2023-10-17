@@ -1,38 +1,23 @@
-import { ISliderItemProp } from "../../types";
-import MySliderItem from "./MySliderItem";
+import { IPivoItem } from "../../types";
 import { motion } from "framer-motion";
 import "./slider.scss";
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import SmallSliderItem from "./smallSliderItem";
 
-function MSlider() {
+const MSlider = ({ props }: { props: IPivoItem[] }) => {
   const [width, SetWidth] = useState<number>(0);
   const SliderRef = useRef<HTMLDivElement>(null);
 
-  const rec: ISliderItemProp = {
-    title: "Hi! item-1",
-    image: "",
-    body: "Lorem ipsum jkdhf ker fke...",
-    width: 25,
-  };
-
-  const Ups: ISliderItemProp[] = [
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-    rec,
-  ];
-
   useEffect(() => {
     //console.log(SliderRef.current?.scrollWidth, SliderRef.current?.offsetWidth);
-    SetWidth(SliderRef.current!.scrollWidth - SliderRef.current!.offsetWidth);
+    let tmpWidth: number = 300;
+    if (SliderRef.current)
+      tmpWidth =
+        SliderRef.current!.scrollWidth - SliderRef.current!.offsetWidth;
+    SetWidth(tmpWidth);
   }, []);
+
+  if (!props || props.length < 1) return null;
 
   return (
     <motion.div ref={SliderRef} className="sliderWrapper">
@@ -41,16 +26,17 @@ function MSlider() {
         dragConstraints={{ right: 0, left: -width }}
         className="sliderLine"
       >
-        {Ups.map((item, index) => {
-          return (
-            <motion.div key={index} className="slider-item">
-              <MySliderItem {...item} />
-            </motion.div>
-          );
-        })}
+        {props &&
+          props.map((item, index) => {
+            return (
+              <motion.div key={index} className="slider-item">
+                <SmallSliderItem {...item} />
+              </motion.div>
+            );
+          })}
       </motion.div>
     </motion.div>
   );
-}
+};
 
-export default MSlider;
+export default React.memo(MSlider);

@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
-import { MaxStars, type IParamQuery, type IPivoItem } from "../../types";
+import {
+  MaxStars,
+  type IParamQuery,
+  type IPivoItem,
+  IPivoResponseItem,
+} from "../../types";
 import { randomFrom, getPrice } from "../../libs";
 
 const B_URL: string = "https://api.punkapi.com/v2/";
@@ -88,10 +93,9 @@ export const pivoApi = createApi({
         return Items;
       },
     }),
-    getRandomItems: builder.query<IPivoItem[], void>({
+    getRandomItems: builder.query<IPivoResponseItem[], void>({
       async queryFn(_, _baseQueryApi, _extraOptions, fetchWidthBQ) {
         let randomResult: any = [];
-        let resultError;
         const randomQueryes = [
           B_URL + "beers/random",
           B_URL + "beers/random",
@@ -99,7 +103,12 @@ export const pivoApi = createApi({
           B_URL + "beers/random",
           B_URL + "beers/random",
           B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
+          B_URL + "beers/random",
         ];
+        let tmpResponseItem: IPivoResponseItem;
 
         let randomItems: any = randomQueryes.map((item) => fetchWidthBQ(item));
         await Promise.allSettled(randomItems)
@@ -108,20 +117,37 @@ export const pivoApi = createApi({
               // console.log(item);
               if (item.status === "fulfilled") {
                 //console.log(item.value.data[0]);
-                let tmpItem: IPivoItem = item.value.data[0];
-                tmpItem._price = randomFrom(100, 300);
-                tmpItem._star = randomFrom(1, 4);
-                randomResult.push(tmpItem);
+                if (!item.value.error) {
+                  let tmpItem: IPivoItem = item.value.data[0];
+                  tmpItem._price = randomFrom(100, 300);
+                  tmpItem._star = randomFrom(1, 4);
+                  tmpResponseItem = {
+                    error: "",
+                    item: tmpItem,
+                  };
+                  randomResult.push(tmpResponseItem);
+                }
               }
+              // if (item.status === "rejected") {
+              //   tmpResponseItem = {
+              //     error: "Ошибка получения данных",
+              //     item: null,
+              //   };
+              //   randomResult.push(tmpResponseItem);
+              // }
             });
           })
           .catch((err) => {
             console.log(err);
-            resultError = err;
+            tmpResponseItem = {
+              error: "Ошибка получения данных",
+              item: null,
+            };
+            randomResult.push(tmpResponseItem);
           });
 
         // console.log(randomResult);
-        return randomResult ? { data: randomResult } : { error: resultError };
+        return { data: randomResult };
       },
     }),
   }),

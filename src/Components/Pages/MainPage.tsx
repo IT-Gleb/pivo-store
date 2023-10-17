@@ -400,6 +400,7 @@ function MainPage() {
               );
             })}
           </div>
+
           <InView onChange={(inView, entrie) => handleLoad(inView)}>
             {
               <div className="loadLine has-text-light has-text-centered">
