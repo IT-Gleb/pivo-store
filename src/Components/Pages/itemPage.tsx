@@ -143,28 +143,35 @@ function ItemPage() {
               </div>
               <div className="price-container  has-background-warning has-text-centered">
                 <div className="rotateTitle has-background-primary">
-                  <span className="is-size-3 title has-text-color-dark ">
+                  <span className="is-size-3 is-size-4-mobile title has-text-color-dark ">
                     Цена
                   </span>
                 </div>
-                <div className="rotatePrice is-size-3 title has-text-color-danger">
+                <div className="rotatePrice is-size-3 is-size-4-mobile title has-text-color-danger">
                   {Item._price}
-                  <span className="is-size-5 has-text-weight-semibold">
+                  <span className="is-size-5 is-size-6-mobile has-text-weight-semibold">
                     .00
                   </span>
-                  <span className="is-size-4 has-text-weight-semibold">
+                  <span className="is-size-4 is-size-5-mobile has-text-weight-semibold">
                     &#x20BD;
                   </span>
                 </div>
               </div>
               <div className="item-grid">
-                <div ref={ScrollRef} className="title is-size-6 has-text-dark">
+                <div
+                  ref={ScrollRef}
+                  className="title is-size-6 is-size-7-mobile has-text-dark"
+                >
                   Наименование:
                 </div>
-                <div className="title is-size-4">{Item.name}</div>
+                <div className="title is-size-4 is-size-5-mobile has-text-link-dark">
+                  {Item.name}
+                </div>
 
-                <div className="title is-size-6 has-text-dark">Оценка:</div>
-                <div className=" is-size-4 has-text-warning textOutlineWhite">
+                <div className="title is-size-6 is-size-7-mobile has-text-dark">
+                  Оценка:
+                </div>
+                <div className=" is-size-4 is-size-5-mobile has-text-warning textOutlineWhite">
                   {Item._star &&
                     Stars.map((item) => {
                       return (
@@ -175,28 +182,40 @@ function ItemPage() {
                     })}
                 </div>
 
-                <div className="title is-size-6 has-text-dark">ABV:</div>
+                <div className="title is-size-6 is-size-7-mobile has-text-dark">
+                  ABV:
+                </div>
                 <div>
-                  <p style={{ maxWidth: "30em" }}>
+                  <p
+                    className="is-size-6 is-size-7-mobile"
+                    style={{ maxWidth: "30em" }}
+                  >
                     <span className="is-my-info has-background-warning has-text-centered has-text-dark">
                       {Item.abv}&deg;
                     </span>
                     &nbsp;
-                    <span className="title is-size-6">Alcohol by Volume</span> –
-                    степень крепости пива. Она указывается в процентах (в
+                    <span className="title is-size-6 is-size-7-mobile">
+                      Alcohol by Volume
+                    </span>{" "}
+                    – степень крепости пива. Она указывается в процентах (в
                     среднем, показатель составляет 4-5%) и свидетельствует об
                     уровне концентрации спирта в напитке.
                   </p>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">IBU:</div>
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  IBU:
+                </div>
                 <div>
-                  <p style={{ maxWidth: "30em" }}>
+                  <p
+                    className="is-size-6 is-size-7-mobile"
+                    style={{ maxWidth: "30em" }}
+                  >
                     <span className="is-my-info has-background-warning has-text-centered has-text-dark">
                       {Item.ibu}
                     </span>
                     &nbsp;
-                    <span className="title is-size-6">
+                    <span className="title is-size-6 is-size-7-mobile">
                       International Bitterness Units
                     </span>{" "}
                     – международная шкала горечи пива от 0 до 100. Показывает
@@ -207,13 +226,15 @@ function ItemPage() {
                   </p>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">SRM:</div>
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  SRM:
+                </div>
                 <div>
-                  <p>
+                  <p className="is-size-6 is-size-7-mobile">
                     <span className="is-my-info has-background-warning has-text-centered has-text-dark">
                       {Item.srm}
                     </span>{" "}
-                    <span className="title is-size-6">
+                    <span className="title is-size-6 is-size-7-mobile">
                       Standard Reference Method
                     </span>{" "}
                     — стандарт измерения интенсивности цвета. Очень светлое
@@ -223,13 +244,17 @@ function ItemPage() {
                   </p>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">EBC:</div>
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  EBC:
+                </div>
                 <div>
-                  <p>
+                  <p className="is-size-6 is-size-7-mobile">
                     <span className="is-my-info has-background-warning has-text-centered has-text-dark">
                       {Item.ebc}
                     </span>{" "}
-                    <span className="title is-size-6">Цветовая шкала EBC </span>
+                    <span className="title is-size-6 is-size-7-mobile">
+                      Цветовая шкала EBC{" "}
+                    </span>
                     , разработанная Британским институтом пивоварения и
                     Европейской пивоваренной конвенцией, является признанным
                     методом цветовой классификации пива, солода и карамельных
@@ -237,13 +262,15 @@ function ItemPage() {
                   </p>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">PH:</div>
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  PH:
+                </div>
                 <div>
-                  <p>
+                  <p className="is-size-8 is-size-7-mobile">
                     <span className="is-my-info has-background-warning has-text-centered has-text-dark">
                       {Item.ph}
                     </span>{" "}
-                    <span className="title is-size-6">
+                    <span className="title is-size-6 is-size-7-mobile">
                       Мера концентрации ионов водорода в растворе
                     </span>
                     , по сути, является мерой того, является ли вещество,
@@ -253,11 +280,11 @@ function ItemPage() {
                   </p>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
                   Производится с:
                 </div>
                 <div>
-                  <span className="is-my-info is-size-7 has-background-warning has-text-centered has-text-dark has-text-weight-semibold">
+                  <span className="is-my-info is-size-7 is-size-7-mobile has-background-warning has-text-centered has-text-dark has-text-weight-semibold">
                     {checkMounth(Item.first_brewed) +
                       " " +
                       checkYear(Item.first_brewed) +
@@ -265,15 +292,65 @@ function ItemPage() {
                   </span>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">Описание:</div>
-                <div>{Item.description}</div>
-
-                <div className="title is-size-6 has-text-dark">
-                  Производство:
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  Описание:
                 </div>
-                <div>{Item.brewers_tips}</div>
+                <div className="is-size-6 is-size-7-mobile">
+                  {Item.description}
+                </div>
 
-                <div className="title is-size-6 has-text-dark">
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
+                  Ингридиенты:
+                </div>
+                <div>
+                  <ul>
+                    {/* <li className="title is-size-6 is-size-7-mobile p-0 has-text-info">
+                      {Item.ingredients.yeast}
+                    </li> */}
+                    <li className="message is-warning is-light">
+                      {Item.ingredients.malt.map((item) => {
+                        return (
+                          <ul
+                            className="is-flex message-body p-1"
+                            style={{ gap: 12 }}
+                          >
+                            <li className="is-size-6 is-size-7-mobile has-text-weight-semibold">
+                              {item.name}:
+                            </li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.amount.value}
+                            </li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.amount.unit}
+                            </li>
+                          </ul>
+                        );
+                      })}
+                      {Item.ingredients.hops.map((item) => {
+                        return (
+                          <ul
+                            className="is-flex message-body p-1"
+                            style={{ gap: 12 }}
+                          >
+                            <li className="is-size-6 is-size-7-mobile has-text-weight-semibold">
+                              {item.name}:
+                            </li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.amount.value}
+                            </li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.amount.unit}
+                            </li>
+                            <li>{item.add}</li>
+                            <li>{item.attribute}</li>
+                          </ul>
+                        );
+                      })}
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
                   Совет пивоваров:
                 </div>
                 <div className="level">
@@ -282,7 +359,7 @@ function ItemPage() {
                     style={{ maxWidth: "75%" }}
                   >
                     <div className="message is-success is-light">
-                      <p className="message-body  has-text-dark">
+                      <p className="message-body is-size-6 is-size-7-mobile has-text-dark">
                         {Item.brewers_tips}
                       </p>
                     </div>
@@ -292,7 +369,7 @@ function ItemPage() {
                   </div>
                 </div>
 
-                <div className="title is-size-6 has-text-dark">
+                <div className="title is-size-6 is-size-6-mobile has-text-dark">
                   Предлагаемые закуски:
                 </div>
                 <div>
@@ -300,7 +377,9 @@ function ItemPage() {
                     Item.food_pairing.map((item, ind) => {
                       return (
                         <div key={ind} className="message is-info is-light">
-                          <p className="message-body has-text-dark">{item}</p>
+                          <p className="message-body is-size-6 is-size-7-mobile has-text-dark">
+                            {item}
+                          </p>
                         </div>
                       );
                     })}
