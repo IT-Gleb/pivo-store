@@ -1,11 +1,17 @@
 import React, { useLayoutEffect, useRef, startTransition } from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  DoughnutController,
+} from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { usePivoDispatch, usePivoSelector } from "../../../hooks/storeHooks";
 import { randomFrom } from "../../../libs";
 import { updateImage64 } from "../../../store/slices/currImageOrderSlice";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 function CurrentOrderChart() {
   const currOrderData = usePivoSelector((state) => state.currentOrder.Items);

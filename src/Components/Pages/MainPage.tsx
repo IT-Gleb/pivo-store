@@ -33,10 +33,13 @@ import ShowSerchedData from "../Serch/showSerchedData";
 import MyModal from "../UI/MsgBox/myModal";
 import { motion } from "framer-motion";
 import UserIsLogin from "../userIsLogin";
-import AllSkidkaItems from "../SmallPivoItem/allSkidkaItems";
 
 const RightFullMenuComponent = React.lazy(
   () => import("../Menu/rightFullMenu")
+);
+
+const AllSkidkaComponent = React.lazy(
+  () => import("../SmallPivoItem/allSkidkaItems")
 );
 
 function MainPage() {
@@ -383,10 +386,16 @@ function MainPage() {
               {MainData?.length} позиций
             </span>
           </h1>
+
           <article className="is-centered">
             {/* Вывод по скидкам */}
-            <AllSkidkaItems />
+            <Suspense
+              fallback={<PivoSpinner text="Компонент загружается..." />}
+            >
+              <AllSkidkaComponent />
+            </Suspense>
           </article>
+
           <div className="small-item-grid">
             {MainData?.map((item: IPivoItem) => {
               return (

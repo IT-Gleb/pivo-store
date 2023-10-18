@@ -119,27 +119,27 @@ function OrdersPage() {
                             onchange={isCheck}
                           />
                         </th>
-                        <th className="myTitle is-size-6 is-size-6-mobile">
+                        <th className="myTitle is-size-6 is-size-7-mobile">
                           {item.name}
                         </th>
-                        <th className="subtitle is-size-6 is-size-6-mobile has-text-link has-text-center">
+                        <th className="subtitle is-size-7 is-size-7-mobile has-text-link has-text-center">
                           {item.priceOne}
                           <span className="is-size-7 is-size-7-mobile has-text-link">
                             .00
                           </span>{" "}
-                          <span className="is-size-6 is-size-6-mobile has-text-dark">
+                          <span className="is-size-7 is-size-7-mobile has-text-dark">
                             &#8381;
                           </span>
                         </th>
-                        <th className="subtitle is-size-6 is-size-6-mobile has-text-centered">
+                        <th className="subtitle is-size-7 is-size-7-mobile has-text-centered">
                           {item.count}
                         </th>
-                        <th className="subtitle is-size-6 is-size-6-mobile has-text-info has-text-right">
+                        <th className="subtitle is-size-7 is-size-7-mobile has-text-info has-text-right">
                           {item.price}
                           <span className="is-size-7 is-size-7-mobile has-text-info">
                             .00
                           </span>
-                          <span className="is-size-6 is-size-6-mobile has-text-dark">
+                          <span className="is-size-7 is-size-7-mobile has-text-dark">
                             {" "}
                             &#8381;
                           </span>
@@ -160,10 +160,10 @@ function OrdersPage() {
             <div className="buttons are-small mr-6">
               <DoOrderBtn />
             </div>
-            <div className="title is-size-4 is-size-4-mobile">Итог:</div>
-            <div className="title is-size-4 is-size-4-mobile has-text-dark">
+            <div className="title is-size-4 is-size-5-mobile">Итог:</div>
+            <div className="title is-size-4 is-size-5-mobile has-text-dark">
               {FormatSumString(totalPrice)}.00
-              <span className="is-size-5 is-size-5-mobile has-text-dark">
+              <span className="is-size-5 is-size-6-mobile has-text-dark">
                 {" "}
                 &#8381;
               </span>
