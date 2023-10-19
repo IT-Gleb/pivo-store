@@ -29,6 +29,7 @@ function SmallMenu({
     }
     return () => {
       document.body.removeEventListener("click", outFunc);
+      //console.log("removed small menu listener...");
     };
   }, []);
 
