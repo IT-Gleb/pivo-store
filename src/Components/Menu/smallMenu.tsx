@@ -28,9 +28,7 @@ function SmallMenu({
       document.body.addEventListener("click", outFunc);
     }
     return () => {
-      if (thisMenuRef.current) {
-        document.body.removeEventListener("click", outFunc);
-      }
+      document.body.removeEventListener("click", outFunc);
     };
   }, []);
 
@@ -46,15 +44,24 @@ function SmallMenu({
     >
       <div className="block p-2 is-flex is-flex-direction-column">
         <motion.button
+          whileTap={{ scale: 0.8 }}
           className="button is-small is-primary"
-          onClick={(e) => paramLogIn(e)}
+          onClick={(e) => {
+            e.stopPropagation();
+            paramLogIn(e);
+            paramClose();
+          }}
         >
           Войти
         </motion.button>
         <motion.button
           whileTap={{ scale: 0.8 }}
           className="button is-small is-danger mt-2"
-          onClick={(e) => paramLogOut(e)}
+          onClick={(e) => {
+            e.stopPropagation();
+            paramLogOut(e);
+            paramClose();
+          }}
         >
           Выйти
         </motion.button>
