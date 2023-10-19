@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { usePivoDispatch, usePivoSelector } from "../../hooks/storeHooks";
@@ -10,8 +10,10 @@ import { clearBasket } from "../../store/slices/eCartSlice";
 import { clearCurrOrder } from "../../store/slices/currOrderSlice";
 import { clearOrdersStore } from "../../store/slices/ordersSlice";
 import PivoNotification from "../../libs/Notification/notification";
+import { gamburgerMenu } from "../../types";
 
 import UserIsLoginName from "../userIsLoginName";
+import SmallMenu from "./smallMenu";
 const navBarBasic = "navbarBasicMain";
 
 function MainTopMenu() {
@@ -20,6 +22,7 @@ function MainTopMenu() {
   const navigate = useNavigate();
   const { videoHeight } = useVideoHeight();
   const dispatch = usePivoDispatch();
+  const [smallMenuShow, setSmallMenuShow] = useState<boolean>(false);
 
   const logIn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -69,6 +72,11 @@ function MainTopMenu() {
             aria-expanded="false"
             data-target={navBarBasic}
             href="!#"
+            id={gamburgerMenu}
+            onClick={(e) => {
+              e.preventDefault();
+              setSmallMenuShow(!smallMenuShow);
+            }}
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -99,6 +107,15 @@ function MainTopMenu() {
             </div>
           </div>
         </div>
+        {smallMenuShow && (
+          <SmallMenu
+            paramLogIn={logIn}
+            paramLogOut={logOut}
+            paramClose={() => {
+              setSmallMenuShow(false);
+            }}
+          />
+        )}
       </nav>
     </>
   );

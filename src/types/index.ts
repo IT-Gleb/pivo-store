@@ -17,6 +17,10 @@ export interface IProgressParam {
 
 //-------------------------------------
 
+//-------------Для маленького меню--------------
+export const gamburgerMenu: string = "gamburgerMenu";
+//--------------------------------------------------
+
 export const stringRegXpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 export const stringRegXpPassword =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*d).[a-zA-Zd].{8,}$/gi;

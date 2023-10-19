@@ -308,11 +308,12 @@ function ItemPage() {
                       {Item.ingredients.yeast}
                     </li> */}
                     <li className="message is-warning is-light">
-                      {Item.ingredients.malt.map((item) => {
+                      {Item.ingredients.malt.map((item, ind) => {
                         return (
                           <ul
                             className="is-flex message-body p-1"
                             style={{ gap: 12 }}
+                            key={ind}
                           >
                             <li className="is-size-6 is-size-7-mobile has-text-weight-semibold">
                               {item.name}:
@@ -326,11 +327,12 @@ function ItemPage() {
                           </ul>
                         );
                       })}
-                      {Item.ingredients.hops.map((item) => {
+                      {Item.ingredients.hops.map((item, ind) => {
                         return (
                           <ul
                             className="is-flex message-body p-1"
                             style={{ gap: 12 }}
+                            key={ind}
                           >
                             <li className="is-size-6 is-size-7-mobile has-text-weight-semibold">
                               {item.name}:
@@ -341,8 +343,12 @@ function ItemPage() {
                             <li className="is-size-6 is-size-7-mobile">
                               {item.amount.unit}
                             </li>
-                            <li>{item.add}</li>
-                            <li>{item.attribute}</li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.add}
+                            </li>
+                            <li className="is-size-6 is-size-7-mobile">
+                              {item.attribute}
+                            </li>
                           </ul>
                         );
                       })}
