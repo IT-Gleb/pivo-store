@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
-import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+// import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import {
   MaxStars,
   type IParamQuery,

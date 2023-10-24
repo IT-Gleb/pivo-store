@@ -13,7 +13,7 @@ function UserIsLoginName() {
       <span className="icon mr-1">
         <i className="fas fa-user"></i>
       </span>
-      <span>{userName}</span>
+      <span className="is-size-6 is-size-7-mobile">{userName}</span>
     </p>
   );
 }

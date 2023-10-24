@@ -36,7 +36,7 @@ function SerchString(paramDo: ISerchByName) {
   }, [serchText]);
 
   return (
-    <label className="is-size-7 has-text-weight-semibold">
+    <label className="is-size-7 is-size-7-mobile has-text-weight-semibold">
       Найти
       <div className="control has-icons-left has-icons-right">
         <input
@@ -64,7 +64,7 @@ function SerchString(paramDo: ISerchByName) {
           <i className="fas fa-minus-circle"></i>
         </span>
       </div>
-      <div className="message-body has-background-light has-text-dark py-1">
+      <div className="message-body has-background-light has-text-dark py-1 is-size-7 is-size-7-mobile">
         Поиск. Только латинские символы.
       </div>
     </label>

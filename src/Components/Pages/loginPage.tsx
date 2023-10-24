@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useEMailValidate from "../../hooks/mailValidate";
 import usePasswordValidate from "../../hooks/passWordValidate";
@@ -86,7 +86,9 @@ function LoginPage() {
   return (
     <div className="container">
       <section className="section">
-        <h3 className="title is-size-3 has-text-centered">Авторизация</h3>
+        <h3 className="title is-size-3 is-size-4-mobile has-text-centered">
+          Авторизация
+        </h3>
         <form className="loginForm has-icons-left" action="#" method="submit">
           <label className="label">
             Ваше имя:
@@ -113,7 +115,7 @@ function LoginPage() {
                 <div
                   className={
                     isNameError
-                      ? "message-body is-size-6 has-background-light has-text-danger has-text-weight-light py-2 px-3"
+                      ? "message-body is-size-6 is-size-7-mobile has-background-light has-text-danger has-text-weight-light py-2 px-3"
                       : "subtitle is-size-6 has-text-info has-text-weight-semibold py-2 px-3"
                   }
                 >
@@ -148,8 +150,8 @@ function LoginPage() {
                 <div
                   className={
                     isEmailError
-                      ? "meddage-bofy is-size-6 has-background-light has-text-danger has-text-weight-light px-3 py-2"
-                      : "subtitle is-size-6 has-text-info has-text-weight-semibold px-3 py-2"
+                      ? "meddage-bofy is-size-6 is-size-7-mobile has-background-light has-text-danger has-text-weight-light px-3 py-2"
+                      : "subtitle is-size-6 is-size-7-mobile has-text-info has-text-weight-semibold px-3 py-2"
                   }
                 >
                   {eMailErrorValue}
@@ -187,8 +189,8 @@ function LoginPage() {
               <div
                 className={
                   isPassError
-                    ? "message-body px-3 py-2 is-size-6 has-background-light has-text-danger has-text-weight-light"
-                    : "subtitle py-2 py-3 is-size-6 has-text-weight-semibold has-text-info"
+                    ? "message-body px-3 py-2 is-size-6 is-size-7-mobile has-background-light has-text-danger has-text-weight-light"
+                    : "subtitle py-2 py-3 is-size-6 is-size-7-mobile has-text-weight-semibold has-text-info"
                 }
               >
                 {isPassError
@@ -222,4 +224,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default React.memo(LoginPage);

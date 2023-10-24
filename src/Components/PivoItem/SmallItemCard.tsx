@@ -132,7 +132,7 @@ function SmallItemCard({
             return (
               <span
                 key={item}
-                className="icon has-text-warning is-size-6 textOutlineWhite"
+                className="icon has-text-warning is-size-6 is-size-7-mobile textOutlineWhite"
               >
                 <i className="fas fa-star"></i>
               </span>
@@ -140,19 +140,32 @@ function SmallItemCard({
           })}
         </p>
         <p>
-          <span className="title is-size-3 has-text-danger">
+          <span className="title is-size-3 is-size-4-mobile has-text-danger">
             {props._price}
           </span>
-          <span className="is-size-5 has-text-danger">.00 </span>
-          <span className="title is-size-4 has-text-dark">&#x20BD;</span>
+          <span className="is-size-5 is-size-6-mobile has-text-danger">
+            .00{" "}
+          </span>
+          <span className="title is-size-4 is-size-5-mobile has-text-dark">
+            &#x20BD;
+          </span>
         </p>
         <p>
-          <span className="is-size-7">Содержание спирта: &nbsp;&nbsp;</span>
-          <span className="title is-size-6">{[props.abv]}&deg;</span>
+          <span className="is-size-7 is-size-7-mobile">
+            Содержание спирта: &nbsp;&nbsp;
+          </span>
+          <span className="title is-size-6 is-size-7-mobile">
+            {[props.abv]}&deg;
+          </span>
         </p>
         <p>
-          <span className="is-size-7">Производится с: &nbsp;&nbsp;</span>
-          <span className="title is-size-7" style={{ whiteSpace: "nowrap" }}>
+          <span className="is-size-7 is-size-7-mobile">
+            Производится с: &nbsp;&nbsp;
+          </span>
+          <span
+            className="title is-size-7 is-size-7-mobile"
+            style={{ whiteSpace: "nowrap" }}
+          >
             {checkMounth(props.first_brewed) +
               " " +
               checkYear(props.first_brewed) +

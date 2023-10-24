@@ -27,7 +27,7 @@ function DeleteFromFavoritesBtn({ paramId }: { paramId: number }) {
       }}
     >
       <span className="icon mr-1">
-        <i className="fas fa-heart"></i>
+        <i className="fas fa-minus"></i>
       </span>
       Удалить из избранного
     </motion.button>

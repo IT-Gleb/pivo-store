@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetRandomItemsQuery } from "../../store/punkApi/pivo.punk.api";
 import type { IPivoResponseItem, IPivoItem } from "../../types";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
@@ -45,7 +45,7 @@ function AllSkidkaItems() {
       {pivoItems && pivoItems.length > 0 && (
         <article className="my-4">
           <h4
-            className="title is-size-4 is-size-6-mobile has-text-link has-text-left"
+            className="title is-size-4 is-size-6-mobile has-text-link has-text-centered"
             style={{ textTransform: "uppercase" }}
           >
             акция !!!
@@ -63,4 +63,4 @@ function AllSkidkaItems() {
   );
 }
 
-export default AllSkidkaItems;
+export default React.memo(AllSkidkaItems);

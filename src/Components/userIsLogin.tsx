@@ -56,9 +56,11 @@ function UserIsLogin() {
               <i className="fas fa-user"></i>
             </span>
             {isValidate ? (
-              <span className="has-text-info is-size-6">{userName}</span>
+              <span className="has-text-info is-size-6 is-size-7-mobile">
+                {userName}
+              </span>
             ) : (
-              <span className="has-text-danger is-size-6">
+              <span className="has-text-danger is-size-6 is-size-7-mobile">
                 Пользователь не авторизован
                 <Link to={"/login"}>
                   <button
