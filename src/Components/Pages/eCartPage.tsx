@@ -114,9 +114,9 @@ const ECartPage: React.FC = () => {
             <AllCardInOrder_Button />
             {checkSelected && (
               <motion.div
-                initial={{ x: -2500 }}
-                animate={{ x: 0 }}
-                exit={{ x: -2500 }}
+                initial={{ scale: 0.1 }}
+                animate={{ scale: [1.25, 1] }}
+                // exit={{ x: -2500 }}
               >
                 <AllSelectedAddButton />
                 <RemoveSelectedBasketItems />

@@ -3,6 +3,7 @@ import { useGetRandomItemsQuery } from "../../store/punkApi/pivo.punk.api";
 import type { IPivoResponseItem, IPivoItem } from "../../types";
 import PivoSpinner from "../UI/Spinner/pivoSpinner";
 import MSlider from "../slider/MSlider";
+import { motion } from "framer-motion";
 
 function AllSkidkaItems() {
   const { isLoading, isError, data } = useGetRandomItemsQuery();
@@ -44,12 +45,14 @@ function AllSkidkaItems() {
     >
       {pivoItems && pivoItems.length > 0 && (
         <article className="my-4">
-          <h4
+          <motion.h4
+            initial={{ scale: 1.5 }}
+            animate={{ scale: [0.85, 1] }}
             className="title is-size-4 is-size-6-mobile has-text-link has-text-centered"
             style={{ textTransform: "uppercase" }}
           >
             акция !!!
-          </h4>
+          </motion.h4>
           <MSlider props={pivoItems} />
           <h4
             className="title is-size-4 is-size-6-mobile has-text-link has-text-right mt-2"

@@ -2,6 +2,7 @@
 
 import { usePivoDispatch } from "../../../hooks/storeHooks";
 import { clearFilters } from "../../../store/slices/filterSlice";
+import { motion } from "framer-motion";
 
 function ClearFilterButton({ toggleFilter, closeParent }: any) {
   const dispatch = usePivoDispatch();
@@ -14,9 +15,13 @@ function ClearFilterButton({ toggleFilter, closeParent }: any) {
   }
 
   return (
-    <button className="button is-primary is-small" onClick={handleClearBtn}>
+    <motion.button
+      whileTap={{ scale: 0.8 }}
+      className="button is-primary is-small"
+      onClick={handleClearBtn}
+    >
       Очистить
-    </button>
+    </motion.button>
   );
 }
 

@@ -39,8 +39,8 @@ function InECartBtn({
 
   return (
     <motion.button
-      initial={{ x: 600 }}
-      animate={{ x: 0 }}
+      initial={{ scale: 0.1 }}
+      animate={{ scale: [1.1, 0.85, 1] }}
       whileTap={{ scale: 0.8 }}
       className={
         isFull

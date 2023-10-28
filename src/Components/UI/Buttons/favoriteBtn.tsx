@@ -26,8 +26,8 @@ function FavoriteBtn({ addNew }: { addNew: () => void }) {
 
   return (
     <motion.button
-      initial={{ x: -400 }}
-      animate={{ x: 0 }}
+      initial={{ scale: 0.1 }}
+      animate={{ scale: [1.1, 0.85, 1] }}
       whileTap={{ scale: 0.8 }}
       className="button has-text-dark is-warning is-outlined"
       onClick={handleFavClick}
